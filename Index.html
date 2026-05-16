@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>LedZone Hub</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --orange:#E8651A;--orange-l:#FDF0E8;--orange-m:#F5A36B;
+  --bg:#f5f5f7;--surface:#ffffff;--border:#e2e2e6;
+  --text:#1a1a1a;--text2:#6e6e73;--text3:#aeaeb2;
+  --green:#1D9E75;--green-bg:#e8f8f2;
+  --blue:#185FA5;--blue-bg:#e8f0fb;
+  --warn:#b87400;--warn-bg:#fff3cd;
+  --red:#c0392b;--red-bg:#fdecea;
+  --radius:10px;--radius-sm:7px;
+  --sidebar:220px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;font-size:15px;color:var(--text);background:var(--bg);min-height:100vh}
+
+/* ── LAYOUT ── */
+.hub{display:flex;min-height:100vh}
+.sidebar{width:var(--sidebar);background:#1a1a1a;display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .25s}
+.sidebar-logo{padding:18px 16px 14px;border-bottom:1px solid #2a2a2a}
+.brand{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.brand span{color:var(--orange)}
+.brand-sub{font-size:10px;color:#555;margin-top:2px;letter-spacing:.8px;text-transform:uppercase}
+.nav-section{padding:10px 10px 4px;font-size:10px;color:#444;text-transform:uppercase;letter-spacing:1px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:13px;color:#888;cursor:pointer;border-radius:8px;margin:1px 8px;transition:background .15s;border:none;background:none;width:calc(100% - 16px);text-align:left}
+.nav-item:hover{background:#252525;color:#ccc}
+.nav-item.active{background:var(--orange);color:#fff}
+.nav-item i{font-size:16px;width:18px;text-align:center}
+.nav-badge{margin-left:auto;background:#333;color:#aaa;font-size:10px;padding:1px 7px;border-radius:10px}
+.nav-item.active .nav-badge{background:rgba(255,255,255,.2);color:#fff}
+.nav-role{margin-top:auto;padding:14px 16px;border-top:1px solid #252525;display:flex;align-items:center;gap:10px}
+.role-av{width:32px;height:32px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;flex-shrink:0}
+.role-info .rname{font-size:12px;color:#ccc}
+.role-info .rrole{font-size:10px;color:#555}
+.role-sel-wrap{margin-left:auto}
+.role-sel-wrap select{background:none;border:none;color:#555;font-size:11px;cursor:pointer;padding:2px}
+
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50}
+.topbar-title{font-size:17px;font-weight:600;flex:1}
+.page-content{padding:20px 24px;flex:1}
+
+/* ── MODULE PANELS ── */
+.module{display:none}.module.active{display:block}
+
+/* ── CARDS & SHARED ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.card+.card{margin-top:10px}
+.stats-row{display:flex;gap:10px;margin-bottom:20px}
+.stat-box{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;text-align:center}
+.stat-num{font-size:22px;font-weight:700}
+.stat-lbl{font-size:11px;color:var(--text2);margin-top:2px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:13px;font-weight:500;color:var(--text);transition:background .15s}
+.btn:active{background:var(--bg)}
+.btn-primary{background:var(--orange);color:#fff;border-color:var(--orange)}
+.btn-primary:hover{opacity:.9}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-green{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-blue{background:var(--blue);color:#fff;border-color:var(--blue)}
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.b-pending{background:var(--warn-bg);color:var(--warn)}
+.b-sent{background:var(--blue-bg);color:var(--blue)}
+.b-done{background:var(--green-bg);color:var(--green)}
+.b-cancelled{background:var(--red-bg);color:var(--red)}
+.b-inprogress{background:#E6F1FB;color:#185FA5}
+.b-overdue{background:var(--red-bg);color:var(--red)}
+label.lbl{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px;margin-top:14px;text-transform:uppercase;letter-spacing:.4px}
+input,select,textarea{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;background:var(--surface);color:var(--text);appearance:none;-webkit-appearance:none}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--orange)}
+textarea{resize:vertical;min-height:60px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.filters select{width:auto;flex:1;min-width:140px}
+.toast-hub{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:11px 22px;border-radius:24px;font-size:14px;font-weight:500;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast-hub.show{opacity:1}
+
+/* ── TAREAS MODULE ── */
+.task-list{display:flex;flex-direction:column;gap:8px}
+.task-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;cursor:pointer;transition:border-color .15s}
+.task-card:hover{border-color:#aaa}
+.task-card.selected{border-color:var(--orange);border-width:1.5px}
+.task-hdr{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.task-icon{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.task-title{font-size:13px;font-weight:600;flex:1;line-height:1.4}
+.task-desc-short{font-size:11px;font-weight:400;color:var(--text2);margin-top:2px}
+.task-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:2px}
+.branch-tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500}
+.bc{background:#E6F1FB;color:#185FA5}.bcu{background:var(--orange-l);color:#B84A0C}.bap{background:var(--green-bg);color:#3B6D11}.ball{background:#EEEDFE;color:#534AB7}
+.meta-pill{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)}
+.photo-chip{margin-left:auto;font-size:10px;color:var(--text2);display:flex;align-items:center;gap:3px}
+.photo-chip.has{color:var(--green)}
+
+/* Detail panel */
+.tasks-layout{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start}
+.detail-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:sticky;top:70px}
+.detail-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;opacity:.35;gap:8px}
+.detail-ph i{font-size:32px;color:var(--text2)}
+.detail-ph span{font-size:12px;color:var(--text2)}
+.dp-header{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg)}
+.dp-title{font-size:13px;font-weight:600;line-height:1.4;margin-bottom:6px}
+.dp-body{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.dp-label{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.7px;margin-bottom:3px}
+.dp-val{font-size:12px;color:var(--text)}
+.photo-placeholder{background:var(--bg);border:1px dashed var(--border);border-radius:6px;height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer}
+.photo-placeholder i{font-size:22px;color:var(--text3)}
+.photo-placeholder span{font-size:10px;color:var(--text2)}
+.photo-done{border-radius:6px;height:80px;background:linear-gradient(135deg,#C0DD97,#639922);display:flex;align-items:center;justify-content:center;position:relative}
+.photo-done i{font-size:28px;color:#fff}
+.photo-done .pl{position:absolute;bottom:4px;left:6px;font-size:9px;color:rgba(255,255,255,.85)}
+.btn-complete{width:100%;padding:9px;background:var(--orange);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-complete:hover{opacity:.9}
+.btn-complete.done{background:var(--green-bg);color:var(--green);cursor:default}
+
+/* Nueva tarea modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:200}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--surface);border-radius:12px;padding:20px;width:380px;max-height:90vh;overflow-y:auto}
+.modal-title{font-size:15px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.modal-close{cursor:pointer;color:var(--text2);font-size:18px;border:none;background:none}
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.type-opt{padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px;background:var(--surface)}
+.type-opt.sel{border-color:var(--orange);color:var(--orange);background:var(--orange-l)}
+.type-opt i{font-size:15px}
+.photo-toggle{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:12px;color:var(--text2);user-select:none}
+.toggle-box{width:18px;height:18px;border:1.5px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.toggle-box.chk{background:var(--orange);border-color:var(--orange)}
+.toggle-box.chk::after{content:'✓';color:#fff;font-size:11px}
+.btn-row{display:flex;gap:8px;margin-top:14px}
+.btn-cancel{flex:1;padding:9px;border:1px solid var(--border);border-radius:6px;background:none;font-size:13px;color:var(--text2);cursor:pointer}
+.btn-save{flex:2;padding:9px;background:var(--orange);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer}
+.tasks-topbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.filter-chip{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);color:var(--text2);cursor:pointer;background:var(--surface)}
+.filter-chip.active{background:var(--orange);color:#fff;border-color:var(--orange)}
+
+/* ── CONSUMIBLES MODULE ── */
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px}
+.mini-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.ult{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;margin-bottom:10px;font-size:12px}
+.az{background:#EEF6FF;border:1px solid #BEE0FF;color:#1060A0}
+.gr{background:var(--bg);color:#888}
+.sb2{background:var(--bg);border-radius:8px;padding:10px 12px;margin:10px 0}
+.alert-r{margin-top:14px;padding:14px;border-radius:10px;background:#F8D7DA;border:1px solid #F5C2C7;display:flex;gap:10px}
+.row-d{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bg)}
+.cons-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.pe{background:#FFF3CD;color:#856404}.pe .dot{background:#FFC107}
+.en{background:#D1E7DD;color:#0A5C36}.en .dot{background:#198754}
+.ca{background:#F8D7DA;color:#842029}.ca .dot{background:#DC3545}
+.cons-view{display:none}.cons-view.active{display:block}
+.btn-card-cons{display:flex;align-items:center;gap:16px;width:100%;border:none;border-radius:16px;padding:20px;cursor:pointer;text-align:left;margin-bottom:14px;font-family:inherit;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.back-btn{background:none;border:none;color:#666;font-size:13px;cursor:pointer;padding:0;margin-bottom:16px;display:block}
+
+/* ── TRASPASOS MODULE (from original) ── */
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:18px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;flex-shrink:0}
+.tab.active{color:var(--text);border-bottom-color:var(--text)}
+.section{display:none}.section.active{display:block}
+.date-chips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 9px;border-radius:20px;background:var(--bg);color:var(--text2)}
+.chip.done{background:var(--green-bg);color:var(--green)}
+.chip.pend{opacity:.4}
+.prod-list{font-size:13px;margin-top:8px}
+.prod-list div{padding:4px 0;border-bottom:1px solid var(--border);color:var(--text)}
+.prod-list div:last-child{border-bottom:none}
+.cod-tag{font-family:monospace;font-size:10px;color:var(--text2);margin-right:6px}
+.card-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.card-title{font-weight:600;font-size:14px;line-height:1.3}
+.card-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.card-acts{display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);flex-wrap:wrap}
+.folio{font-family:monospace;font-size:11px;color:var(--text2)}
+.empty{text-align:center;padding:40px 20px;color:var(--text2)}
+.empty i{font-size:40px;display:block;margin-bottom:12px;opacity:.4}
+.tipo-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;vertical-align:middle}
+.tipo-reco{background:var(--blue-bg);color:var(--blue)}
+.badge-pendiente{background:var(--warn-bg);color:var(--warn)}
+.badge-enviado{background:var(--blue-bg);color:var(--blue)}
+.badge-recibido{background:var(--green-bg);color:var(--green)}
+/* Producto search */
+.prod-row{background:var(--bg);border-radius:var(--radius-sm);padding:10px;margin-bottom:8px}
+.prod-inner{display:grid;grid-template-columns:1fr 72px 38px;gap:8px;align-items:center}
+.prod-wrap{position:relative}
+.prod-inp{font-size:14px;padding:8px 10px}
+.prod-drop{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);max-height:200px;overflow-y:auto;z-index:50;display:none;box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.prod-opt{padding:9px 12px;font-size:12px;cursor:pointer;border-bottom:1px solid var(--border);line-height:1.4}
+.prod-opt:last-child{border-bottom:none}
+.prod-opt:active,.prod-opt:hover{background:var(--bg)}
+.prod-opt .pcod{display:block;font-family:monospace;font-size:10px;color:var(--text2)}
+.prod-opt .pmarca{font-size:10px;color:var(--text3);margin-left:4px}
+.prod-tag{font-size:11px;color:var(--text2);margin-top:4px;font-family:monospace}
+.btn-icon{padding:7px 10px;font-size:14px;color:var(--red);border-color:transparent;background:transparent}
+.btn-xl{width:100%;justify-content:center;padding:14px;font-size:16px;font-weight:600;border-radius:var(--radius);margin-top:10px}
+.foto-lbl{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;border:2px dashed var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:14px;color:var(--text2);margin-bottom:10px;background:var(--surface)}
+.foto-lbl.ok{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+.foto-preview{width:100%;max-height:200px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:10px;display:none}
+/* Chofer */
+.chofer-hdr{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:var(--radius);padding:18px;margin-bottom:16px;text-align:center;color:#fff}
+.chofer-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+.ch-folio{font-family:monospace;font-size:20px;font-weight:700;margin-bottom:8px}
+.ruta{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:10px}
+.ruta-suc{font-weight:700;font-size:16px;line-height:1.2}
+.ruta-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:2px}
+.ruta-arrow{color:var(--text3);font-size:20px;flex-shrink:0}
+.horario{font-size:11px;color:var(--text2);padding:5px 10px;background:var(--bg);border-radius:var(--radius-sm);margin-bottom:10px;line-height:1.5}
+.nota-box{font-size:13px;color:var(--warn);background:var(--warn-bg);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:10px;border-left:3px solid var(--warn)}
+.ch-prods{background:var(--bg);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px}
+.ch-prod{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:14px}
+.ch-prod:last-child{border-bottom:none}
+.ch-prod-qty{font-size:16px;font-weight:700}
+
+/* ── VISTA CHOFER ── */
+.chofer-split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
+.chofer-col{display:flex;flex-direction:column;gap:12px}
+.chofer-col-title{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:var(--radius);font-size:15px;font-weight:700;margin-bottom:4px}
+.chofer-col-title.recoger{background:#1a4fa0;color:#fff}
+.chofer-col-title.entregar{background:#1D9E75;color:#fff}
+.chofer-col-title i{font-size:22px}
+.chofer-col-title .cnt{margin-left:auto;background:rgba(255,255,255,.25);border-radius:20px;padding:2px 10px;font-size:13px}
+.chofer-orden{background:var(--surface);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.chofer-orden-top{padding:14px 16px;display:flex;align-items:center;gap:10px}
+.chofer-orden-num{font-family:monospace;font-size:13px;font-weight:700;color:var(--text2)}
+.suc-chip{display:flex;align-items:center;gap:6px;border-radius:8px;padding:10px 14px;margin:0 12px 12px;font-size:15px;font-weight:700}
+.suc-chip.origen{background:#e8f0fb;color:#1a4fa0}
+.suc-chip.destino{background:#e8f8f2;color:#1D9E75}
+.suc-chip i{font-size:20px}
+.prod-chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 12px}
+.prod-chip{background:var(--bg);border-radius:6px;padding:6px 10px;font-size:12px;display:flex;align-items:center;gap:6px}
+.prod-chip .qty{background:#1a1a1a;color:#fff;border-radius:4px;padding:1px 7px;font-size:13px;font-weight:700}
+.nota-chofer{margin:0 12px 12px;background:#fff3cd;border-left:3px solid #b87400;border-radius:0 6px 6px 0;padding:8px 12px;font-size:13px;color:#856404}
+.chofer-foto-btn{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 12px 8px;padding:14px;border:2px dashed var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:14px;font-weight:600;color:var(--text2);background:var(--surface)}
+.chofer-foto-btn.ok{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+.chofer-action-btn{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 12px 14px;padding:16px;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;width:calc(100% - 24px)}
+.chofer-action-btn.recoger{background:#1a4fa0;color:#fff}
+.chofer-action-btn.entregar{background:#1D9E75;color:#fff}
+.chofer-action-btn:active{opacity:.85}
+.chofer-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;background:var(--surface);border-radius:var(--radius);opacity:.5;gap:10px}
+.chofer-empty i{font-size:36px}
+.chofer-empty span{font-size:13px;font-weight:600}
+@media(max-width:768px){.chofer-split{grid-template-columns:1fr}}
+
+/* ── MOBILE ── */
+.hamburger{display:none;position:fixed;top:12px;left:12px;z-index:200;background:#1a1a1a;border:none;color:#fff;border-radius:8px;padding:8px 10px;font-size:16px;cursor:pointer}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
+@media(max-width:768px){
+  .hamburger{display:block}
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .main{margin-left:0}
+  .topbar{padding:14px 16px 14px 52px}
+  .page-content{padding:16px}
+  .tasks-layout{grid-template-columns:1fr}
+  .detail-panel{display:none}
+  .row2{grid-template-columns:1fr}
+  .stats-row{flex-wrap:wrap}
+  .stat-box{min-width:calc(50% - 5px)}
+}
+</style>
+</head>
+<body>
+
+<!-- PIN SCREEN -->
+<div id="pinScreen" style="position:fixed;inset:0;background:#1a1a1a;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px">
+  <div style="color:#E8651A;font-size:28px;font-weight:700;letter-spacing:-.5px">Led<span style="color:#fff">Zone</span></div>
+  <div style="color:#888;font-size:12px;letter-spacing:1px;text-transform:uppercase">Hub Operativo</div>
+  <div style="background:#252525;border-radius:14px;padding:28px 24px;width:280px;display:flex;flex-direction:column;gap:14px;margin-top:10px">
+    <select id="pinRoleSel" style="background:#1a1a1a;border:1px solid #333;color:#fff;border-radius:8px;padding:10px 12px;font-size:14px;width:100%">
+      <option value="admin">Rodrigo (Admin)</option>
+      <option value="cesar">César</option>
+      <option value="chofer">Luis P. (Operador)</option>
+    </select>
+    <input id="pinInput" type="password" inputmode="numeric" placeholder="PIN" maxlength="6"
+      style="background:#1a1a1a;border:1px solid #333;color:#fff;border-radius:8px;padding:12px;font-size:20px;text-align:center;letter-spacing:6px;width:100%"
+      onkeydown="if(event.key==='Enter')checkPin()">
+    <div id="pinError" style="color:#E8651A;font-size:12px;text-align:center;display:none">PIN incorrecto. Intenta de nuevo.</div>
+    <button onclick="checkPin()" style="background:#E8651A;color:#fff;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;width:100%">Entrar</button>
+    <label style="display:flex;align-items:center;gap:8px;color:#666;font-size:12px;cursor:pointer">
+      <input type="checkbox" id="pinRemember" style="width:auto"> Recordar en este dispositivo
+    </label>
+  </div>
+</div>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menú"><i class="fa fa-bars"></i></button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<div class="hub">
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">Led<span>Zone</span></div>
+    <div class="brand-sub">Hub Operativo</div>
+  </div>
+
+  <div class="nav-section">Módulos</div>
+  <button class="nav-item active" id="nav-tareas" onclick="switchModule('tareas')">
+    <i class="fa fa-clipboard-list"></i> Tareas
+    <span class="nav-badge" id="badge-tareas">0</span>
+  </button>
+  <button class="nav-item" id="nav-consumibles" onclick="switchModule('consumibles')">
+    <i class="fa fa-boxes-stacked"></i> Consumibles
+  </button>
+  <button class="nav-item" id="nav-traspasos" onclick="switchModule('traspasos')">
+    <i class="fa fa-arrows-left-right"></i> Traspasos
+  </button>
+
+  <div class="nav-role">
+    <div class="role-av" id="roleAv">RO</div>
+    <div class="role-info">
+      <div class="rname" id="roleName">Rodrigo</div>
+      <div class="rrole" id="roleLabel">Administrador</div>
+    </div>
+  </div>
+</nav>
+
+<div class="main">
+  <div class="topbar">
+    <span class="topbar-title" id="topbarTitle">Tareas</span>
+    <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
+      <span style="font-size:12px;color:var(--text2)">Usuario:</span>
+      <select id="globalRole" onchange="onRoleChange(this.value)" style="font-size:13px;padding:6px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);width:auto">
+        <option value="admin">Rodrigo (Admin)</option>
+        <option value="cesar">César</option>
+        <option value="chofer">Luis P. (Chofer)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <!-- ══════════════════════════════════
+         MÓDULO: TAREAS
+    ══════════════════════════════════ -->
+    <div class="module active" id="mod-tareas">
+      <div class="stats-row" id="tareasStats"></div>
+      <div class="tasks-topbar">
+        <span class="filter-chip active" onclick="filterTareas('all',this)">Todas</span>
+        <span class="filter-chip" onclick="filterTareas('pending',this)">Pendientes</span>
+        <span class="filter-chip" onclick="filterTareas('done',this)">Completadas</span>
+        <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="openTaskModal()">
+          <i class="fa fa-plus"></i> Nueva tarea
+        </button>
+      </div>
+      <div class="tasks-layout">
+        <div class="task-list" id="taskList"></div>
+        <div class="detail-panel" id="detailPanel">
+          <div class="detail-ph">
+            <i class="fa fa-hand-pointer"></i>
+            <span>Selecciona una tarea</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════
+         MÓDULO: CONSUMIBLES
+    ══════════════════════════════════ -->
+    <div class="module" id="mod-consumibles">
+      <div class="cons-view active" id="cv-inicio">
+        <h2 style="font-size:20px;font-weight:700;margin-bottom:8px">Consumibles</h2>
+        <p style="color:var(--text2);margin-bottom:24px;font-size:13px">Selecciona tu rol para continuar.</p>
+        <button class="btn-card-cons" style="background:#FFD700;color:#1a1a1a" onclick="consGo('tienda')">
+          <span style="font-size:26px">🏪</span>
+          <div><div style="font-weight:700;font-size:16px">Soy una tienda</div><div style="font-size:12px;opacity:.7;margin-top:2px">Solicitar consumibles</div></div>
+          <span style="margin-left:auto;opacity:.4;font-size:18px">›</span>
+        </button>
+        <button class="btn-card-cons" style="background:#1a1a1a;color:#fff" onclick="consGo('almacen')">
+          <span style="font-size:26px">📦</span>
+          <div><div style="font-weight:700;font-size:16px">Soy almacén</div><div style="font-size:12px;opacity:.6;margin-top:2px">Gestionar pedidos</div></div>
+          <span style="margin-left:auto;opacity:.4;font-size:18px">›</span>
+        </button>
+      </div>
+
+      <div class="cons-view" id="cv-tienda">
+        <button class="back-btn" onclick="consGo('inicio')">← Inicio</button>
+        <h3 style="font-size:18px;font-weight:700;margin-bottom:16px">Nueva solicitud</h3>
+        <div class="card">
+          <label class="lbl">Sucursal</label>
+          <select id="fS" onchange="consUpdateTienda()"><option value="">Selecciona tu sucursal...</option></select>
+          <label class="lbl">Consumible</label>
+          <select id="fC" onchange="consUpdateTienda()"><option value="">Selecciona consumible...</option></select>
+          <div id="arAlert" style="display:none;margin-top:12px"></div>
+          <label class="lbl">Notas (opcional)</label>
+          <textarea id="fN" rows="2" placeholder="Ej: urgente..."></textarea>
+          <button class="btn btn-primary" id="bEnv" style="margin-top:16px;width:100%;padding:12px;font-size:15px;justify-content:center" disabled>Enviar solicitud</button>
+        </div>
+        <div id="histContainer"></div>
+      </div>
+
+      <div class="cons-view" id="cv-confirm">
+        <div style="text-align:center;padding:40px 0">
+          <div style="font-size:56px;margin-bottom:14px">✅</div>
+          <h2 style="font-weight:700;font-size:22px;margin-bottom:6px">¡Solicitud enviada!</h2>
+          <p style="color:var(--text2);margin-bottom:20px;font-size:13px">Tu pedido fue registrado.</p>
+          <div id="confirmDetails" class="card" style="text-align:left;margin-bottom:20px"></div>
+          <button class="btn btn-primary" style="width:100%;justify-content:center;padding:12px" onclick="consGo('tienda')">Hacer otra solicitud</button>
+          <button class="btn" style="width:100%;justify-content:center;padding:12px;margin-top:8px" onclick="consGo('inicio')">Volver al inicio</button>
+        </div>
+      </div>
+
+      <div class="cons-view" id="cv-almacen">
+        <button class="back-btn" onclick="consGo('inicio')">← Inicio</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+          <h3 style="font-size:18px;font-weight:700">Panel de almacén</h3>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-sm" onclick="consExportCSV()"><i class="fa fa-file-csv"></i> CSV</button>
+            <button class="btn btn-sm" onclick="consGo('inventario')">📦 Inventario</button>
+            <button class="btn btn-sm" onclick="consGo('entradas')">+ Entrada</button>
+          </div>
+        </div>
+        <div class="filters">
+          <select id="fSF" onchange="consRenderAlmacen()"><option value="Todas">Todas las sucursales</option></select>
+          <select id="fEF" style="max-width:140px" onchange="consRenderAlmacen()">
+            <option value="Todos">Todos</option>
+            <option>Pendiente</option><option>Enviado</option><option>Cancelado</option>
+          </select>
+        </div>
+        <div class="stats-row" id="consStats"></div>
+        <div id="consCards"></div>
+      </div>
+
+      <div class="cons-view" id="cv-inventario">
+        <button class="back-btn" onclick="consGo('almacen')">← Almacén</button>
+        <h3 style="font-size:18px;font-weight:700;margin-bottom:14px">📦 Inventario actual</h3>
+        <div id="invTable"></div>
+      </div>
+
+      <div class="cons-view" id="cv-entradas">
+        <button class="back-btn" onclick="consGo('almacen')">← Almacén</button>
+        <h3 style="font-size:18px;font-weight:700;margin-bottom:16px">+ Registrar entrada</h3>
+        <div class="card">
+          <label class="lbl">Consumible</label>
+          <select id="eCons"><option value="">Selecciona consumible...</option></select>
+          <label class="lbl">Cantidad que entra</label>
+          <input id="eCant" type="number" min="1" value="1">
+          <button class="btn btn-primary" onclick="consGuardarEntrada()" id="bGuardaEnt" style="margin-top:16px;width:100%;justify-content:center;padding:12px">Guardar entrada</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════
+         MÓDULO: TRASPASOS
+    ══════════════════════════════════ -->
+    <div class="module" id="mod-traspasos">
+
+      <div class="tabs">
+        <button class="tab active" id="tTabNueva" onclick="tSwitchTab('nueva',this)"><i class="fa fa-plus"></i> Nueva</button>
+        <button class="tab" id="tTabHistorial" onclick="tSwitchTab('historial',this)"><i class="fa fa-list"></i> Historial</button>
+        <button class="tab" id="tTabCatalogo" onclick="tSwitchTab('catalogo',this)"><i class="fa fa-box-open"></i> Catálogo</button>
+        <button class="tab" id="tTabChofer" style="display:none" onclick="tSwitchTab('chofer',this)"><i class="fa fa-truck"></i> Mi ruta</button>
+      </div>
+
+      <div id="tsec-nueva" class="section active">
+        <div class="row2">
+          <div><label class="lbl">Origen</label><select id="tOrigen"><option value="">Seleccionar…</option></select></div>
+          <div><label class="lbl">Destino</label><select id="tDestino"><option value="">Seleccionar…</option></select></div>
+        </div>
+        <label class="lbl">Notas</label>
+        <textarea id="tNotas" placeholder="Instrucciones especiales…"></textarea>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;margin-bottom:8px">
+          <label class="lbl" style="margin:0">Productos</label>
+          <button class="btn btn-sm" onclick="tAddProdRow()"><i class="fa fa-plus"></i> Agregar</button>
+        </div>
+        <div id="tProds"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+          <button class="btn" onclick="tClearForm()">Limpiar</button>
+          <button class="btn btn-primary" onclick="tGenerarOrden()"><i class="fa fa-paper-plane"></i> Generar orden</button>
+        </div>
+      </div>
+
+      <div id="tsec-historial" class="section">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+          <div class="filters" style="margin-bottom:0">
+            <select id="tFiltroSuc" onchange="tRenderHistorial()"><option value="">Todas las sucursales</option></select>
+            <select id="tFiltroEst" onchange="tRenderHistorial()">
+              <option value="">Todos</option><option>Pendiente</option><option>Enviado</option><option>Recibido</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <span id="tSyncStatus" style="font-size:11px;color:var(--text2)"></span>
+            <button class="btn btn-sm" onclick="tSincronizar()"><i class="fa fa-rotate"></i> Sync</button>
+            <button class="btn btn-sm" onclick="tExportCSV()"><i class="fa fa-file-csv"></i> CSV</button>
+          </div>
+        </div>
+        <div id="tListaOrdenes"></div>
+      </div>
+
+      <div id="tsec-catalogo" class="section">
+        <div style="background:var(--bg);border-radius:var(--radius);padding:14px;margin-bottom:14px">
+          <div style="font-weight:600;font-size:14px;margin-bottom:6px"><i class="fa fa-box-open"></i> Actualizar catálogo</div>
+          <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5">Carga tu archivo Excel con columnas <strong>Producto</strong>, <strong>Código de Barras</strong> y <strong>Marca</strong>.</div>
+          <label class="foto-lbl" for="tXlsxInput" id="tXlsxLabel">
+            <i class="fa fa-file-excel" style="font-size:20px;color:var(--green)"></i>
+            <span id="tXlsxTxt">Seleccionar archivo Excel (.xlsx)</span>
+          </label>
+          <input type="file" id="tXlsxInput" accept=".xlsx,.xls" style="display:none" onchange="tCargarCatalogo(this)">
+          <div id="tCatStatus" style="display:none;font-size:13px;padding:10px 14px;border-radius:var(--radius-sm);margin-top:10px"></div>
+        </div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text2)">Catálogo — <span id="tCatTotal"></span> productos</div>
+        <div id="tCatPreview" style="background:var(--bg);border-radius:var(--radius);padding:12px;max-height:400px;overflow-y:auto;font-size:12px"></div>
+      </div>
+
+      <div id="tsec-chofer" class="section">
+        <div class="chofer-hdr">
+          <div style="font-size:18px;font-weight:700;margin-bottom:4px"><i class="fa fa-truck"></i> Mi ruta de hoy</div>
+          <div style="font-size:12px;opacity:.7" id="tChoferFecha"></div>
+          <div style="margin-top:10px">
+            <button onclick="tSincronizarChofer()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:20px;padding:6px 16px;font-size:12px;cursor:pointer"><i class="fa fa-rotate"></i> Actualizar</button>
+            <div id="tSyncChofer" style="font-size:11px;color:rgba(255,255,255,.6);margin-top:6px"></div>
+          </div>
+        </div>
+        <div id="tsec-ch-r"></div>
+      </div>
+    </div>
+
+  </div><!-- /page-content -->
+</div><!-- /main -->
+</div><!-- /hub -->
+
+<!-- NUEVA TAREA MODAL -->
+<div class="modal-overlay" id="taskModal">
+  <div class="modal-box">
+    <div class="modal-title">
+      Nueva tarea
+      <button class="modal-close" onclick="closeTaskModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <label class="lbl">Tipo de tarea</label>
+    <div class="type-grid" id="typeGrid">
+      <div class="type-opt sel" onclick="selectTaskType(this,'Exhibición')"><i class="fa fa-store"></i>Exhibición</div>
+      <div class="type-opt" onclick="selectTaskType(this,'Etiquetas')"><i class="fa fa-tag"></i>Etiquetas</div>
+      <div class="type-opt" onclick="selectTaskType(this,'Limpieza')"><i class="fa fa-broom"></i>Limpieza</div>
+      <div class="type-opt" onclick="selectTaskType(this,'Inventario')"><i class="fa fa-clipboard-check"></i>Inventario</div>
+      <div class="type-opt" onclick="selectTaskType(this,'Capacitación')"><i class="fa fa-graduation-cap"></i>Capacitación</div>
+      <div class="type-opt" onclick="selectTaskType(this,'Otro')"><i class="fa fa-ellipsis"></i>Otro</div>
+    </div>
+    <label class="lbl">Descripción</label>
+    <textarea id="newDesc" rows="3" placeholder="Ej: Colocar ventiladores en promoción en la entrada..."></textarea>
+    <label class="lbl">Asignar a</label>
+    <select id="newBranch">
+      <option value="all">Todas las sucursales</option>
+      <option value="centro">Centro</option>
+      <option value="cumbres">Cumbres</option>
+      <option value="apodaca">Apodaca</option>
+    </select>
+    <label class="lbl">Fecha límite</label>
+    <input type="date" id="newDate">
+    <label class="lbl">Evidencia fotográfica</label>
+    <div class="photo-toggle" onclick="togglePhotoReq(this)">
+      <div class="toggle-box" id="photoToggle"></div>
+      Requerir foto al completar
+    </div>
+    <div class="btn-row">
+      <button class="btn-cancel" onclick="closeTaskModal()">Cancelar</button>
+      <button class="btn-save" onclick="saveTask()">Crear tarea</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-hub" id="toastHub"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  SHARED UTILS
+// ═══════════════════════════════════════════════════════
+function showToast(m){
+  const t=document.getElementById('toastHub');
+  t.textContent=m;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+function fmtDateStr(d){
+  if(!d)return'—';
+  if(d.includes('/'))return d;
+  return d.replace(/(\d{4})-(\d{2})-(\d{2})/,'$3/$2/$1');
+}
+function nowTs(){
+  const d=new Date();
+  const f=d.toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const h=d.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',hour12:false});
+  return f+' '+h;
+}
+function today(){return new Date().toISOString().split('T')[0];}
+
+// ═══════════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════════
+const moduleTitles={tareas:'Tareas',consumibles:'Consumibles',traspasos:'Traspasos'};
+let currentModule='tareas';
+let currentRole='admin';
+
+function switchModule(m){
+  document.querySelectorAll('.module').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  document.getElementById('mod-'+m).classList.add('active');
+  document.getElementById('nav-'+m).classList.add('active');
+  document.getElementById('topbarTitle').textContent=moduleTitles[m];
+  currentModule=m;
+  closeSidebar();
+  if(m==='consumibles'){consInit();}
+  if(m==='traspasos'){tInit();}
+  if(m==='tareas'){renderTareas();}
+}
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+// Role switcher (shared)
+const PINS={admin:'369',cesar:'5678',chofer:'9012'};
+
+function checkPin(){
+  const v=document.getElementById('pinRoleSel').value;
+  const pin=document.getElementById('pinInput').value;
+  const remember=document.getElementById('pinRemember').checked;
+  const errEl=document.getElementById('pinError');
+  if(pin!==PINS[v]){
+    errEl.style.display='block';
+    document.getElementById('pinInput').value='';
+    return;
+  }
+  errEl.style.display='none';
+  if(remember) localStorage.setItem('lz_role_'+v,'ok');
+  localStorage.setItem('lz_last_role',v);
+  document.getElementById('pinScreen').style.display='none';
+  applyRole(v);
+  // Sync globalRole selector
+  const sel=document.getElementById('globalRole');
+  if(sel)sel.value=v;
+}
+
+function onRoleChange(v){
+  // Cambio de rol desde el selector — mostrar pantalla PIN
+  document.getElementById('pinScreen').style.display='flex';
+  document.getElementById('pinRoleSel').value=v;
+  document.getElementById('pinInput').value='';
+  document.getElementById('pinError').style.display='none';
+  // Si ya tiene PIN guardado, entrar directo
+  const saved=localStorage.getItem('lz_role_'+v);
+  if(saved==='ok'){
+    document.getElementById('pinScreen').style.display='none';
+    localStorage.setItem('lz_last_role',v);
+    applyRole(v);
+    const sel=document.getElementById('globalRole');
+    if(sel)sel.value=v;
+  }
+}
+
+function applyRole(v){
+  currentRole=v;
+  const sel=document.getElementById('globalRole');
+  if(sel)sel.value=v;
+  const names={admin:'Rodrigo',cesar:'César',sucursal:'Encargado',chofer:'Luis P.'};
+  const roles={admin:'Administrador',cesar:'Supervisor',sucursal:'Sucursal',chofer:'Operador'};
+  const avs={admin:'RO',cesar:'CT',sucursal:'EC',chofer:'LP'};
+  document.getElementById('roleName').textContent=names[v]||v;
+  document.getElementById('roleLabel').textContent=roles[v]||'';
+  document.getElementById('roleAv').textContent=avs[v]||'??';
+
+  const isChofer=v==='chofer';
+  const navTareas=document.getElementById('nav-tareas');
+  const navCons=document.getElementById('nav-consumibles');
+
+  if(isChofer){
+    // Chofer: ve Traspasos (Mi ruta) y Tareas — NO Consumibles
+    navTareas.style.display='';
+    navCons.style.display='none';
+    switchModule('traspasos');
+    // Activar tab Mi ruta directamente
+    setTimeout(()=>{
+      document.querySelectorAll('#mod-traspasos .tab').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('#mod-traspasos .section').forEach(s=>s.classList.remove('active'));
+      const tabChofer=document.getElementById('tTabChofer');
+      const secChofer=document.getElementById('tsec-chofer');
+      if(tabChofer){tabChofer.style.display='';tabChofer.classList.add('active');}
+      if(secChofer){secChofer.classList.add('active');}
+      // Ocultar otras tabs
+      ['tTabNueva','tTabHistorial','tTabCatalogo'].forEach(id=>{
+        const t=document.getElementById(id);if(t)t.style.display='none';
+      });
+      tRenderChofer();
+    },150);
+  } else {
+    // Admin/César/Encargado: ven todo
+    navTareas.style.display='';
+    navCons.style.display='';
+    // Restaurar tabs de traspasos
+    ['tTabNueva','tTabHistorial','tTabCatalogo'].forEach(id=>{
+      const t=document.getElementById(id);if(t)t.style.display='';
+    });
+    const tabChofer=document.getElementById('tTabChofer');
+    if(tabChofer)tabChofer.style.display='none';
+    // Si estábamos en traspasos en vista chofer, volver a Nueva
+    if(currentModule==='traspasos'){
+      document.querySelectorAll('#mod-traspasos .tab').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('#mod-traspasos .section').forEach(s=>s.classList.remove('active'));
+      const tabNueva=document.getElementById('tTabNueva');
+      const secNueva=document.getElementById('tsec-nueva');
+      if(tabNueva)tabNueva.classList.add('active');
+      if(secNueva)secNueva.classList.add('active');
+    } else {
+      switchModule('tareas');
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  MÓDULO: TAREAS
+// ═══════════════════════════════════════════════════════
+const TYPE_CFG={
+  'Exhibición':{icon:'fa-store',bg:'#FDF0E8',color:'#B84A0C'},
+  'Etiquetas':{icon:'fa-tag',bg:'#E6F1FB',color:'#185FA5'},
+  'Limpieza':{icon:'fa-broom',bg:'#EAF3DE',color:'#3B6D11'},
+  'Inventario':{icon:'fa-clipboard-check',bg:'#EEEDFE',color:'#534AB7'},
+  'Capacitación':{icon:'fa-graduation-cap',bg:'#FAEEDA',color:'#854F0B'},
+  'Otro':{icon:'fa-ellipsis',bg:'#F1EFE8',color:'#5F5E5A'}
+};
+const BRANCH_LABEL={centro:'Centro',cumbres:'Cumbres',apodaca:'Apodaca',all:'Todas'};
+const BRANCH_CLS={centro:'bc',cumbres:'bcu',apodaca:'bap',all:'ball'};
+
+let tasks=[];
+let nextTaskId=8;
+let selectedTaskId=null;
+let taskFilter='all';
+let selectedTaskType='Exhibición';
+let requirePhoto=false;
+
+function statusInfo(s){
+  if(s==='pending')return['Pendiente','b-pending'];
+  if(s==='done')return['Completada','b-done'];
+  if(s==='overdue')return['Vencida','b-overdue'];
+  if(s==='inprogress')return['En proceso','b-inprogress'];
+  return[s,''];
+}
+
+function renderTareas(){
+  const filtered=taskFilter==='all'?tasks:taskFilter==='pending'
+    ?tasks.filter(t=>t.status==='pending'||t.status==='inprogress'||t.status==='overdue')
+    :tasks.filter(t=>t.status==='done');
+
+  // Stats
+  const pending=tasks.filter(t=>t.status==='pending'||t.status==='inprogress').length;
+  const overdue=tasks.filter(t=>t.status==='overdue').length;
+  const done=tasks.filter(t=>t.status==='done').length;
+  document.getElementById('tareasStats').innerHTML=`
+    <div class="stat-box"><div class="stat-num">${tasks.length}</div><div class="stat-lbl">Total</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#B84A0C">${pending}</div><div class="stat-lbl">Pendientes</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#c0392b">${overdue}</div><div class="stat-lbl">Vencidas</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#3B6D11">${done}</div><div class="stat-lbl">Completadas</div></div>`;
+
+  // Badge
+  document.getElementById('badge-tareas').textContent=pending+overdue;
+
+  // List
+  const list=document.getElementById('taskList');
+  list.innerHTML=filtered.map(t=>{
+    const cfg=TYPE_CFG[t.type]||TYPE_CFG['Otro'];
+    const[sl,sc]=statusInfo(t.status);
+    const bc=BRANCH_CLS[t.branch]||'ball';
+    const bl=BRANCH_LABEL[t.branch]||t.branch;
+    const sel=t.id===selectedTaskId;
+    const photoHtml=t.requirePhoto
+      ?t.hasPhoto
+        ?'<span class="photo-chip has"><i class="fa fa-camera"></i> Foto</span>'
+        :'<span class="photo-chip"><i class="fa fa-camera"></i> Requerida</span>'
+      :'';
+    return`<div class="task-card${sel?' selected':''}" onclick="selectTask(${t.id})">
+      <div class="task-hdr">
+        <div class="task-icon" style="background:${cfg.bg}"><i class="fa ${cfg.icon}" style="color:${cfg.color}"></i></div>
+        <div class="task-title">${t.type}<div class="task-desc-short">${t.desc.length>65?t.desc.slice(0,65)+'…':t.desc}</div></div>
+        <span class="badge ${sc}">${sl}</span>
+      </div>
+      <div class="task-meta">
+        <span class="branch-tag ${bc}">${bl}</span>
+        <span class="meta-pill"><i class="fa fa-calendar" style="font-size:11px"></i>${t.date}</span>
+        ${photoHtml}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function selectTask(id){
+  selectedTaskId=id;
+  renderTareas();
+  const t=tasks.find(x=>x.id===id);
+  if(!t)return;
+  const cfg=TYPE_CFG[t.type]||TYPE_CFG['Otro'];
+  const[sl,sc]=statusInfo(t.status);
+  const bc=BRANCH_CLS[t.branch]||'ball';
+  const bl=BRANCH_LABEL[t.branch]||t.branch;
+  const isDone=t.status==='done';
+  const photoBlock=t.requirePhoto?`
+    <div>
+      <div class="dp-label">Evidencia fotográfica</div>
+      ${t.hasPhoto
+        ?'<div class="photo-done"><i class="fa fa-camera"></i><span class="pl">Foto recibida</span></div>'
+        :'<div class="photo-placeholder"><i class="fa fa-camera"></i><span>Sin foto aún</span></div>'}
+    </div>`:'';
+  document.getElementById('detailPanel').innerHTML=`
+    <div class="dp-header">
+      <div class="dp-title">${t.type}: ${t.desc.length>80?t.desc.slice(0,80)+'…':t.desc}</div>
+      <span class="badge ${sc}">${sl}</span>
+    </div>
+    <div class="dp-body">
+      <div><div class="dp-label">Sucursal</div><span class="branch-tag ${bc}">${bl}</span></div>
+      <div><div class="dp-label">Fecha límite</div><div class="dp-val">${t.date}</div></div>
+      ${photoBlock}
+      ${t.comment?`<div><div class="dp-label">Nota</div><div class="dp-val" style="font-size:12px;color:var(--text2)">${t.comment}</div></div>`:''}
+      ${!isDone
+        ?`<button class="btn-complete" onclick="markTaskDone(${t.id})"><i class="fa fa-check"></i> Marcar completada</button>`
+        :`<button class="btn-complete done" disabled><i class="fa fa-circle-check"></i> Completada</button>`}
+    </div>`;
+}
+
+async function markTaskDone(id){
+  const t=tasks.find(x=>x.id===id);
+  if(t){t.status='done';if(t.requirePhoto)t.hasPhoto=true;}
+  renderTareas();selectTask(id);
+  if(t){
+    try{
+      const data=encodeURIComponent(JSON.stringify({...t,requirePhoto:String(t.requirePhoto),hasPhoto:String(t.hasPhoto)}));
+      await tJsonp(T_SCRIPT+'?action=updateTarea&data='+data);
+    }catch(e){console.log('Error actualizando tarea:',e);}
+  }
+}
+
+function filterTareas(f,el){
+  taskFilter=f;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  selectedTaskId=null;
+  renderTareas();
+  document.getElementById('detailPanel').innerHTML='<div class="detail-ph"><i class="fa fa-hand-pointer"></i><span>Selecciona una tarea</span></div>';
+}
+
+function openTaskModal(){
+  document.getElementById('newDate').value=today();
+  document.getElementById('newDesc').value='';
+  document.getElementById('newBranch').value='all';
+  requirePhoto=false;
+  document.getElementById('photoToggle').className='toggle-box';
+  document.querySelectorAll('.type-opt').forEach((o,i)=>{o.classList.toggle('sel',i===0);});
+  selectedTaskType='Exhibición';
+  document.getElementById('taskModal').classList.add('open');
+}
+function closeTaskModal(){document.getElementById('taskModal').classList.remove('open');}
+
+function selectTaskType(el,type){
+  selectedTaskType=type;
+  document.querySelectorAll('.type-opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function togglePhotoReq(el){
+  requirePhoto=!requirePhoto;
+  document.getElementById('photoToggle').className='toggle-box'+(requirePhoto?' chk':'');
+}
+async function saveTask(){
+  const desc=document.getElementById('newDesc').value.trim();
+  if(!desc){document.getElementById('newDesc').style.borderColor='var(--red)';return;}
+  const branch=document.getElementById('newBranch').value;
+  const date=document.getElementById('newDate').value;
+  const role=document.getElementById('globalRole')?.value||'admin';
+  const createdBy=role==='cesar'?'César':role==='chofer'?'Luis P.':'Rodrigo';
+  const tarea={
+    id:'T-'+Date.now().toString(36).toUpperCase(),
+    type:selectedTaskType,
+    desc,branch,date,
+    requirePhoto:requirePhoto?'true':'false',
+    status:'pending',
+    hasPhoto:'false',
+    comment:'',
+    createdBy
+  };
+  tasks.unshift({...tarea,requirePhoto:requirePhoto,hasPhoto:false});
+  closeTaskModal();
+  renderTareas();
+  showToast('Tarea creada ✓');
+  try{
+    const data=encodeURIComponent(JSON.stringify(tarea));
+    await tJsonp(T_SCRIPT+'?action=saveTarea&data='+data);
+  }catch(e){console.log('Error guardando tarea:',e);}
+}
+
+// ═══════════════════════════════════════════════════════
+//  MÓDULO: CONSUMIBLES
+//  Adaptado de google.script.run → fetch JSONP
+// ═══════════════════════════════════════════════════════
+const CONS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbwh50rsEPSE5BGYOw4x_MSqTJQQMat5iuoALfoQKMochLpsN59Pe4rBCA4HNP2tFApk/exec';
+
+const SUCS=["Americas","Chapultepec","Colon","Eloy","Ezequiel","Huinala","Mexico","Raul S","Santiago","Silla","Tauro","YGriega","Pablo Livas","Almacen"];
+const CONS_LIST=["Limpiador líquido","Jabón para manos","Papel higiénico","Bolsa camiseta","Bolsa rollo","Bolsa billetes","Emplaye chico","Trapo","Feria","Rollo para impresora de tickets","Rollo para terminal bancaria"];
+const DESCUENTOS={"Limpiador líquido":1,"Jabón para manos":1,"Papel higiénico":2,"Bolsa camiseta":1,"Bolsa rollo":1,"Bolsa billetes":1,"Emplaye chico":1,"Trapo":1,"Rollo para impresora de tickets":2,"Rollo para terminal bancaria":3};
+
+let consSolicitudes=[];
+let consInv=[];
+let consView='inicio';
+let consForm={suc:'',cons:'',notas:''};
+let consLastSol=null;
+let consFSuc='Todas',consFEst='Todos';
+let consInited=false;
+
+function consJsonp(url){
+  return new Promise((resolve,reject)=>{
+    const cb='cons_cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const s=document.createElement('script');
+    const timer=setTimeout(()=>{cleanup();reject(new Error('Timeout'));},10000);
+    function cleanup(){delete window[cb];s.parentNode&&s.parentNode.removeChild(s);clearTimeout(timer);}
+    window[cb]=function(d){cleanup();resolve(d);};
+    s.src=url+(url.includes('?')?'&':'?')+'callback='+cb;
+    s.onerror=()=>{cleanup();reject(new Error('Error'));};
+    document.head.appendChild(s);
+  });
+}
+
+async function consCargar(){
+  try{
+    const d=await consJsonp(CONS_SCRIPT_URL+'?action=getSolicitudes');
+    if(d&&d.length!==undefined)consSolicitudes=d;
+  }catch(e){console.log('Consumibles offline — usando datos locales');}
+  try{
+    const d=await consJsonp(CONS_SCRIPT_URL+'?action=getInventario');
+    if(d&&d.length!==undefined)consInv=d;
+  }catch(e){}
+  consRenderCurrent();
+}
+
+function consInit(){
+  if(!consInited){
+    // Populate selects
+    const fS=document.getElementById('fS');
+    const fSF=document.getElementById('fSF');
+    const eC=document.getElementById('eCons');
+    SUCS.forEach(s=>{
+      [fS,fSF].forEach(el=>{const o=document.createElement('option');o.value=s;o.textContent=s;el.appendChild(o);});
+    });
+    CONS_LIST.forEach(c=>{
+      [document.getElementById('fC'),eC].forEach(el=>{const o=document.createElement('option');o.value=c;o.textContent=c;el.appendChild(o);});
+    });
+    consInited=true;
+    consCargar();
+  }
+}
+
+function consGo(v){
+  if(v==='almacen'){
+    const pin=prompt('🔒 Ingresa el PIN de almacén:');
+    if(pin!=='2468'){alert('PIN incorrecto.');return;}
+  }
+  consView=v;
+  if(v==='tienda')consForm={suc:'',cons:'',notas:''};
+  consRenderCurrent();
+}
+
+function consRenderCurrent(){
+  document.querySelectorAll('.cons-view').forEach(el=>el.classList.remove('active'));
+  const map={inicio:'cv-inicio',tienda:'cv-tienda',confirm:'cv-confirm',almacen:'cv-almacen',inventario:'cv-inventario',entradas:'cv-entradas'};
+  const target=map[consView]||'cv-inicio';
+  const el=document.getElementById(target);
+  if(el)el.classList.add('active');
+  if(consView==='tienda')consUpdateTienda();
+  if(consView==='almacen')consRenderAlmacen();
+  if(consView==='inventario')consRenderInventario();
+}
+
+function consBdg(e){
+  const c=e==='Pendiente'?'pe':e==='Enviado'?'en':'ca';
+  return`<span class="cons-badge ${c}"><span class="dot"></span>${e}</span>`;
+}
+function consFmt(iso){if(!iso)return'';const d=new Date(iso);return d.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+
+function consUpdateTienda(){
+  const suc=document.getElementById('fS')?.value||'';
+  const cons=document.getElementById('fC')?.value||'';
+  consForm.suc=suc;consForm.cons=cons;
+  const blk=suc&&cons?consSolicitudes.find(s=>s.sucursal===suc&&s.consumible===cons&&s.estatus==='Pendiente'):null;
+  const can=!!(suc&&cons&&!blk);
+  const arEl=document.getElementById('arAlert');
+  if(arEl){
+    if(blk){arEl.style.display='flex';arEl.className='alert-r';arEl.innerHTML=`<span style="font-size:18px">🚫</span><div><div style="font-weight:700;font-size:13px;color:#842029">Solicitud bloqueada</div><div style="font-size:12px;color:#842029;margin-top:2px">Ya hay una pendiente de <strong>${cons}</strong> desde el ${consFmt(blk.fechaSolicitud)}.</div></div>`;}
+    else{arEl.style.display='none';}
+  }
+  const btn=document.getElementById('bEnv');
+  if(btn){btn.disabled=!can;btn.textContent=blk?'🚫 Solicitud bloqueada':'Enviar solicitud';}
+  const fN=document.getElementById('fN');if(fN)fN.disabled=!!blk;
+  consUpdateHist();
+}
+
+function consUpdateHist(){
+  const hc=document.getElementById('histContainer');
+  if(!hc||!consForm.suc)return;
+  const mp=consSolicitudes.filter(s=>s.sucursal===consForm.suc&&s.estatus==='Pendiente');
+  const me=consSolicitudes.filter(s=>s.sucursal===consForm.suc&&s.estatus==='Enviado').slice(0,5);
+  let h='<div style="font-weight:700;font-size:14px;color:#444;margin:20px 0 8px">Mis solicitudes pendientes</div>';
+  if(!mp.length)h+='<div class="mini-card" style="color:#999;font-size:13px">Sin solicitudes pendientes ✅</div>';
+  else mp.forEach(s=>{h+=`<div class="mini-card"><div><div style="font-weight:600;font-size:13px">${s.consumible}</div><div style="font-size:11px;color:#999">${consFmt(s.fechaSolicitud)}</div></div>${consBdg(s.estatus)}</div>`;});
+  if(me.length){
+    h+='<div style="font-weight:700;font-size:14px;color:#444;margin:20px 0 8px">Últimos enviados</div>';
+    me.forEach(s=>{h+=`<div class="mini-card"><div><div style="font-weight:600;font-size:13px">${s.consumible}</div><div style="font-size:11px;color:#999">${consFmt(s.fechaSolicitud)}</div></div>${consBdg(s.estatus)}</div>`;});
+  }
+  hc.innerHTML=h;
+}
+
+function consRenderAlmacen(){
+  const fSuc=document.getElementById('fSF')?.value||'Todas';
+  const fEst=document.getElementById('fEF')?.value||'Todos';
+  const fil=consSolicitudes.filter(s=>(fSuc==='Todas'||s.sucursal===fSuc)&&(fEst==='Todos'||s.estatus===fEst));
+
+  const stats=['Pendiente','Enviado','Cancelado'].map(e=>{
+    const n=consSolicitudes.filter(s=>s.estatus===e).length;
+    const bg=e==='Pendiente'?'#FFF3CD':e==='Enviado'?'#D1E7DD':'#F8D7DA';
+    const tx=e==='Pendiente'?'#856404':e==='Enviado'?'#0A5C36':'#842029';
+    return`<div class="stat-box" style="background:${bg}"><div class="stat-num" style="color:${tx}">${n}</div><div class="stat-lbl" style="color:${tx}">${e}</div></div>`;
+  }).join('');
+  document.getElementById('consStats').innerHTML=stats;
+
+  if(!fil.length){document.getElementById('consCards').innerHTML='<div class="empty"><i class="fa fa-inbox"></i><div>Sin solicitudes con ese filtro.</div></div>';return;}
+  document.getElementById('consCards').innerHTML=fil.map(s=>{
+    const u=consSolicitudes.filter(x=>x.id!==s.id&&x.sucursal===s.sucursal&&x.consumible===s.consumible&&x.estatus==='Enviado'&&x.fechaEnvio).sort((a,b)=>new Date(b.fechaEnvio)-new Date(a.fechaEnvio))[0];
+    const uh=u?`<div class="ult az">🕐 <span>Último envío: <strong>${consFmt(u.fechaEnvio)}</strong></span></div>`:`<div class="ult gr">🆕 <span>Primera vez que se solicita</span></div>`;
+    const ac=s.estatus==='Pendiente'
+      ?`<div style="display:flex;gap:8px"><button class="btn btn-primary btn-sm" data-id="${s.id}" data-est="Enviado">✓ Enviado</button><button class="btn btn-sm" data-id="${s.id}" data-est="Cancelado">✕</button></div>`
+      :s.estatus==='Enviado'?`<div style="font-size:12px;color:var(--green);font-weight:600">✓ Enviado el ${consFmt(s.fechaEnvio)}</div>`:'';
+    return`<div class="sc">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px"><div><div style="font-weight:700;font-size:14px">${s.sucursal}</div><div style="color:var(--text2);font-size:12px">${consFmt(s.fechaSolicitud)}</div></div>${consBdg(s.estatus)}</div>
+      <div class="sb2"><div style="font-weight:600">${s.consumible}</div>${s.notas?`<div style="color:var(--text2);font-size:12px;margin-top:3px">📝 ${s.notas}</div>`:''}</div>
+      ${uh}<div style="font-size:11px;color:#bbb;margin-bottom:10px">#${s.id}</div>${ac}</div>`;
+  }).join('');
+
+  document.querySelectorAll('[data-est]').forEach(b=>{
+    b.onclick=async function(){
+      const id=this.getAttribute('data-id'),est=this.getAttribute('data-est');
+      this.disabled=true;
+      try{
+        await consJsonp(CONS_SCRIPT_URL+'?action=updateEstatus&id='+encodeURIComponent(id)+'&estatus='+encodeURIComponent(est));
+        showToast(est==='Enviado'?'✓ Marcado como Enviado':'Cancelado');
+        await consCargar();
+      }catch(e){showToast('Error al actualizar');}
+    };
+  });
+}
+
+function consRenderInventario(){
+  const rows=consInv.length===0
+    ?'<tr><td colspan="4" style="text-align:center;color:var(--text2);padding:20px">Sin datos de inventario</td></tr>'
+    :consInv.map(r=>{
+      const alerta=r.existencia<=r.minimo;
+      return`<tr style="${alerta?'background:#FFF3CD':''}">
+        <td style="padding:10px 12px;font-weight:600">${r.consumible||''}</td>
+        <td style="padding:10px 12px;text-align:center;font-size:18px;font-weight:700;color:${alerta?'#856404':'var(--text)'}">${r.existencia}</td>
+        <td style="padding:10px 12px;text-align:center;color:var(--text2)">${r.minimo||0}</td>
+        <td style="padding:10px 12px;font-size:12px;color:var(--text2)">${r.ultimaAct||''}</td>
+      </tr>`;
+    }).join('');
+  document.getElementById('invTable').innerHTML=`
+    <div style="background:var(--warn-bg);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--warn)">⚠️ Filas en amarillo = por debajo del mínimo</div>
+    <div style="background:var(--surface);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)">
+    <table style="width:100%;border-collapse:collapse">
+    <thead><tr style="background:#1a1a1a;color:#fff">
+      <th style="padding:10px 12px;text-align:left">Consumible</th>
+      <th style="padding:10px 12px;text-align:center">Existencia</th>
+      <th style="padding:10px 12px;text-align:center">Mínimo</th>
+      <th style="padding:10px 12px;text-align:left">Última act.</th>
+    </tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+async function consGuardarEntrada(){
+  const btn=document.getElementById('bGuardaEnt');
+  const cons=document.getElementById('eCons').value;
+  const cant=parseInt(document.getElementById('eCant').value)||0;
+  if(!cons||cant<1){showToast('Completa los campos');return;}
+  if(btn){btn.disabled=true;btn.textContent='Guardando...';}
+  try{
+    await consJsonp(CONS_SCRIPT_URL+'?action=addEntrada&consumible='+encodeURIComponent(cons)+'&cantidad='+cant);
+    showToast('✓ Entrada registrada');
+    document.getElementById('eCons').value='';
+    document.getElementById('eCant').value='1';
+    await consCargar();
+  }catch(e){showToast('Error al guardar');}
+  if(btn){btn.disabled=false;btn.textContent='Guardar entrada';}
+}
+
+// Enviar solicitud tienda
+document.getElementById('bEnv').addEventListener('click',async function(){
+  if(!consForm.suc||!consForm.cons)return;
+  this.disabled=true;this.textContent='Enviando...';
+  try{
+    const url=CONS_SCRIPT_URL+'?action=addSolicitud&sucursal='+encodeURIComponent(consForm.suc)+'&consumible='+encodeURIComponent(consForm.cons)+'&notas='+encodeURIComponent(document.getElementById('fN').value||'');
+    const d=await consJsonp(url);
+    const id=d&&d.id?d.id:'OK';
+    consLastSol={id,suc:consForm.suc,cons:consForm.cons};
+    document.getElementById('confirmDetails').innerHTML=`
+      <div class="row-d"><span style="color:var(--text2);font-size:13px">ID</span><span style="font-weight:600;font-size:13px">${id}</span></div>
+      <div class="row-d"><span style="color:var(--text2);font-size:13px">Sucursal</span><span style="font-weight:600;font-size:13px">${consForm.suc}</span></div>
+      <div class="row-d"><span style="color:var(--text2);font-size:13px">Consumible</span><span style="font-weight:600;font-size:13px">${consForm.cons}</span></div>
+      <div class="row-d" style="border:none"><span style="color:var(--text2);font-size:13px">Estatus</span><span style="font-weight:600;font-size:13px">Pendiente 🟡</span></div>`;
+    consForm={suc:'',cons:'',notas:''};
+    consView='confirm';
+    consRenderCurrent();
+    await consCargar();
+  }catch(e){showToast('Error al enviar');this.disabled=false;this.textContent='Enviar solicitud';}
+});
+
+function consExportCSV(){
+  const fSuc=document.getElementById('fSF')?.value||'Todas';
+  const fEst=document.getElementById('fEF')?.value||'Todos';
+  const fil=consSolicitudes.filter(s=>(fSuc==='Todas'||s.sucursal===fSuc)&&(fEst==='Todos'||s.estatus===fEst));
+  const h=["ID","Sucursal","Consumible","Notas","Fecha Solicitud","Estatus","Fecha Envío"];
+  const rows=fil.map(s=>[s.id,s.sucursal,s.consumible,s.notas,consFmt(s.fechaSolicitud),s.estatus,consFmt(s.fechaEnvio)]);
+  const csv=[h,...rows].map(r=>r.map(v=>'"'+(v||'')+'"').join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
+  a.download='ledzone_consumibles_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+}
+
+// ═══════════════════════════════════════════════════════
+//  MÓDULO: TRASPASOS (lógica original preservada)
+// ═══════════════════════════════════════════════════════
+const SUCURSALES=[
+  {nom:'CEDIS',apertura:'8:00',cierre:'17:00',dias:'Lun–Sáb',exc:'Sin obligación de reportar cierre'},
+  {nom:'Y GRIEGA',apertura:'8:30',cierre:'19:30',dias:'Lun–Sáb',exc:''},
+  {nom:'LAS AMERICAS',apertura:'8:30',cierre:'19:30',dias:'Lun–Sáb',exc:''},
+  {nom:'MEXICO',apertura:'8:30',cierre:'19:00',dias:'Lun–Sáb',exc:''},
+  {nom:'SANTIAGO',apertura:'8:30',cierre:'18:30',dias:'Lun–Sáb',exc:''},
+  {nom:'PABLO LIVAS',apertura:'8:30',cierre:'19:00',dias:'Lun–Sáb',exc:''},
+  {nom:'RAUL SALINAS',apertura:'8:30',cierre:'19:30',dias:'Lun–Sáb',exc:''},
+  {nom:'CHAPULTEPEC',apertura:'8:30',cierre:'19:30',dias:'Lun–Sáb',exc:''},
+  {nom:'HUINALA',apertura:'8:30',cierre:'19:30',dias:'Lun–Sáb',exc:''},
+  {nom:'EZEQUIEL MONTES',apertura:'8:30',cierre:'18:30',dias:'Lun–Sáb',exc:''},
+  {nom:'COLON',apertura:'8:30',cierre:'19:00',dias:'Lun–Dom',exc:'Domingo 9:00–16:00'},
+  {nom:'LA SILLA',apertura:'9:00',cierre:'20:00',dias:'Lun–Dom',exc:'Dom 9:00–16:00 · Cierra lunes'},
+  {nom:'TAURO',apertura:'8:30',cierre:'19:00',dias:'Lun–Sáb',exc:''},
+  {nom:'ELOY CAVAZOS',apertura:'8:30',cierre:'19:30',dias:'Lun–Sáb',exc:''},
+];
+
+// Catálogo (abreviado; se expande con el xlsx loader)
+let TCATALOGO=[];
+// Cargar catálogo: primero Sheet, luego localStorage como fallback
+async function loadCatalogo(){
+  // 1. Intentar desde Sheet
+  try{
+    const d=await Promise.race([
+      tJsonp(T_SCRIPT+'?action=getCatalogo'),
+      new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),8000))
+    ]);
+    if(d&&d.ok&&Array.isArray(d.catalogo)&&d.catalogo.length>0){
+      TCATALOGO=d.catalogo;
+      try{localStorage.setItem('lz_catalogo',JSON.stringify(TCATALOGO));}catch(e){}
+      console.log('Catálogo desde Sheet: '+TCATALOGO.length+' productos');
+      if(document.getElementById('tCatTotal')) tRenderCatPreview();
+      return;
+    }
+  }catch(e){}
+  // 2. Fallback: localStorage
+  try{
+    const saved=localStorage.getItem('lz_catalogo');
+    if(saved){
+      const parsed=JSON.parse(saved);
+      if(Array.isArray(parsed)&&parsed.length>0){
+        TCATALOGO=parsed;
+        console.log('Catálogo desde localStorage: '+TCATALOGO.length+' productos');
+        if(document.getElementById('tCatTotal')) tRenderCatPreview();
+        return;
+      }
+    }
+  }catch(e){}
+  console.log('Sin catálogo guardado — usando muestra');
+}
+(function(){loadCatalogo();})();
+
+const T_SCRIPT='https://script.google.com/macros/s/AKfycbxz5OIpoeV8GYBiFhqiBsuM2gjUfQwYoqpFdz5hdR4gsOHLpx2u52Xx-43G6vsM_3YI/exec';
+
+let tCounter=5;
+let tOrdenes=[
+  {id:'LZ-001',tipo:'recoleccion',fechaCreacion:'2026-05-10',fechaEnvio:'2026-05-11',fechaEntrega:'2026-05-12',origen:'CEDIS',destino:'Y GRIEGA',solicitante:'Rodrigo',estado:'Recibido',notas:'',foto:null,productos:[{cod:'8435388601280',nom:'TIRA NEON BLANCO FRIO WANERGY 5M',marca:'WANERGY',c:5}]},
+  {id:'LZ-002',tipo:'recoleccion',fechaCreacion:'2026-05-13',fechaEnvio:'2026-05-13',fechaEntrega:null,origen:'CEDIS',destino:'RAUL SALINAS',solicitante:'César',estado:'Enviado',notas:'Urgente',foto:null,productos:[{cod:'8435388600597',nom:'TIRA LED RGB 50 50 CABALLO TROYA',marca:'WANERGY',c:3}]},
+  {id:'LZ-003',tipo:'recoleccion',fechaCreacion:'2026-05-13',fechaEnvio:'2026-05-13',fechaEntrega:null,origen:'LA SILLA',destino:'CEDIS',solicitante:'César',estado:'Enviado',notas:'',foto:null,productos:[{cod:'7506884441227',nom:'NR TIRA NEON VERDE CONSTRULED 5M',marca:'CONSTRULED',c:50}]},
+  {id:'LZ-004',tipo:'recoleccion',fechaCreacion:'2026-05-13',fechaEnvio:null,fechaEntrega:null,origen:'COLON',destino:'CEDIS',solicitante:'Rodrigo',estado:'Pendiente',notas:'Revisar empaque',foto:null,productos:[{cod:'1010651129',nom:'MODULO 110V-2 BLANCO 20 PZAS',marca:'GENGXIN',c:20}]},
+];
+let tRowCounter=0;
+let tInited=false;
+
+
+function tOnRoleChange(){ /* unused - handled by global onRoleChange */ }
+function tGetSolicitante(){
+  const v=document.getElementById("globalRole")?.value||"admin";
+  return v==="cesar"?"César T.":v==="chofer"?"Luis P.":"Rodrigo R.";
+}
+function tJsonp(url){
+  return new Promise((resolve,reject)=>{
+    const cb='t_cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const s=document.createElement('script');
+    const timer=setTimeout(()=>{cleanup();reject(new Error('Timeout'));},10000);
+    function cleanup(){delete window[cb];s.parentNode&&s.parentNode.removeChild(s);clearTimeout(timer);}
+    window[cb]=function(d){cleanup();resolve(d);};
+    s.src=url+(url.includes('?')?'&':'?')+'callback='+cb;
+    s.onerror=()=>{cleanup();reject(new Error('Error'));};
+    document.head.appendChild(s);
+  });
+}
+
+function tSaveOrdenes(){try{localStorage.setItem('lz_ordenes',JSON.stringify(tOrdenes));localStorage.setItem('lz_counter',tCounter);}catch(e){}}
+function tLoadOrdenes(){
+  try{
+    const s=localStorage.getItem('lz_ordenes');const c=localStorage.getItem('lz_counter');
+    if(s)tOrdenes=JSON.parse(s);
+    if(c)tCounter=parseInt(c);
+  }catch(e){}
+}
+
+function getSuc(n){return SUCURSALES.find(s=>s.nom===n)||null;}
+function tFmtHoy(){return new Date().toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'});}
+function horarioTip(n){
+  const s=getSuc(n);if(!s)return'';
+  return`<div class="horario"><i class="fa fa-clock"></i> ${s.apertura}–${s.cierre} · ${s.dias}${s.exc?' · <strong>'+s.exc+'</strong>':''}</div>`;
+}
+
+function tInit(){
+  if(!tInited){
+    tLoadOrdenes();
+    ['tOrigen','tDestino','tFiltroSuc'].forEach(id=>{
+      const el=document.getElementById(id);if(!el)return;
+      SUCURSALES.forEach(s=>{const o=document.createElement('option');o.value=s.nom;o.textContent=s.nom;el.appendChild(o);});
+    });
+    tAddProdRow();
+    tRenderCatPreview();
+    tInited=true;
+    setTimeout(tSincronizar,1500);
+  }
+}
+
+async function tSincronizar(){
+  const el=document.getElementById('tSyncStatus');
+  if(el)el.textContent='Sincronizando…';
+  let remote=null;
+  try{remote=await Promise.race([tJsonp(T_SCRIPT+'?action=getOrdenes'),new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),8000))]);}
+  catch(e){}
+  if(remote&&remote.ok&&Array.isArray(remote.ordenes)){
+    remote.ordenes.forEach(ro=>{const local=tOrdenes.find(o=>o.id===ro.id);if(local){ro.foto=local.foto||'';ro.fotoEntrega=local.fotoEntrega||'';}});
+    tOrdenes=remote.ordenes;
+    const maxN=tOrdenes.reduce((m,o)=>{const n=parseInt((o.id||'').replace('LZ-',''))||0;return Math.max(m,n);},0);
+    tCounter=maxN+1;tSaveOrdenes();
+    if(el)el.style.color='var(--green)';
+    if(el)el.textContent='✓ '+tOrdenes.length+' órdenes';
+  }else{if(el){el.textContent='Datos locales';el.style.color='var(--red)';}}
+  if(document.getElementById('tListaOrdenes').offsetParent!==null)tRenderHistorial();
+}
+
+async function tSincronizarChofer(){
+  const el=document.getElementById('tSyncChofer');if(el)el.textContent='Actualizando…';
+  try{
+    const r=await Promise.race([tJsonp(T_SCRIPT+'?action=getOrdenes'),new Promise((_,rj)=>setTimeout(()=>rj(new Error('t')),8000))]);
+    if(r&&r.ok){tOrdenes=r.ordenes;tSaveOrdenes();}
+  }catch(e){}
+  tRenderChofer();
+  if(el)el.textContent='✓ '+new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+}
+
+function tGetFiltered(){
+  const sF=document.getElementById('tFiltroSuc')?.value||'';
+  const eF=document.getElementById('tFiltroEst')?.value||'';
+  return tOrdenes.filter(o=>(!sF||(o.origen===sF||o.destino===sF))&&(!eF||o.estado===eF));
+}
+
+function tRenderHistorial(){
+  const cont=document.getElementById('tListaOrdenes');
+  const fil=tGetFiltered();
+  if(!fil.length){cont.innerHTML='<div class="empty"><i class="fa fa-inbox"></i><div>Sin órdenes</div></div>';return;}
+  cont.innerHTML=fil.map(o=>`
+    <div class="card" style="margin-bottom:10px">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">${o.destino} <span class="folio">${o.id}</span><span class="tipo-tag tipo-reco">Reco.</span></div>
+          <div class="card-sub">Desde: ${o.origen} · ${o.solicitante}</div>
+        </div>
+        <span class="badge badge-${o.estado.toLowerCase()}">${o.estado}</span>
+      </div>
+      <div class="date-chips">
+        <span class="chip done"><i class="fa fa-file-circle-plus"></i> ${fmtDateStr(o.fechaCreacion)}</span>
+        <span class="chip ${o.fechaEnvio?'done':'pend'}"><i class="fa fa-box-archive"></i> ${fmtDateStr(o.fechaEnvio)}</span>
+        <span class="chip ${o.fechaEntrega?'done':'pend'}"><i class="fa fa-circle-check"></i> ${fmtDateStr(o.fechaEntrega)}</span>
+      </div>
+      <div class="prod-list">${o.productos.map(p=>`<div><span class="cod-tag">${p.cod||'—'}</span>${p.nom} <span style="color:var(--text2);font-size:11px">· ${p.marca}</span> — <strong>${p.c} pzs</strong></div>`).join('')}</div>
+      ${o.notas?`<div style="font-size:12px;color:var(--text2);margin-top:8px"><i class="fa fa-note-sticky"></i> ${o.notas}</div>`:''}
+      <div class="card-acts">
+        ${o.estado==='Pendiente'?`<button class="btn btn-sm" onclick="tAvanzar('${o.id}','Enviado')"><i class="fa fa-truck"></i> Marcar enviado</button>`:''}
+        ${o.estado==='Enviado'?`<button class="btn btn-sm" onclick="tAvanzar('${o.id}','Recibido')"><i class="fa fa-check"></i> Confirmar recibido</button>`:''}
+        ${o.estado==='Recibido'?`<span style="font-size:12px;color:var(--green)"><i class="fa fa-circle-check"></i> Completada</span>`:''}
+      </div>
+    </div>`).join('');
+}
+
+async function tAvanzar(id,nuevo){
+  const o=tOrdenes.find(x=>x.id===id);if(!o)return;
+  o.estado=nuevo;
+  if(nuevo==='Enviado')o.fechaEnvio=nowTs();
+  if(nuevo==='Recibido')o.fechaEntrega=nowTs();
+  tSaveOrdenes();
+  try{const data=encodeURIComponent(JSON.stringify({...o,foto:'',fotoEntrega:''}));await tJsonp(T_SCRIPT+'?action=updateOrden&data='+data);}catch(e){}
+  tRenderHistorial();showToast(id+' → '+nuevo);
+}
+
+function tSwitchTab(t,btn){
+  document.querySelectorAll('#mod-traspasos .tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#mod-traspasos .section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('tsec-'+t).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(t==='historial')tRenderHistorial();
+  if(t==='chofer')tRenderChofer();
+  if(t==='catalogo')tRenderCatPreview();
+}
+
+let tRCounter=0;
+function tAddProdRow(){
+  tRCounter++;const id='tpr'+tRCounter;
+  const div=document.createElement('div');div.className='prod-row';div.id=id;
+  div.innerHTML=`<div class="prod-inner">
+    <div class="prod-wrap">
+      <input class="prod-inp" placeholder="Buscar código o nombre…" oninput="tBuscarProd(this,'${id}')" onfocus="tShowDrop('${id}')" onblur="tHideDrop('${id}')" autocomplete="off" value="" autocomplete="off">
+      <div class="prod-drop" id="tdrop-${id}"></div>
+    </div>
+    <input type="number" class="prod-cant" placeholder="Cant." min="1" value="1" style="text-align:center">
+    <button class="btn btn-icon" onclick="tRemoveProd('${id}')"><i class="fa fa-trash"></i></button>
+  </div>
+  <div class="prod-tag" id="tsel-${id}" style="display:none"></div>`;
+  document.getElementById('tProds').appendChild(div);
+}
+
+function tBuscarProd(inp,rid){
+  const q=inp.value.toLowerCase().trim();
+  const drop=document.getElementById('tdrop-'+rid);
+  if(q.length<2){drop.style.display='none';return;}
+  const res=TCATALOGO.filter(p=>(p.cod&&p.cod.toLowerCase().includes(q))||p.nom.toLowerCase().includes(q)).slice(0,12);
+  if(!res.length){drop.innerHTML='<div class="prod-opt" style="color:var(--text2)">Sin resultados</div>';drop.style.display='block';return;}
+  drop.innerHTML=res.map(p=>`<div class="prod-opt" onmousedown="tSelProd('${rid}','${p.cod.replace(/'/g,"\\'")}','${encodeURIComponent(p.nom)}','${encodeURIComponent(p.marca)}')">
+    <span class="pcod">${p.cod||'—'}</span>${p.nom}<span class="pmarca">· ${p.marca}</span></div>`).join('');
+  drop.style.display='block';
+}
+function tSelProd(rid,cod,nomE,marcaE){
+  const nom=decodeURIComponent(nomE),marca=decodeURIComponent(marcaE);
+  const row=document.getElementById(rid);
+  const inp=row.querySelector('.prod-inp');
+  inp.value=nom;inp.dataset.cod=cod;inp.dataset.nom=nom;inp.dataset.marca=marca;
+  document.getElementById('tdrop-'+rid).style.display='none';
+  const sel=document.getElementById('tsel-'+rid);
+  sel.textContent=(cod||'sin código')+' · '+marca;sel.style.display='block';
+}
+function tShowDrop(id){const i=document.getElementById('tpr'+id.replace('tpr',''))?.querySelector('.prod-inp');if(i&&i.value.trim().length>=2)document.getElementById('tdrop-'+id).style.display='block';}
+function tHideDrop(id){setTimeout(()=>{const d=document.getElementById('tdrop-'+id);if(d)d.style.display='none';},300);}
+function tRemoveProd(id){if(document.querySelectorAll('#tProds .prod-row').length>1)document.getElementById(id).remove();else showToast('Debe haber al menos un producto');}
+function tClearForm(){
+  ['tOrigen','tDestino','tNotas'].forEach(i=>{const el=document.getElementById(i);if(el)el.value='';});
+  document.getElementById('tProds').innerHTML='';
+  tRCounter=0;
+  tAddProdRow();
+}
+
+function tResetProdRow(rid){
+  const row=document.getElementById(rid);
+  if(!row)return;
+  const inp=row.querySelector('.prod-inp');
+  if(inp){inp.value='';inp.dataset.cod='';inp.dataset.nom='';inp.dataset.marca='';}
+  const cant=row.querySelector('.prod-cant');
+  if(cant)cant.value='1';
+  const sel=document.getElementById('tsel-'+rid);
+  if(sel){sel.textContent='';sel.style.display='none';}
+  const drop=document.getElementById('tdrop-'+rid);
+  if(drop){drop.innerHTML='';drop.style.display='none';}
+}
+
+async function tGenerarOrden(){
+  const origen=document.getElementById('tOrigen').value;
+  const destino=document.getElementById('tDestino').value;
+  const notas=document.getElementById('tNotas').value;
+  if(!origen){showToast('Selecciona origen');return;}
+  if(!destino){showToast('Selecciona destino');return;}
+  if(origen===destino){showToast('Origen y destino no pueden ser iguales');return;}
+  const rows=document.querySelectorAll('#tProds .prod-row');
+  const productos=[];
+  for(const r of rows){
+    const inp=r.querySelector('.prod-inp');if(!inp)continue;
+    const cod=inp.dataset.cod||'',nom=inp.dataset.nom||'',marca=inp.dataset.marca||'—';
+    const c=parseInt(r.querySelector('.prod-cant').value)||0;
+    if(!nom){showToast('Selecciona un producto del catálogo');return;}
+    if(c<1){showToast('Cantidad debe ser mayor a 0');return;}
+    productos.push({cod,nom,marca,c});
+  }
+  if(!productos.length){showToast('Agrega al menos un producto');return;}
+  const id='LZ-'+String(tCounter++).padStart(3,'0');
+  const orden={id,tipo:'recoleccion',fechaCreacion:nowTs(),fechaEnvio:null,fechaEntrega:null,origen,destino,solicitante:tGetSolicitante(),estado:'Pendiente',notas,foto:null,productos};
+  tOrdenes.unshift(orden);tSaveOrdenes();
+  try{const data=encodeURIComponent(JSON.stringify({...orden,foto:'',fotoEntrega:''}));await tJsonp(T_SCRIPT+'?action=saveOrden&data='+data);}catch(e){}
+  showToast('Orden '+id+' generada ✓');tClearForm();
+  tSwitchTab('historial',document.getElementById('tTabHistorial'));
+}
+
+function tRenderChofer(){
+  const el=document.getElementById('tChoferFecha');if(el)el.textContent=tFmtHoy();
+  tRenderChoferR();
+}
+
+function tRenderChoferR(){
+  const cont=document.getElementById('tsec-ch-r');
+  const h=today();
+  const hoyFmt=h.split('-').reverse().join('/');
+
+  function matchHoy(f){
+    if(!f)return false;
+    if(f.startsWith(hoyFmt)||f===h)return true;
+    try{const d=new Date(f);if(!isNaN(d)){const dd=String(d.getDate()).padStart(2,'0'),mm=String(d.getMonth()+1).padStart(2,'0'),yyyy=d.getFullYear();return(dd+'/'+mm+'/'+yyyy)===hoyFmt;}}catch(e){}
+    return false;
+  }
+
+  // Pendiente = por recoger | Enviado = ya recogido, por entregar
+  const porRecoger=tOrdenes.filter(o=>o.estado==='Pendiente'&&(matchHoy(o.fechaCreacion)||matchHoy(o.fechaEnvio)));
+  const porEntregar=tOrdenes.filter(o=>o.estado==='Enviado');
+
+  // Si no hay nada hoy pero hay pendientes, mostrarlos igual
+  const recoger = porRecoger.length ? porRecoger : tOrdenes.filter(o=>o.estado==='Pendiente');
+  const entregar = porEntregar;
+
+  function buildOrden(o, tipo){
+    const isPend = tipo==='recoger';
+    const suc = isPend ? o.origen : o.destino;
+    const sucInfo = getSuc(suc);
+    const horario = sucInfo ? `<div style="font-size:12px;color:var(--text2);padding:6px 12px 10px;display:flex;align-items:center;gap:6px"><i class="fa fa-clock"></i>${sucInfo.apertura}–${sucInfo.cierre} · ${sucInfo.dias}${sucInfo.exc?' · '+sucInfo.exc:''}</div>` : '';
+    const prods = o.productos.map(p=>`<div class="prod-chip"><span class="qty">${p.c}</span><span>${p.nom}</span></div>`).join('');
+    const nota = o.notas ? `<div class="nota-chofer"><i class="fa fa-triangle-exclamation"></i> ${o.notas}</div>` : '';
+    const fotoId = isPend ? `tfi-${o.id}` : `tfi2-${o.id}`;
+    const fotoLblId = isPend ? `tfl-${o.id}` : `tfl2-${o.id}`;
+    const fotoTxtId = isPend ? `tft-${o.id}` : `tft2-${o.id}`;
+    const fotoPreId = isPend ? `tfp-${o.id}` : `tfp2-${o.id}`;
+    const fotoTipo = isPend ? 'reco' : 'entrega';
+    const btnClass = isPend ? 'recoger' : 'entregar';
+    const btnIcon = isPend ? 'fa-box-archive' : 'fa-circle-check';
+    const btnTxt = isPend ? `Confirmar recolección` : `Entregado en ${o.destino}`;
+    const btnFn = isPend ? `tConfReco('${o.id}')` : `tConfEntrega('${o.id}')`;
+
+    return `<div class="chofer-orden">
+      <div class="chofer-orden-top">
+        <span class="chofer-orden-num">${o.id}</span>
+        <span style="font-size:11px;color:var(--text2);margin-left:4px">${o.fechaCreacion||''}</span>
+        ${o.solicitante?`<span style="font-size:11px;color:var(--text2);margin-left:auto"><i class="fa fa-user"></i> ${o.solicitante}</span>`:''}
+      </div>
+      ${!isPend?`<div style="font-size:12px;color:var(--green);font-weight:600;padding:0 12px 8px"><i class="fa fa-circle-check"></i> Recogido ${fmtDateStr(o.fechaEnvio)}</div>`:''}
+      <div class="suc-chip ${isPend?'origen':'destino'}">
+        <i class="fa ${isPend?'fa-store':'fa-location-dot'}"></i>
+        <span>${suc}</span>
+      </div>
+      ${horario}
+      ${nota}
+      <div class="prod-chips">${prods}</div>
+      <label class="chofer-foto-btn" id="${fotoLblId}" for="${fotoId}">
+        <i class="fa fa-camera" style="font-size:22px"></i>
+        <span id="${fotoTxtId}">Tomar foto</span>
+      </label>
+      <input type="file" id="${fotoId}" accept="image/*" capture="environment" style="display:none" onchange="tPrevFoto('${o.id}',this,'${fotoTipo}')">
+      <img id="${fotoPreId}" class="foto-preview" alt="" style="margin:0 12px 10px;width:calc(100% - 24px);border-radius:var(--radius-sm);display:none">
+      <button class="chofer-action-btn ${btnClass}" onclick="${btnFn}">
+        <i class="fa ${btnIcon}"></i> ${btnTxt}
+      </button>
+    </div>`;
+  }
+
+  const recogerHTML = recoger.length
+    ? recoger.map(o=>buildOrden(o,'recoger')).join('')
+    : `<div class="chofer-empty"><i class="fa fa-circle-check" style="color:var(--green)"></i><span>Sin pendientes</span></div>`;
+
+  const entregarHTML = entregar.length
+    ? entregar.map(o=>buildOrden(o,'entregar')).join('')
+    : `<div class="chofer-empty"><i class="fa fa-truck" style="color:var(--text3)"></i><span>Nada en tránsito</span></div>`;
+
+  cont.innerHTML = `
+    <div class="chofer-split">
+      <div class="chofer-col">
+        <div class="chofer-col-title recoger">
+          <i class="fa fa-box-archive"></i> Por recoger
+          <span class="cnt">${recoger.length}</span>
+        </div>
+        ${recogerHTML}
+      </div>
+      <div class="chofer-col">
+        <div class="chofer-col-title entregar">
+          <i class="fa fa-truck"></i> Por entregar
+          <span class="cnt">${entregar.length}</span>
+        </div>
+        ${entregarHTML}
+      </div>
+    </div>`;
+}
+
+function tPrevFoto(id,inp,tipo){
+  if(!inp.files||!inp.files[0])return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const p=tipo==='entrega'?'tfp2-':'tfp-',l=tipo==='entrega'?'tfl2-':'tfl-',t2=tipo==='entrega'?'tft2-':'tft-';
+    const img=document.getElementById(p+id);if(img){img.src=e.target.result;img.style.display='block';}
+    const lbl=document.getElementById(l+id);if(lbl)lbl.classList.add('ok');
+    const txt=document.getElementById(t2+id);if(txt)txt.textContent='Foto lista ✓';
+    const o=tOrdenes.find(x=>x.id===id);
+    if(o){if(tipo==='entrega')o.fotoEntrega=e.target.result;else o.foto=e.target.result;}
+  };r.readAsDataURL(inp.files[0]);
+}
+async function tConfReco(id){
+  const o=tOrdenes.find(x=>x.id===id);if(!o)return;
+  if(!o.foto){showToast('Toma la foto al recoger primero');return;}
+  o.estado='Enviado';o.fechaEnvio=nowTs();tSaveOrdenes();
+  try{const data=encodeURIComponent(JSON.stringify({...o,foto:'',fotoEntrega:''}));await tJsonp(T_SCRIPT+'?action=updateOrden&data='+data);}catch(e){}
+  showToast(id+' recolectado ✓');tRenderChofer();
+}
+async function tConfEntrega(id){
+  const o=tOrdenes.find(x=>x.id===id);if(!o)return;
+  if(!o.fotoEntrega){showToast('Toma la foto al entregar primero');return;}
+  o.estado='Recibido';o.fechaEntrega=nowTs();tSaveOrdenes();
+  try{const data=encodeURIComponent(JSON.stringify({...o,foto:'',fotoEntrega:''}));await tJsonp(T_SCRIPT+'?action=updateOrden&data='+data);}catch(e){}
+  showToast(id+' entregado ✓');tRenderChofer();
+}
+
+function tExportCSV(){
+  const fil=tGetFiltered();
+  if(!fil.length){showToast('No hay órdenes para exportar');return;}
+  const h=['Folio','Creada','Recogido','Entregado','Origen','Destino','Solicitante','Estado','Productos','Notas'];
+  const rows=fil.map(o=>[o.id,o.fechaCreacion||'',o.fechaEnvio||'',o.fechaEntrega||'',o.origen,o.destino,o.solicitante,o.estado,o.productos.map(p=>p.nom+' x'+p.c).join(' | '),o.notas||'']);
+  const csv=[h,...rows].map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
+  a.download='LedZone_Traspasos_'+new Date().toLocaleDateString('es-MX').replace(/\//g,'-')+'.csv';a.click();
+  showToast('CSV exportado ✓');
+}
+
+function tCargarCatalogo(input){
+  if(!input.files||!input.files[0])return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const wb=XLSX.read(e.target.result,{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const data=XLSX.utils.sheet_to_json(ws,{defval:''});
+      const sample=data[0]||{};const keys=Object.keys(sample);
+      const cP=keys.find(k=>k.toLowerCase().includes('producto')||k.toLowerCase().includes('nombre'))||keys[0];
+      const cC=keys.find(k=>k.toLowerCase().includes('código')||k.toLowerCase().includes('codigo')||k.toLowerCase().includes('barras'))||keys[1];
+      const cM=keys.find(k=>k.toLowerCase().includes('marca'))||keys[2];
+      const nuevos=data.filter(r=>r[cP]&&String(r[cP]).trim()).map(r=>({cod:String(r[cC]||'').trim(),nom:String(r[cP]).trim().toUpperCase(),marca:String(r[cM]||'GENÉRICO').trim().toUpperCase()}));
+      if(!nuevos.length){showToast('No se encontraron productos');return;}
+      TCATALOGO.length=0;nuevos.forEach(p=>TCATALOGO.push(p));
+      // Guardar en localStorage para persistir entre sesiones
+      try{localStorage.setItem('lz_catalogo',JSON.stringify(TCATALOGO));}catch(e){}
+      document.getElementById('tXlsxLabel').classList.add('ok');
+      document.getElementById('tXlsxTxt').textContent=input.files[0].name+' · '+nuevos.length+' productos';
+      const st=document.getElementById('tCatStatus');
+      st.style.display='block';st.style.background='var(--green-bg)';st.style.color='var(--green)';st.textContent='✓ Catálogo guardado con '+nuevos.length+' productos — no necesitas cargarlo de nuevo';
+      tRenderCatPreview();showToast('Catálogo guardado: '+nuevos.length+' productos ✓');
+    }catch(err){showToast('Error al leer archivo: '+err.message);}
+  };reader.readAsArrayBuffer(input.files[0]);
+}
+
+function tRenderCatPreview(){
+  document.getElementById('tCatTotal').textContent=TCATALOGO.length;
+  const cont=document.getElementById('tCatPreview');
+  if(!TCATALOGO.length){cont.innerHTML='<div style="color:var(--text2);text-align:center;padding:20px">Sin productos</div>';return;}
+  cont.innerHTML=TCATALOGO.slice(0,200).map(p=>`<div style="display:grid;grid-template-columns:120px 1fr 90px;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);align-items:center"><span style="font-family:monospace;font-size:10px;color:var(--text2)">${p.cod||'—'}</span><span style="font-size:12px">${p.nom}</span><span style="color:var(--text2);font-size:10px;text-align:right">${p.marca}</span></div>`).join('')
+    +(TCATALOGO.length>200?`<div style="text-align:center;padding:10px;color:var(--text2);font-size:12px">... y ${TCATALOGO.length-200} más</div>`:'');
+}
+
+// ═══════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════
+async function loadTareas(){
+  try{
+    const d=await Promise.race([
+      tJsonp(T_SCRIPT+'?action=getTareas'),
+      new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),8000))
+    ]);
+    if(d&&d.ok&&Array.isArray(d.tareas)&&d.tareas.length>0){
+      tasks=d.tareas.map(t=>({
+        ...t,
+        id:t.id,
+        requirePhoto:t.requirePhoto==='true',
+        hasPhoto:t.hasPhoto==='true'
+      }));
+      nextTaskId=tasks.length+1;
+      renderTareas();
+    }
+  }catch(e){console.log('Tareas offline');}
+}
+
+renderTareas();
+loadTareas();
+
+// Al cargar: verificar si tiene sesión guardada
+(function(){
+  const lastRole=localStorage.getItem('lz_last_role')||'admin';
+  const saved=localStorage.getItem('lz_role_'+lastRole);
+  if(saved==='ok'){
+    // Auto-login sin PIN
+    document.getElementById('pinScreen').style.display='none';
+    const sel=document.getElementById('globalRole');
+    if(sel)sel.value=lastRole;
+    applyRole(lastRole);
+  } else {
+    // Mostrar pantalla de PIN
+    document.getElementById('pinRoleSel').value=lastRole;
+    // pinScreen ya está visible por defecto
+  }
+})();
+</script>
+</body>
+</html>
