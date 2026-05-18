@@ -1173,7 +1173,7 @@ async function loadCatalogo(){
   }catch(e){}
   console.log('Sin catálogo guardado — usando muestra');
 }
-(function(){loadCatalogo();})();
+// loadCatalogo called at bottom init
 
 const T_SCRIPT='https://script.google.com/macros/s/AKfycbxz5OIpoeV8GYBiFhqiBsuM2gjUfQwYoqpFdz5hdR4gsOHLpx2u52Xx-43G6vsM_3YI/exec';
 
@@ -1591,24 +1591,26 @@ async function loadTareas(){
 }
 
 renderTareas();
-loadTareas();
 
-// Al cargar: verificar si tiene sesión guardada
+// Restaurar rol guardado
 (function(){
   const lastRole=localStorage.getItem('lz_last_role')||'admin';
   const saved=localStorage.getItem('lz_role_'+lastRole);
   if(saved==='ok'){
-    // Auto-login sin PIN
     document.getElementById('pinScreen').style.display='none';
     const sel=document.getElementById('globalRole');
     if(sel)sel.value=lastRole;
     applyRole(lastRole);
   } else {
-    // Mostrar pantalla de PIN
     document.getElementById('pinRoleSel').value=lastRole;
-    // pinScreen ya está visible por defecto
   }
 })();
+
+// Cargar datos desde Sheets con delay para asegurar que tJsonp está listo
+setTimeout(async function(){
+  await loadCatalogo();
+  await loadTareas();
+}, 800);
 </script>
 </body>
 </html>
