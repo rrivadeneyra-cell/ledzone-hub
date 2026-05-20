@@ -214,36 +214,6 @@ textarea{resize:vertical;min-height:60px}
 .ch-prod:last-child{border-bottom:none}
 .ch-prod-qty{font-size:16px;font-weight:700}
 
-/* ── VISTA CHOFER ── */
-.chofer-split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
-.chofer-col{display:flex;flex-direction:column;gap:12px}
-.chofer-col-title{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:var(--radius);font-size:15px;font-weight:700;margin-bottom:4px}
-.chofer-col-title.recoger{background:#1a4fa0;color:#fff}
-.chofer-col-title.entregar{background:#1D9E75;color:#fff}
-.chofer-col-title i{font-size:22px}
-.chofer-col-title .cnt{margin-left:auto;background:rgba(255,255,255,.25);border-radius:20px;padding:2px 10px;font-size:13px}
-.chofer-orden{background:var(--surface);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.chofer-orden-top{padding:14px 16px;display:flex;align-items:center;gap:10px}
-.chofer-orden-num{font-family:monospace;font-size:13px;font-weight:700;color:var(--text2)}
-.suc-chip{display:flex;align-items:center;gap:6px;border-radius:8px;padding:10px 14px;margin:0 12px 12px;font-size:15px;font-weight:700}
-.suc-chip.origen{background:#e8f0fb;color:#1a4fa0}
-.suc-chip.destino{background:#e8f8f2;color:#1D9E75}
-.suc-chip i{font-size:20px}
-.prod-chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 12px}
-.prod-chip{background:var(--bg);border-radius:6px;padding:6px 10px;font-size:12px;display:flex;align-items:center;gap:6px}
-.prod-chip .qty{background:#1a1a1a;color:#fff;border-radius:4px;padding:1px 7px;font-size:13px;font-weight:700}
-.nota-chofer{margin:0 12px 12px;background:#fff3cd;border-left:3px solid #b87400;border-radius:0 6px 6px 0;padding:8px 12px;font-size:13px;color:#856404}
-.chofer-foto-btn{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 12px 8px;padding:14px;border:2px dashed var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:14px;font-weight:600;color:var(--text2);background:var(--surface)}
-.chofer-foto-btn.ok{border-color:var(--green);color:var(--green);background:var(--green-bg)}
-.chofer-action-btn{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 12px 14px;padding:16px;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;width:calc(100% - 24px)}
-.chofer-action-btn.recoger{background:#1a4fa0;color:#fff}
-.chofer-action-btn.entregar{background:#1D9E75;color:#fff}
-.chofer-action-btn:active{opacity:.85}
-.chofer-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;background:var(--surface);border-radius:var(--radius);opacity:.5;gap:10px}
-.chofer-empty i{font-size:36px}
-.chofer-empty span{font-size:13px;font-weight:600}
-@media(max-width:768px){.chofer-split{grid-template-columns:1fr}}
-
 /* ── MOBILE ── */
 .hamburger{display:none;position:fixed;top:12px;left:12px;z-index:200;background:#1a1a1a;border:none;color:#fff;border-radius:8px;padding:8px 10px;font-size:16px;cursor:pointer}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
@@ -264,27 +234,6 @@ textarea{resize:vertical;min-height:60px}
 </style>
 </head>
 <body>
-
-<!-- PIN SCREEN -->
-<div id="pinScreen" style="position:fixed;inset:0;background:#1a1a1a;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px">
-  <div style="color:#E8651A;font-size:28px;font-weight:700;letter-spacing:-.5px">Led<span style="color:#fff">Zone</span></div>
-  <div style="color:#888;font-size:12px;letter-spacing:1px;text-transform:uppercase">Hub Operativo</div>
-  <div style="background:#252525;border-radius:14px;padding:28px 24px;width:280px;display:flex;flex-direction:column;gap:14px;margin-top:10px">
-    <select id="pinRoleSel" style="background:#1a1a1a;border:1px solid #333;color:#fff;border-radius:8px;padding:10px 12px;font-size:14px;width:100%">
-      <option value="admin">Rodrigo (Admin)</option>
-      <option value="cesar">César</option>
-      <option value="chofer">Luis P. (Operador)</option>
-    </select>
-    <input id="pinInput" type="password" inputmode="numeric" placeholder="PIN" maxlength="6"
-      style="background:#1a1a1a;border:1px solid #333;color:#fff;border-radius:8px;padding:12px;font-size:20px;text-align:center;letter-spacing:6px;width:100%"
-      onkeydown="if(event.key==='Enter')checkPin()">
-    <div id="pinError" style="color:#E8651A;font-size:12px;text-align:center;display:none">PIN incorrecto. Intenta de nuevo.</div>
-    <button onclick="checkPin()" style="background:#E8651A;color:#fff;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;width:100%">Entrar</button>
-    <label style="display:flex;align-items:center;gap:8px;color:#666;font-size:12px;cursor:pointer">
-      <input type="checkbox" id="pinRemember" style="width:auto"> Recordar en este dispositivo
-    </label>
-  </div>
-</div>
 
 <button class="hamburger" onclick="toggleSidebar()" aria-label="Menú"><i class="fa fa-bars"></i></button>
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
@@ -314,20 +263,20 @@ textarea{resize:vertical;min-height:60px}
       <div class="rname" id="roleName">Rodrigo</div>
       <div class="rrole" id="roleLabel">Administrador</div>
     </div>
+    <div class="role-sel-wrap">
+      <select onchange="onRoleChange(this.value)">
+        <option value="admin">Admin</option>
+        <option value="sucursal">Sucursal</option>
+        <option value="chofer">Chofer</option>
+      </select>
+    </div>
   </div>
 </nav>
 
 <div class="main">
-  <div class="topbar" style="flex-wrap:wrap;gap:8px">
+  <div class="topbar">
     <span class="topbar-title" id="topbarTitle">Tareas</span>
-    <div style="display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0">
-      <span style="font-size:12px;color:var(--text2);white-space:nowrap">Usuario:</span>
-      <select id="globalRole" onchange="onRoleChange(this.value)" style="font-size:13px;padding:6px 12px;border:1.5px solid var(--orange);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);width:auto;font-weight:600">
-        <option value="admin">Rodrigo (Admin)</option>
-        <option value="cesar">César</option>
-        <option value="chofer">Luis P. (Chofer)</option>
-      </select>
-    </div>
+    <div id="topbarActions"></div>
   </div>
 
   <div class="page-content">
@@ -446,7 +395,6 @@ textarea{resize:vertical;min-height:60px}
          MÓDULO: TRASPASOS
     ══════════════════════════════════ -->
     <div class="module" id="mod-traspasos">
-
       <div class="tabs">
         <button class="tab active" id="tTabNueva" onclick="tSwitchTab('nueva',this)"><i class="fa fa-plus"></i> Nueva</button>
         <button class="tab" id="tTabHistorial" onclick="tSwitchTab('historial',this)"><i class="fa fa-list"></i> Historial</button>
@@ -589,7 +537,6 @@ function today(){return new Date().toISOString().split('T')[0];}
 // ═══════════════════════════════════════════════════════
 const moduleTitles={tareas:'Tareas',consumibles:'Consumibles',traspasos:'Traspasos'};
 let currentModule='tareas';
-let currentRole='admin';
 
 function switchModule(m){
   document.querySelectorAll('.module').forEach(el=>el.classList.remove('active'));
@@ -614,101 +561,16 @@ function closeSidebar(){
 }
 
 // Role switcher (shared)
-const PINS={admin:'369',cesar:'5678',chofer:'9012'};
-
-function checkPin(){
-  const v=document.getElementById('pinRoleSel').value;
-  const pin=document.getElementById('pinInput').value;
-  const remember=document.getElementById('pinRemember').checked;
-  const errEl=document.getElementById('pinError');
-  if(pin!==PINS[v]){
-    errEl.style.display='block';
-    document.getElementById('pinInput').value='';
-    return;
-  }
-  errEl.style.display='none';
-  if(remember) localStorage.setItem('lz_role_'+v,'ok');
-  localStorage.setItem('lz_last_role',v);
-  document.getElementById('pinScreen').style.display='none';
-  applyRole(v);
-  // Sync globalRole selector
-  const sel=document.getElementById('globalRole');
-  if(sel)sel.value=v;
-}
-
 function onRoleChange(v){
-  // Cambio de rol desde el selector — mostrar pantalla PIN
-  document.getElementById('pinScreen').style.display='flex';
-  document.getElementById('pinRoleSel').value=v;
-  document.getElementById('pinInput').value='';
-  document.getElementById('pinError').style.display='none';
-  // Si ya tiene PIN guardado, entrar directo
-  const saved=localStorage.getItem('lz_role_'+v);
-  if(saved==='ok'){
-    document.getElementById('pinScreen').style.display='none';
-    localStorage.setItem('lz_last_role',v);
-    applyRole(v);
-    const sel=document.getElementById('globalRole');
-    if(sel)sel.value=v;
-  }
-}
-
-function applyRole(v){
-  currentRole=v;
-  const sel=document.getElementById('globalRole');
-  if(sel)sel.value=v;
-  const names={admin:'Rodrigo',cesar:'César',sucursal:'Encargado',chofer:'Luis P.'};
-  const roles={admin:'Administrador',cesar:'Supervisor',sucursal:'Sucursal',chofer:'Operador'};
-  const avs={admin:'RO',cesar:'CT',sucursal:'EC',chofer:'LP'};
-  document.getElementById('roleName').textContent=names[v]||v;
-  document.getElementById('roleLabel').textContent=roles[v]||'';
-  document.getElementById('roleAv').textContent=avs[v]||'??';
-
-  const isChofer=v==='chofer';
-  const navTareas=document.getElementById('nav-tareas');
-  const navCons=document.getElementById('nav-consumibles');
-
-  if(isChofer){
-    // Chofer: ve Traspasos (Mi ruta) y Tareas — NO Consumibles
-    navTareas.style.display='';
-    navCons.style.display='none';
-    switchModule('traspasos');
-    // Activar tab Mi ruta directamente
-    setTimeout(()=>{
-      document.querySelectorAll('#mod-traspasos .tab').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('#mod-traspasos .section').forEach(s=>s.classList.remove('active'));
-      const tabChofer=document.getElementById('tTabChofer');
-      const secChofer=document.getElementById('tsec-chofer');
-      if(tabChofer){tabChofer.style.display='';tabChofer.classList.add('active');}
-      if(secChofer){secChofer.classList.add('active');}
-      // Ocultar otras tabs
-      ['tTabNueva','tTabHistorial','tTabCatalogo'].forEach(id=>{
-        const t=document.getElementById(id);if(t)t.style.display='none';
-      });
-      tRenderChofer();
-    },150);
-  } else {
-    // Admin/César/Encargado: ven todo
-    navTareas.style.display='';
-    navCons.style.display='';
-    // Restaurar tabs de traspasos
-    ['tTabNueva','tTabHistorial','tTabCatalogo'].forEach(id=>{
-      const t=document.getElementById(id);if(t)t.style.display='';
-    });
-    const tabChofer=document.getElementById('tTabChofer');
-    if(tabChofer)tabChofer.style.display='none';
-    // Si estábamos en traspasos en vista chofer, volver a Nueva
-    if(currentModule==='traspasos'){
-      document.querySelectorAll('#mod-traspasos .tab').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('#mod-traspasos .section').forEach(s=>s.classList.remove('active'));
-      const tabNueva=document.getElementById('tTabNueva');
-      const secNueva=document.getElementById('tsec-nueva');
-      if(tabNueva)tabNueva.classList.add('active');
-      if(secNueva)secNueva.classList.add('active');
-    } else {
-      switchModule('tareas');
-    }
-  }
+  const names={admin:'Rodrigo',sucursal:'Encargado',chofer:'Operador'};
+  const roles={admin:'Administrador',sucursal:'Sucursal Cumbres',chofer:'Conductor'};
+  const avs={admin:'RO',sucursal:'EC',chofer:'LP'};
+  document.getElementById('roleName').textContent=names[v];
+  document.getElementById('roleLabel').textContent=roles[v];
+  document.getElementById('roleAv').textContent=avs[v];
+  // Show/hide chofer tab in traspasos
+  const ct=document.getElementById('tTabChofer');
+  if(ct)ct.style.display=v==='chofer'?'':'none';
 }
 
 // ═══════════════════════════════════════════════════════
@@ -725,7 +587,15 @@ const TYPE_CFG={
 const BRANCH_LABEL={centro:'Centro',cumbres:'Cumbres',apodaca:'Apodaca',all:'Todas'};
 const BRANCH_CLS={centro:'bc',cumbres:'bcu',apodaca:'bap',all:'ball'};
 
-let tasks=[];
+let tasks=[
+  {id:1,type:'Exhibición',desc:'Exhibición de ventiladores en promoción con evidencia fotográfica en entrada',branch:'cumbres',date:'2026-05-15',requirePhoto:true,status:'overdue',hasPhoto:false,comment:''},
+  {id:2,type:'Etiquetas',desc:'Actualizar etiquetas de precio en paneles LED 60x60 (nueva lista)',branch:'centro',date:'2026-05-17',requirePhoto:false,status:'pending',hasPhoto:false,comment:''},
+  {id:3,type:'Limpieza',desc:'Limpieza profunda de módulos en exhibición — sección exterior',branch:'apodaca',date:'2026-05-16',requirePhoto:false,status:'inprogress',hasPhoto:false,comment:''},
+  {id:4,type:'Inventario',desc:'Conteo físico de tiras LED 12V — stock en bodega',branch:'cumbres',date:'2026-05-20',requirePhoto:false,status:'pending',hasPhoto:false,comment:''},
+  {id:5,type:'Exhibición',desc:'Instalar nueva exhibición de downlights empotrados en sección premium',branch:'centro',date:'2026-05-18',requirePhoto:true,status:'pending',hasPhoto:false,comment:''},
+  {id:6,type:'Etiquetas',desc:'Cambiar etiquetas en módulos 110V con nuevo precio de temporada',branch:'all',date:'2026-05-14',requirePhoto:false,status:'done',hasPhoto:false,comment:'Listo'},
+  {id:7,type:'Capacitación',desc:'Revisión de guía de venta para tiras LED RGB con encargado',branch:'apodaca',date:'2026-05-19',requirePhoto:false,status:'done',hasPhoto:false,comment:'Completado'}
+];
 let nextTaskId=8;
 let selectedTaskId=null;
 let taskFilter='all';
@@ -819,16 +689,10 @@ function selectTask(id){
     </div>`;
 }
 
-async function markTaskDone(id){
+function markTaskDone(id){
   const t=tasks.find(x=>x.id===id);
   if(t){t.status='done';if(t.requirePhoto)t.hasPhoto=true;}
   renderTareas();selectTask(id);
-  if(t){
-    try{
-      const data=encodeURIComponent(JSON.stringify({...t,requirePhoto:String(t.requirePhoto),hasPhoto:String(t.hasPhoto)}));
-      await tJsonp(T_SCRIPT+'?action=updateTarea&data='+data);
-    }catch(e){console.log('Error actualizando tarea:',e);}
-  }
 }
 
 function filterTareas(f,el){
@@ -861,38 +725,22 @@ function togglePhotoReq(el){
   requirePhoto=!requirePhoto;
   document.getElementById('photoToggle').className='toggle-box'+(requirePhoto?' chk':'');
 }
-async function saveTask(){
+function saveTask(){
   const desc=document.getElementById('newDesc').value.trim();
   if(!desc){document.getElementById('newDesc').style.borderColor='var(--red)';return;}
   const branch=document.getElementById('newBranch').value;
   const date=document.getElementById('newDate').value;
-  const role=document.getElementById('globalRole')?.value||'admin';
-  const createdBy=role==='cesar'?'César':role==='chofer'?'Luis P.':'Rodrigo';
-  const tarea={
-    id:'T-'+Date.now().toString(36).toUpperCase(),
-    type:selectedTaskType,
-    desc,branch,date,
-    requirePhoto:requirePhoto?'true':'false',
-    status:'pending',
-    hasPhoto:'false',
-    comment:'',
-    createdBy
-  };
-  tasks.unshift({...tarea,requirePhoto:requirePhoto,hasPhoto:false});
+  tasks.unshift({id:nextTaskId++,type:selectedTaskType,desc,branch,date,requirePhoto,status:'pending',hasPhoto:false,comment:''});
   closeTaskModal();
   renderTareas();
   showToast('Tarea creada ✓');
-  try{
-    const data=encodeURIComponent(JSON.stringify(tarea));
-    await tJsonp(T_SCRIPT+'?action=saveTarea&data='+data);
-  }catch(e){console.log('Error guardando tarea:',e);}
 }
 
 // ═══════════════════════════════════════════════════════
 //  MÓDULO: CONSUMIBLES
 //  Adaptado de google.script.run → fetch JSONP
 // ═══════════════════════════════════════════════════════
-const CONS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbwh50rsEPSE5BGYOw4x_MSqTJQQMat5iuoALfoQKMochLpsN59Pe4rBCA4HNP2tFApk/exec';
+const CONS_SCRIPT_URL='TU_URL_DE_CONSUMIBLES_AQUI'; // ← reemplaza con tu URL de Apps Script publicada
 
 const SUCS=["Americas","Chapultepec","Colon","Eloy","Ezequiel","Huinala","Mexico","Raul S","Santiago","Silla","Tauro","YGriega","Pablo Livas","Almacen"];
 const CONS_LIST=["Limpiador líquido","Jabón para manos","Papel higiénico","Bolsa camiseta","Bolsa rollo","Bolsa billetes","Emplaye chico","Trapo","Feria","Rollo para impresora de tickets","Rollo para terminal bancaria"];
@@ -1141,39 +989,7 @@ const SUCURSALES=[
 ];
 
 // Catálogo (abreviado; se expande con el xlsx loader)
-let TCATALOGO=[];
-// Cargar catálogo: primero Sheet, luego localStorage como fallback
-async function loadCatalogo(){
-  // Siempre intentar desde Sheet primero
-  try{
-    const d=await Promise.race([
-      tJsonp(T_SCRIPT+'?action=getCatalogo'),
-      new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),10000))
-    ]);
-    if(d&&d.ok&&Array.isArray(d.catalogo)&&d.catalogo.length>0){
-      TCATALOGO=d.catalogo;
-      try{localStorage.setItem('lz_catalogo',JSON.stringify(TCATALOGO));}catch(e){}
-      console.log('Catálogo desde Sheet: '+TCATALOGO.length+' productos');
-      if(document.getElementById('tCatTotal')) tRenderCatPreview();
-      return;
-    }
-  }catch(e){console.log('Sheet no disponible, intentando localStorage');}
-  // Fallback: localStorage (cuando no hay internet)
-  try{
-    const saved=localStorage.getItem('lz_catalogo');
-    if(saved){
-      const parsed=JSON.parse(saved);
-      if(Array.isArray(parsed)&&parsed.length>0){
-        TCATALOGO=parsed;
-        console.log('Catálogo desde localStorage: '+TCATALOGO.length+' productos');
-        if(document.getElementById('tCatTotal')) tRenderCatPreview();
-        return;
-      }
-    }
-  }catch(e){}
-  console.log('Sin catálogo — carga el Excel en Traspasos → Catálogo');
-}
-// loadCatalogo called at bottom init
+let TCATALOGO=[{cod:'1010967263',nom:'TIRA NEON AZUL NAVIGATE 5M',marca:'NAVIGATE'},{cod:'8435388602997',nom:'ADAPTADOR CONTROL REMOTO MANGUERA RGB',marca:'WANERGY'},{cod:'7505848213009',nom:'PANEL LED 60X60 DE 50W',marca:'NAVIGATE'},{cod:'1010651129',nom:'MODULO 110V-2 BLANCO 20 PZAS',marca:'GENGXIN'},{cod:'8435388600597',nom:'TIRA LED RGB 50 50 CABALLO TROYA',marca:'WANERGY'},{cod:'7506884441227',nom:'NR TIRA NEON VERDE CONSTRULED 5M',marca:'CONSTRULED'}];
 
 const T_SCRIPT='https://script.google.com/macros/s/AKfycbxz5OIpoeV8GYBiFhqiBsuM2gjUfQwYoqpFdz5hdR4gsOHLpx2u52Xx-43G6vsM_3YI/exec';
 
@@ -1187,12 +1003,6 @@ let tOrdenes=[
 let tRowCounter=0;
 let tInited=false;
 
-
-function tOnRoleChange(){ /* unused - handled by global onRoleChange */ }
-function tGetSolicitante(){
-  const v=document.getElementById("globalRole")?.value||"admin";
-  return v==="cesar"?"César T.":v==="chofer"?"Luis P.":"Rodrigo R.";
-}
 function tJsonp(url){
   return new Promise((resolve,reject)=>{
     const cb='t_cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
@@ -1323,7 +1133,7 @@ function tAddProdRow(){
   const div=document.createElement('div');div.className='prod-row';div.id=id;
   div.innerHTML=`<div class="prod-inner">
     <div class="prod-wrap">
-      <input class="prod-inp" placeholder="Buscar código o nombre…" oninput="tBuscarProd(this,'${id}')" onfocus="tShowDrop('${id}')" onblur="tHideDrop('${id}')" autocomplete="off" value="" autocomplete="off">
+      <input class="prod-inp" placeholder="Buscar código o nombre…" oninput="tBuscarProd(this,'${id}')" onfocus="tShowDrop('${id}')" onblur="tHideDrop('${id}')" autocomplete="off">
       <div class="prod-drop" id="tdrop-${id}"></div>
     </div>
     <input type="number" class="prod-cant" placeholder="Cant." min="1" value="1" style="text-align:center">
@@ -1355,25 +1165,7 @@ function tSelProd(rid,cod,nomE,marcaE){
 function tShowDrop(id){const i=document.getElementById('tpr'+id.replace('tpr',''))?.querySelector('.prod-inp');if(i&&i.value.trim().length>=2)document.getElementById('tdrop-'+id).style.display='block';}
 function tHideDrop(id){setTimeout(()=>{const d=document.getElementById('tdrop-'+id);if(d)d.style.display='none';},300);}
 function tRemoveProd(id){if(document.querySelectorAll('#tProds .prod-row').length>1)document.getElementById(id).remove();else showToast('Debe haber al menos un producto');}
-function tClearForm(){
-  ['tOrigen','tDestino','tNotas'].forEach(i=>{const el=document.getElementById(i);if(el)el.value='';});
-  document.getElementById('tProds').innerHTML='';
-  tRCounter=0;
-  tAddProdRow();
-}
-
-function tResetProdRow(rid){
-  const row=document.getElementById(rid);
-  if(!row)return;
-  const inp=row.querySelector('.prod-inp');
-  if(inp){inp.value='';inp.dataset.cod='';inp.dataset.nom='';inp.dataset.marca='';}
-  const cant=row.querySelector('.prod-cant');
-  if(cant)cant.value='1';
-  const sel=document.getElementById('tsel-'+rid);
-  if(sel){sel.textContent='';sel.style.display='none';}
-  const drop=document.getElementById('tdrop-'+rid);
-  if(drop){drop.innerHTML='';drop.style.display='none';}
-}
+function tClearForm(){['tOrigen','tDestino','tNotas'].forEach(i=>{const el=document.getElementById(i);if(el)el.value='';});document.getElementById('tProds').innerHTML='';tRCounter=0;tAddProdRow();}
 
 async function tGenerarOrden(){
   const origen=document.getElementById('tOrigen').value;
@@ -1394,7 +1186,7 @@ async function tGenerarOrden(){
   }
   if(!productos.length){showToast('Agrega al menos un producto');return;}
   const id='LZ-'+String(tCounter++).padStart(3,'0');
-  const orden={id,tipo:'recoleccion',fechaCreacion:nowTs(),fechaEnvio:null,fechaEntrega:null,origen,destino,solicitante:tGetSolicitante(),estado:'Pendiente',notas,foto:null,productos};
+  const orden={id,tipo:'recoleccion',fechaCreacion:nowTs(),fechaEnvio:null,fechaEntrega:null,origen,destino,solicitante:'Rodrigo',estado:'Pendiente',notas,foto:null,productos};
   tOrdenes.unshift(orden);tSaveOrdenes();
   try{const data=encodeURIComponent(JSON.stringify({...orden,foto:'',fotoEntrega:''}));await tJsonp(T_SCRIPT+'?action=saveOrden&data='+data);}catch(e){}
   showToast('Orden '+id+' generada ✓');tClearForm();
@@ -1407,93 +1199,41 @@ function tRenderChofer(){
 }
 
 function tRenderChoferR(){
-  const cont=document.getElementById('tsec-ch-r');
-  const h=today();
-  const hoyFmt=h.split('-').reverse().join('/');
-
-  function matchHoy(f){
-    if(!f)return false;
-    if(f.startsWith(hoyFmt)||f===h)return true;
-    try{const d=new Date(f);if(!isNaN(d)){const dd=String(d.getDate()).padStart(2,'0'),mm=String(d.getMonth()+1).padStart(2,'0'),yyyy=d.getFullYear();return(dd+'/'+mm+'/'+yyyy)===hoyFmt;}}catch(e){}
-    return false;
-  }
-
-  // Pendiente = por recoger | Enviado = ya recogido, por entregar
-  const porRecoger=tOrdenes.filter(o=>o.estado==='Pendiente'&&(matchHoy(o.fechaCreacion)||matchHoy(o.fechaEnvio)));
-  const porEntregar=tOrdenes.filter(o=>o.estado==='Enviado');
-
-  // Si no hay nada hoy pero hay pendientes, mostrarlos igual
-  const recoger = porRecoger.length ? porRecoger : tOrdenes.filter(o=>o.estado==='Pendiente');
-  const entregar = porEntregar;
-
-  function buildOrden(o, tipo){
-    const isPend = tipo==='recoger';
-    const suc = isPend ? o.origen : o.destino;
-    const sucInfo = getSuc(suc);
-    const horario = sucInfo ? `<div style="font-size:12px;color:var(--text2);padding:6px 12px 10px;display:flex;align-items:center;gap:6px"><i class="fa fa-clock"></i>${sucInfo.apertura}–${sucInfo.cierre} · ${sucInfo.dias}${sucInfo.exc?' · '+sucInfo.exc:''}</div>` : '';
-    const prods = o.productos.map(p=>`<div class="prod-chip"><span class="qty">${p.c}</span><span>${p.nom}</span></div>`).join('');
-    const nota = o.notas ? `<div class="nota-chofer"><i class="fa fa-triangle-exclamation"></i> ${o.notas}</div>` : '';
-    const fotoId = isPend ? `tfi-${o.id}` : `tfi2-${o.id}`;
-    const fotoLblId = isPend ? `tfl-${o.id}` : `tfl2-${o.id}`;
-    const fotoTxtId = isPend ? `tft-${o.id}` : `tft2-${o.id}`;
-    const fotoPreId = isPend ? `tfp-${o.id}` : `tfp2-${o.id}`;
-    const fotoTipo = isPend ? 'reco' : 'entrega';
-    const btnClass = isPend ? 'recoger' : 'entregar';
-    const btnIcon = isPend ? 'fa-box-archive' : 'fa-circle-check';
-    const btnTxt = isPend ? `Confirmar recolección` : `Confirmar entrega en ${o.destino}`;
-    const btnFn = isPend ? `tConfReco('${o.id}')` : `tConfEntrega('${o.id}')`;
-
-    return `<div class="chofer-orden">
-      <div class="chofer-orden-top">
-        <span class="chofer-orden-num">${o.id}</span>
-        <span style="font-size:11px;color:var(--text2);margin-left:4px">${o.fechaCreacion||''}</span>
-        ${o.solicitante?`<span style="font-size:11px;color:var(--text2);margin-left:auto"><i class="fa fa-user"></i> ${o.solicitante}</span>`:''}
-      </div>
-      ${!isPend?`<div style="font-size:12px;color:var(--green);font-weight:600;padding:0 12px 8px"><i class="fa fa-circle-check"></i> Recogido ${fmtDateStr(o.fechaEnvio)}</div>`:''}
-      <div class="suc-chip ${isPend?'origen':'destino'}">
-        <i class="fa ${isPend?'fa-store':'fa-location-dot'}"></i>
-        <span>${suc}</span>
-      </div>
-      ${horario}
-      ${nota}
-      <div class="prod-chips">${prods}</div>
-      <label class="chofer-foto-btn" id="${fotoLblId}" for="${fotoId}">
-        <i class="fa fa-camera" style="font-size:22px"></i>
-        <span id="${fotoTxtId}">Tomar foto</span>
-      </label>
-      <input type="file" id="${fotoId}" accept="image/*" capture="environment" style="display:none" onchange="tPrevFoto('${o.id}',this,'${fotoTipo}')">
-      <img id="${fotoPreId}" class="foto-preview" alt="" style="margin:0 12px 10px;width:calc(100% - 24px);border-radius:var(--radius-sm);display:none">
-      <button class="chofer-action-btn ${btnClass}" onclick="${btnFn}">
-        <i class="fa ${btnIcon}"></i> ${btnTxt}
-      </button>
-    </div>`;
-  }
-
-  const recogerHTML = recoger.length
-    ? recoger.map(o=>buildOrden(o,'recoger')).join('')
-    : `<div class="chofer-empty"><i class="fa fa-circle-check" style="color:var(--green)"></i><span>Sin pendientes</span></div>`;
-
-  const entregarHTML = entregar.length
-    ? entregar.map(o=>buildOrden(o,'entregar')).join('')
-    : `<div class="chofer-empty"><i class="fa fa-truck" style="color:var(--text3)"></i><span>Nada en tránsito</span></div>`;
-
-  cont.innerHTML = `
-    <div class="chofer-split">
-      <div class="chofer-col">
-        <div class="chofer-col-title recoger">
-          <i class="fa fa-box-archive"></i> Por recoger
-          <span class="cnt">${recoger.length}</span>
-        </div>
-        ${recogerHTML}
-      </div>
-      <div class="chofer-col">
-        <div class="chofer-col-title entregar">
-          <i class="fa fa-truck"></i> Por entregar
-          <span class="cnt">${entregar.length}</span>
-        </div>
-        ${entregarHTML}
-      </div>
-    </div>`;
+  const cont=document.getElementById('tsec-ch-r'),h=today();
+  const mis=tOrdenes.filter(o=>{
+    if(o.tipo!=='recoleccion'||o.estado==='Recibido')return false;
+    const hoyFmt=h.split('-').reverse().join('/');
+    function matchHoy(f){
+      if(!f)return false;if(f.startsWith(hoyFmt)||f===h)return true;
+      try{const d=new Date(f);if(!isNaN(d)){const dd=String(d.getDate()).padStart(2,'0'),mm=String(d.getMonth()+1).padStart(2,'0'),yyyy=d.getFullYear();return(dd+'/'+mm+'/'+yyyy)===hoyFmt;}}catch(e){}
+      return false;
+    }
+    return matchHoy(o.fechaCreacion||'')||matchHoy(o.fechaEnvio||'');
+  });
+  if(!mis.length){cont.innerHTML='<div class="empty"><i class="fa fa-circle-check" style="color:var(--green)"></i><div style="font-size:15px;font-weight:600;margin-top:10px">¡Todo completado hoy!</div></div>';return;}
+  cont.innerHTML=mis.map(o=>{
+    const isPend=o.estado==='Pendiente';const isEnt=o.estado==='Enviado';
+    const ruta=`<div class="ruta"><div><div class="ruta-label">Recoger en</div><div class="ruta-suc" style="color:var(--blue)">${o.origen}</div></div><i class="fa fa-arrow-right ruta-arrow"></i><div><div class="ruta-label">Llevar a</div><div class="ruta-suc" style="color:var(--green)">${o.destino}</div></div></div>`;
+    const prods=`<div class="ch-prods">${o.productos.map(p=>`<div class="ch-prod"><span>${p.nom}</span><span class="ch-prod-qty">${p.c} pzs</span></div>`).join('')}</div>`;
+    const notas=o.notas?`<div class="nota-box"><i class="fa fa-triangle-exclamation"></i> ${o.notas}</div>`:'';
+    let accion='';
+    if(isPend){accion=`${horarioTip(o.origen)}${notas}${prods}
+      <label class="foto-lbl" id="tfl-${o.id}" for="tfi-${o.id}"><i class="fa fa-camera" style="font-size:20px"></i><span id="tft-${o.id}">Tomar foto al recoger</span></label>
+      <input type="file" id="tfi-${o.id}" accept="image/*" capture="environment" style="display:none" onchange="tPrevFoto('${o.id}',this,'reco')">
+      <img id="tfp-${o.id}" class="foto-preview" alt="">
+      <button class="btn btn-blue btn-xl" onclick="tConfReco('${o.id}')"><i class="fa fa-box-archive"></i> Confirmar recolección</button>`;}
+    else if(isEnt){accion=`${horarioTip(o.destino)}${notas}${prods}
+      <div style="background:var(--blue-bg);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--blue)"><i class="fa fa-circle-check"></i> Recogido el ${fmtDateStr(o.fechaEnvio)}</div>
+      <label class="foto-lbl" id="tfl2-${o.id}" for="tfi2-${o.id}"><i class="fa fa-camera" style="font-size:20px"></i><span id="tft2-${o.id}">Tomar foto al entregar</span></label>
+      <input type="file" id="tfi2-${o.id}" accept="image/*" capture="environment" style="display:none" onchange="tPrevFoto('${o.id}',this,'entrega')">
+      <img id="tfp2-${o.id}" class="foto-preview" alt="">
+      <button class="btn btn-green btn-xl" onclick="tConfEntrega('${o.id}')"><i class="fa fa-circle-check"></i> Confirmar entrega en ${o.destino}</button>`;}
+    return`<div class="chofer-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div class="ch-folio">${o.id}</div>
+        <span class="badge ${isPend?'badge-pendiente':'badge-enviado'}">${isPend?'Por recoger':'En tránsito'}</span>
+      </div>${ruta}${accion}</div>`;
+  }).join('');
 }
 
 function tPrevFoto(id,inp,tipo){
@@ -1549,13 +1289,11 @@ function tCargarCatalogo(input){
       const nuevos=data.filter(r=>r[cP]&&String(r[cP]).trim()).map(r=>({cod:String(r[cC]||'').trim(),nom:String(r[cP]).trim().toUpperCase(),marca:String(r[cM]||'GENÉRICO').trim().toUpperCase()}));
       if(!nuevos.length){showToast('No se encontraron productos');return;}
       TCATALOGO.length=0;nuevos.forEach(p=>TCATALOGO.push(p));
-      // Guardar en localStorage para persistir entre sesiones
-      try{localStorage.setItem('lz_catalogo',JSON.stringify(TCATALOGO));}catch(e){}
       document.getElementById('tXlsxLabel').classList.add('ok');
       document.getElementById('tXlsxTxt').textContent=input.files[0].name+' · '+nuevos.length+' productos';
       const st=document.getElementById('tCatStatus');
-      st.style.display='block';st.style.background='var(--green-bg)';st.style.color='var(--green)';st.textContent='✓ Catálogo guardado con '+nuevos.length+' productos — no necesitas cargarlo de nuevo';
-      tRenderCatPreview();showToast('Catálogo guardado: '+nuevos.length+' productos ✓');
+      st.style.display='block';st.style.background='var(--green-bg)';st.style.color='var(--green)';st.textContent='✓ Catálogo actualizado con '+nuevos.length+' productos';
+      tRenderCatPreview();showToast('Catálogo actualizado: '+nuevos.length+' productos ✓');
     }catch(err){showToast('Error al leer archivo: '+err.message);}
   };reader.readAsArrayBuffer(input.files[0]);
 }
@@ -1571,46 +1309,7 @@ function tRenderCatPreview(){
 // ═══════════════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════════════
-async function loadTareas(){
-  try{
-    const d=await Promise.race([
-      tJsonp(T_SCRIPT+'?action=getTareas'),
-      new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),8000))
-    ]);
-    if(d&&d.ok&&Array.isArray(d.tareas)&&d.tareas.length>0){
-      tasks=d.tareas.map(t=>({
-        ...t,
-        id:t.id,
-        requirePhoto:t.requirePhoto==='true',
-        hasPhoto:t.hasPhoto==='true'
-      }));
-      nextTaskId=tasks.length+1;
-      renderTareas();
-    }
-  }catch(e){console.log('Tareas offline');}
-}
-
 renderTareas();
-
-// Restaurar rol guardado
-(function(){
-  const lastRole=localStorage.getItem('lz_last_role')||'admin';
-  const saved=localStorage.getItem('lz_role_'+lastRole);
-  if(saved==='ok'){
-    document.getElementById('pinScreen').style.display='none';
-    const sel=document.getElementById('globalRole');
-    if(sel)sel.value=lastRole;
-    applyRole(lastRole);
-  } else {
-    document.getElementById('pinRoleSel').value=lastRole;
-  }
-})();
-
-// Cargar datos desde Sheets con delay para asegurar que tJsonp está listo
-setTimeout(async function(){
-  await loadCatalogo();
-  await loadTareas();
-}, 800);
 </script>
 </body>
 </html>
