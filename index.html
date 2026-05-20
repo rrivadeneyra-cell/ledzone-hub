@@ -1457,9 +1457,9 @@ function tRenderChoferR(){
       ${horario}
       ${nota}
       <div class="prod-chips">${prods}</div>
-      <label class="chofer-foto-btn" id="${fotoLblId}" for="${fotoId}">
-        <i class="fa fa-camera" style="font-size:22px"></i>
-        <span id="${fotoTxtId}">Tomar foto</span>
+      <label class="chofer-foto-btn" id="${fotoLblId}" for="${fotoId}" style="border-color:var(--red);background:var(--red-bg);color:var(--red)">
+        <i class="fa fa-camera" style="font-size:24px"></i>
+        <span id="${fotoTxtId}">📷 Foto obligatoria — toca para tomar</span>
       </label>
       <input type="file" id="${fotoId}" accept="image/*" capture="environment" style="display:none" onchange="tPrevFoto('${o.id}',this,'${fotoTipo}')">
       <img id="${fotoPreId}" class="foto-preview" alt="" style="margin:0 12px 10px;width:calc(100% - 24px);border-radius:var(--radius-sm);display:none">
@@ -1510,14 +1510,25 @@ function tPrevFoto(id,inp,tipo){
 }
 async function tConfReco(id){
   const o=tOrdenes.find(x=>x.id===id);if(!o)return;
-  if(!o.foto){showToast('Toma la foto al recoger primero');return;}
+  if(!o.foto){
+    showToast('📷 Debes tomar la foto antes de confirmar');
+    // Highlight foto button
+    const lbl=document.getElementById('tfl-'+id);
+    if(lbl){lbl.style.border='2px solid var(--red)';lbl.style.background='var(--red-bg)';}
+    return;
+  }
   o.estado='Enviado';o.fechaEnvio=nowTs();tSaveOrdenes();
   try{const data=encodeURIComponent(JSON.stringify({...o,foto:'',fotoEntrega:''}));await tJsonp(T_SCRIPT+'?action=updateOrden&data='+data);}catch(e){}
   showToast(id+' recolectado ✓');tRenderChofer();
 }
 async function tConfEntrega(id){
   const o=tOrdenes.find(x=>x.id===id);if(!o)return;
-  if(!o.fotoEntrega){showToast('Toma la foto al entregar primero');return;}
+  if(!o.fotoEntrega){
+    showToast('📷 Debes tomar la foto antes de confirmar la entrega');
+    const lbl=document.getElementById('tfl2-'+id);
+    if(lbl){lbl.style.border='2px solid var(--red)';lbl.style.background='var(--red-bg)';}
+    return;
+  }
   o.estado='Recibido';o.fechaEntrega=nowTs();tSaveOrdenes();
   try{const data=encodeURIComponent(JSON.stringify({...o,foto:'',fotoEntrega:''}));await tJsonp(T_SCRIPT+'?action=updateOrden&data='+data);}catch(e){}
   showToast(id+' entregado ✓');tRenderChofer();
