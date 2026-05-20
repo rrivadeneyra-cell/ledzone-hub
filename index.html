@@ -1454,6 +1454,9 @@ function tRenderChoferR(){
         <i class="fa ${isPend?'fa-store':'fa-location-dot'}"></i>
         <span>${suc}</span>
       </div>
+      ${isPend?`<div style="display:flex;align-items:center;gap:8px;padding:6px 14px 10px;font-size:13px;color:var(--text2)">
+        <i class="fa fa-arrow-right"></i> Llevar a: <strong style="color:var(--green)">${o.destino}</strong>
+      </div>`:''}
       ${horario}
       ${nota}
       <div class="prod-chips">${prods}</div>
