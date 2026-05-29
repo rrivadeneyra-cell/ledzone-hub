@@ -572,9 +572,25 @@ function showToast(m){
   setTimeout(()=>t.classList.remove('show'),2800);
 }
 function fmtDateStr(d){
-  if(!d)return'—';
+  if(!d||d==='null'||d==='undefined')return'—';
   if(d.includes('/'))return d;
-  return d.replace(/(\d{4})-(\d{2})-(\d{2})/,'$3/$2/$1');
+  // Handle ISO date only (2026-05-19)
+  if(/^\d{4}-\d{2}-\d{2}$/.test(d)){
+    return d.replace(/(\d{4})-(\d{2})-(\d{2})/,'$3/$2/$1');
+  }
+  // Handle any other format (GMT strings, JS Date strings, etc.)
+  try{
+    const dt=new Date(d);
+    if(!isNaN(dt)){
+      const day=String(dt.getDate()).padStart(2,'0');
+      const mon=String(dt.getMonth()+1).padStart(2,'0');
+      const yr=dt.getFullYear();
+      const hr=String(dt.getHours()).padStart(2,'0');
+      const mi=String(dt.getMinutes()).padStart(2,'0');
+      return day+'/'+mon+'/'+yr+' '+hr+':'+mi;
+    }
+  }catch(e){}
+  return d;
 }
 function nowTs(){
   const d=new Date();
@@ -1193,6 +1209,22 @@ function tGetSolicitante(){
   const v=document.getElementById("globalRole")?.value||"admin";
   return v==="cesar"?"César T.":v==="chofer"?"Luis P.":"Rodrigo R.";
 }
+async function tPostFoto(ordenId, tipo, base64){
+  try{
+    const formData = new FormData();
+    formData.append('action', 'subirFoto');
+    formData.append('ordenId', ordenId);
+    formData.append('tipo', tipo);
+    formData.append('foto', base64);
+    const resp = await fetch(T_SCRIPT, {method:'POST', body: formData});
+    const data = await resp.json();
+    return data;
+  }catch(e){
+    console.log('Error subiendo foto:', e);
+    return {ok: false, error: e.message};
+  }
+}
+
 function tJsonp(url){
   return new Promise((resolve,reject)=>{
     const cb='t_cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
@@ -1515,12 +1547,18 @@ async function tConfReco(id){
   const o=tOrdenes.find(x=>x.id===id);if(!o)return;
   if(!o.foto){
     showToast('📷 Debes tomar la foto antes de confirmar');
-    // Highlight foto button
     const lbl=document.getElementById('tfl-'+id);
     if(lbl){lbl.style.border='2px solid var(--red)';lbl.style.background='var(--red-bg)';}
     return;
   }
   o.estado='Enviado';o.fechaEnvio=nowTs();tSaveOrdenes();
+  showToast('Subiendo foto y confirmando…');
+  // Subir foto a Drive
+  try{
+    const res=await tPostFoto(id,'reco',o.foto);
+    if(res&&res.ok&&res.link) o.fotoLink=res.link;
+  }catch(e){console.log('Foto no subida a Drive:',e);}
+  // Actualizar orden en Sheet
   try{const data=encodeURIComponent(JSON.stringify({...o,foto:'',fotoEntrega:''}));await tJsonp(T_SCRIPT+'?action=updateOrden&data='+data);}catch(e){}
   showToast(id+' recolectado ✓');tRenderChofer();
 }
@@ -1533,6 +1571,13 @@ async function tConfEntrega(id){
     return;
   }
   o.estado='Recibido';o.fechaEntrega=nowTs();tSaveOrdenes();
+  showToast('Subiendo foto y confirmando…');
+  // Subir foto a Drive
+  try{
+    const res=await tPostFoto(id,'entrega',o.fotoEntrega);
+    if(res&&res.ok&&res.link) o.fotoEntregaLink=res.link;
+  }catch(e){console.log('Foto no subida a Drive:',e);}
+  // Actualizar orden en Sheet
   try{const data=encodeURIComponent(JSON.stringify({...o,foto:'',fotoEntrega:''}));await tJsonp(T_SCRIPT+'?action=updateOrden&data='+data);}catch(e){}
   showToast(id+' entregado ✓');tRenderChofer();
 }
