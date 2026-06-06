@@ -20,8 +20,6 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;font-size:15px;color:var(--text);background:var(--bg);min-height:100vh}
-
-/* ── LAYOUT ── */
 .hub{display:flex;min-height:100vh}
 .sidebar{width:var(--sidebar);background:#1a1a1a;display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .25s}
 .sidebar-logo{padding:18px 16px 14px;border-bottom:1px solid #2a2a2a}
@@ -39,18 +37,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;fo
 .role-av{width:32px;height:32px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;flex-shrink:0}
 .role-info .rname{font-size:12px;color:#ccc}
 .role-info .rrole{font-size:10px;color:#555}
-.role-sel-wrap{margin-left:auto}
-.role-sel-wrap select{background:none;border:none;color:#555;font-size:11px;cursor:pointer;padding:2px}
-
 .main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
 .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50}
 .topbar-title{font-size:17px;font-weight:600;flex:1}
 .page-content{padding:20px 24px;flex:1}
-
-/* ── MODULE PANELS ── */
 .module{display:none}.module.active{display:block}
-
-/* ── CARDS & SHARED ── */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
 .card+.card{margin-top:10px}
 .stats-row{display:flex;gap:10px;margin-bottom:20px}
@@ -80,8 +71,6 @@ textarea{resize:vertical;min-height:60px}
 .filters select{width:auto;flex:1;min-width:140px}
 .toast-hub{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:11px 22px;border-radius:24px;font-size:14px;font-weight:500;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
 .toast-hub.show{opacity:1}
-
-/* ── TAREAS MODULE ── */
 .task-list{display:flex;flex-direction:column;gap:8px}
 .task-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;cursor:pointer;transition:border-color .15s}
 .task-card:hover{border-color:#aaa}
@@ -96,8 +85,6 @@ textarea{resize:vertical;min-height:60px}
 .meta-pill{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)}
 .photo-chip{margin-left:auto;font-size:10px;color:var(--text2);display:flex;align-items:center;gap:3px}
 .photo-chip.has{color:var(--green)}
-
-/* Detail panel */
 .tasks-layout{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start}
 .detail-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:sticky;top:70px}
 .detail-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;opacity:.35;gap:8px}
@@ -117,8 +104,6 @@ textarea{resize:vertical;min-height:60px}
 .btn-complete{width:100%;padding:9px;background:var(--orange);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn-complete:hover{opacity:.9}
 .btn-complete.done{background:var(--green-bg);color:var(--green);cursor:default}
-
-/* Nueva tarea modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:200}
 .modal-overlay.open{display:flex}
 .modal-box{background:var(--surface);border-radius:12px;padding:20px;width:380px;max-height:90vh;overflow-y:auto}
@@ -138,8 +123,6 @@ textarea{resize:vertical;min-height:60px}
 .tasks-topbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
 .filter-chip{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);color:var(--text2);cursor:pointer;background:var(--surface)}
 .filter-chip.active{background:var(--orange);color:#fff;border-color:var(--orange)}
-
-/* ── CONSUMIBLES MODULE ── */
 .sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px}
 .mini-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
 .ult{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;margin-bottom:10px;font-size:12px}
@@ -156,8 +139,6 @@ textarea{resize:vertical;min-height:60px}
 .cons-view{display:none}.cons-view.active{display:block}
 .btn-card-cons{display:flex;align-items:center;gap:16px;width:100%;border:none;border-radius:16px;padding:20px;cursor:pointer;text-align:left;margin-bottom:14px;font-family:inherit;box-shadow:0 2px 10px rgba(0,0,0,.08)}
 .back-btn{background:none;border:none;color:#666;font-size:13px;cursor:pointer;padding:0;margin-bottom:16px;display:block}
-
-/* ── TRASPASOS MODULE (from original) ── */
 .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:18px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tab{padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;flex-shrink:0}
 .tab.active{color:var(--text);border-bottom-color:var(--text)}
@@ -182,7 +163,6 @@ textarea{resize:vertical;min-height:60px}
 .badge-pendiente{background:var(--warn-bg);color:var(--warn)}
 .badge-enviado{background:var(--blue-bg);color:var(--blue)}
 .badge-recibido{background:var(--green-bg);color:var(--green)}
-/* Producto search */
 .prod-row{background:var(--bg);border-radius:var(--radius-sm);padding:10px;margin-bottom:8px}
 .prod-inner{display:grid;grid-template-columns:1fr 72px 38px;gap:8px;align-items:center}
 .prod-wrap{position:relative}
@@ -199,7 +179,6 @@ textarea{resize:vertical;min-height:60px}
 .foto-lbl{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;border:2px dashed var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:14px;color:var(--text2);margin-bottom:10px;background:var(--surface)}
 .foto-lbl.ok{border-color:var(--green);color:var(--green);background:var(--green-bg)}
 .foto-preview{width:100%;max-height:200px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:10px;display:none}
-/* Chofer */
 .chofer-hdr{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:var(--radius);padding:18px;margin-bottom:16px;text-align:center;color:#fff}
 .chofer-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px}
 .ch-folio{font-family:monospace;font-size:20px;font-weight:700;margin-bottom:8px}
@@ -213,8 +192,6 @@ textarea{resize:vertical;min-height:60px}
 .ch-prod{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:14px}
 .ch-prod:last-child{border-bottom:none}
 .ch-prod-qty{font-size:16px;font-weight:700}
-
-/* ── VISTA CHOFER ── */
 .chofer-split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
 .chofer-col{display:flex;flex-direction:column;gap:12px}
 .chofer-col-title{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:var(--radius);font-size:15px;font-weight:700;margin-bottom:4px}
@@ -242,9 +219,12 @@ textarea{resize:vertical;min-height:60px}
 .chofer-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;background:var(--surface);border-radius:var(--radius);opacity:.5;gap:10px}
 .chofer-empty i{font-size:36px}
 .chofer-empty span{font-size:13px;font-weight:600}
+/* Otro direction input */
+.otro-dir{margin-top:6px;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.otro-dir input{border-color:var(--blue);font-size:13px}
+.otro-dir input:focus{border-color:var(--orange)}
 @media(max-width:768px){.chofer-split{grid-template-columns:1fr}}
-
-/* ── MOBILE ── */
 .hamburger{display:none;position:fixed;top:12px;left:12px;z-index:200;background:#1a1a1a;border:none;color:#fff;border-radius:8px;padding:8px 10px;font-size:16px;cursor:pointer}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
 @media(max-width:768px){
@@ -265,7 +245,6 @@ textarea{resize:vertical;min-height:60px}
 </head>
 <body>
 
-<!-- PIN SCREEN -->
 <div id="pinScreen" style="position:fixed;inset:0;background:#1a1a1a;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px">
   <div style="color:#E8651A;font-size:28px;font-weight:700;letter-spacing:-.5px">Led<span style="color:#fff">Zone</span></div>
   <div style="color:#888;font-size:12px;letter-spacing:1px;text-transform:uppercase">Hub Operativo</div>
@@ -295,7 +274,6 @@ textarea{resize:vertical;min-height:60px}
     <div class="brand">Led<span>Zone</span></div>
     <div class="brand-sub">Hub Operativo</div>
   </div>
-
   <div class="nav-section">Módulos</div>
   <button class="nav-item active" id="nav-tareas" onclick="switchModule('tareas')">
     <i class="fa fa-clipboard-list"></i> Tareas
@@ -307,7 +285,6 @@ textarea{resize:vertical;min-height:60px}
   <button class="nav-item" id="nav-traspasos" onclick="switchModule('traspasos')">
     <i class="fa fa-arrows-left-right"></i> Traspasos
   </button>
-
   <div class="nav-role">
     <div class="role-av" id="roleAv">RO</div>
     <div class="role-info">
@@ -332,9 +309,7 @@ textarea{resize:vertical;min-height:60px}
 
   <div class="page-content">
 
-    <!-- ══════════════════════════════════
-         MÓDULO: TAREAS
-    ══════════════════════════════════ -->
+    <!-- TAREAS -->
     <div class="module active" id="mod-tareas">
       <div class="stats-row" id="tareasStats"></div>
       <div class="tasks-topbar">
@@ -348,17 +323,12 @@ textarea{resize:vertical;min-height:60px}
       <div class="tasks-layout">
         <div class="task-list" id="taskList"></div>
         <div class="detail-panel" id="detailPanel">
-          <div class="detail-ph">
-            <i class="fa fa-hand-pointer"></i>
-            <span>Selecciona una tarea</span>
-          </div>
+          <div class="detail-ph"><i class="fa fa-hand-pointer"></i><span>Selecciona una tarea</span></div>
         </div>
       </div>
     </div>
 
-    <!-- ══════════════════════════════════
-         MÓDULO: CONSUMIBLES
-    ══════════════════════════════════ -->
+    <!-- CONSUMIBLES -->
     <div class="module" id="mod-consumibles">
       <div class="cons-view active" id="cv-inicio">
         <h2 style="font-size:20px;font-weight:700;margin-bottom:8px">Consumibles</h2>
@@ -374,7 +344,6 @@ textarea{resize:vertical;min-height:60px}
           <span style="margin-left:auto;opacity:.4;font-size:18px">›</span>
         </button>
       </div>
-
       <div class="cons-view" id="cv-tienda">
         <button class="back-btn" onclick="consGo('inicio')">← Inicio</button>
         <h3 style="font-size:18px;font-weight:700;margin-bottom:16px">Nueva solicitud</h3>
@@ -390,7 +359,6 @@ textarea{resize:vertical;min-height:60px}
         </div>
         <div id="histContainer"></div>
       </div>
-
       <div class="cons-view" id="cv-confirm">
         <div style="text-align:center;padding:40px 0">
           <div style="font-size:56px;margin-bottom:14px">✅</div>
@@ -401,7 +369,6 @@ textarea{resize:vertical;min-height:60px}
           <button class="btn" style="width:100%;justify-content:center;padding:12px;margin-top:8px" onclick="consGo('inicio')">Volver al inicio</button>
         </div>
       </div>
-
       <div class="cons-view" id="cv-almacen">
         <button class="back-btn" onclick="consGo('inicio')">← Inicio</button>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
@@ -415,20 +382,17 @@ textarea{resize:vertical;min-height:60px}
         <div class="filters">
           <select id="fSF" onchange="consRenderAlmacen()"><option value="Todas">Todas las sucursales</option></select>
           <select id="fEF" style="max-width:140px" onchange="consRenderAlmacen()">
-            <option value="Todos">Todos</option>
-            <option>Pendiente</option><option>Enviado</option><option>Cancelado</option>
+            <option value="Todos">Todos</option><option>Pendiente</option><option>Enviado</option><option>Cancelado</option>
           </select>
         </div>
         <div class="stats-row" id="consStats"></div>
         <div id="consCards"></div>
       </div>
-
       <div class="cons-view" id="cv-inventario">
         <button class="back-btn" onclick="consGo('almacen')">← Almacén</button>
         <h3 style="font-size:18px;font-weight:700;margin-bottom:14px">📦 Inventario actual</h3>
         <div id="invTable"></div>
       </div>
-
       <div class="cons-view" id="cv-entradas">
         <button class="back-btn" onclick="consGo('almacen')">← Almacén</button>
         <h3 style="font-size:18px;font-weight:700;margin-bottom:16px">+ Registrar entrada</h3>
@@ -442,11 +406,8 @@ textarea{resize:vertical;min-height:60px}
       </div>
     </div>
 
-    <!-- ══════════════════════════════════
-         MÓDULO: TRASPASOS
-    ══════════════════════════════════ -->
+    <!-- TRASPASOS -->
     <div class="module" id="mod-traspasos">
-
       <div class="tabs">
         <button class="tab active" id="tTabNueva" onclick="tSwitchTab('nueva',this)"><i class="fa fa-plus"></i> Nueva</button>
         <button class="tab" id="tTabHistorial" onclick="tSwitchTab('historial',this)"><i class="fa fa-list"></i> Historial</button>
@@ -456,8 +417,20 @@ textarea{resize:vertical;min-height:60px}
 
       <div id="tsec-nueva" class="section active">
         <div class="row2">
-          <div><label class="lbl">Origen</label><select id="tOrigen"><option value="">Seleccionar…</option></select></div>
-          <div><label class="lbl">Destino</label><select id="tDestino"><option value="">Seleccionar…</option></select></div>
+          <div>
+            <label class="lbl">Origen</label>
+            <select id="tOrigen" onchange="tOnSucChange('tOrigen','tOrigenDir')"><option value="">Seleccionar…</option></select>
+            <div id="tOrigenDir" class="otro-dir" style="display:none">
+              <input id="tOrigenDirTxt" placeholder="Dirección o indicación del lugar de recolección…">
+            </div>
+          </div>
+          <div>
+            <label class="lbl">Destino</label>
+            <select id="tDestino" onchange="tOnSucChange('tDestino','tDestinoDir')"><option value="">Seleccionar…</option></select>
+            <div id="tDestinoDir" class="otro-dir" style="display:none">
+              <input id="tDestinoDirTxt" placeholder="Dirección o indicación del lugar de entrega…">
+            </div>
+          </div>
         </div>
         <label class="lbl">Notas</label>
         <textarea id="tNotas" placeholder="Instrucciones especiales…"></textarea>
@@ -517,9 +490,9 @@ textarea{resize:vertical;min-height:60px}
       </div>
     </div>
 
-  </div><!-- /page-content -->
-</div><!-- /main -->
-</div><!-- /hub -->
+  </div>
+</div>
+</div>
 
 <!-- NUEVA TAREA MODAL -->
 <div class="modal-overlay" id="taskModal">
@@ -574,11 +547,9 @@ function showToast(m){
 function fmtDateStr(d){
   if(!d||d==='null'||d==='undefined')return'—';
   if(d.includes('/'))return d;
-  // Handle ISO date only (2026-05-19)
   if(/^\d{4}-\d{2}-\d{2}$/.test(d)){
     return d.replace(/(\d{4})-(\d{2})-(\d{2})/,'$3/$2/$1');
   }
-  // Handle any other format (GMT strings, JS Date strings, etc.)
   try{
     const dt=new Date(d);
     if(!isNaN(dt)){
@@ -629,7 +600,6 @@ function closeSidebar(){
   document.getElementById('sidebarOverlay').classList.remove('open');
 }
 
-// Role switcher (shared)
 const PINS={admin:'369',cesar:'5678',chofer:'9012'};
 
 function checkPin(){
@@ -637,59 +607,44 @@ function checkPin(){
   const pin=document.getElementById('pinInput').value;
   const remember=document.getElementById('pinRemember').checked;
   const errEl=document.getElementById('pinError');
-  if(pin!==PINS[v]){
-    errEl.style.display='block';
-    document.getElementById('pinInput').value='';
-    return;
-  }
+  if(pin!==PINS[v]){errEl.style.display='block';document.getElementById('pinInput').value='';return;}
   errEl.style.display='none';
-  if(remember) localStorage.setItem('lz_role_'+v,'ok');
+  if(remember)localStorage.setItem('lz_role_'+v,'ok');
   localStorage.setItem('lz_last_role',v);
   document.getElementById('pinScreen').style.display='none';
   applyRole(v);
-  // Sync globalRole selector
-  const sel=document.getElementById('globalRole');
-  if(sel)sel.value=v;
+  const sel=document.getElementById('globalRole');if(sel)sel.value=v;
 }
 
 function onRoleChange(v){
-  // Cambio de rol desde el selector — mostrar pantalla PIN
   document.getElementById('pinScreen').style.display='flex';
   document.getElementById('pinRoleSel').value=v;
   document.getElementById('pinInput').value='';
   document.getElementById('pinError').style.display='none';
-  // Si ya tiene PIN guardado, entrar directo
   const saved=localStorage.getItem('lz_role_'+v);
   if(saved==='ok'){
     document.getElementById('pinScreen').style.display='none';
     localStorage.setItem('lz_last_role',v);
     applyRole(v);
-    const sel=document.getElementById('globalRole');
-    if(sel)sel.value=v;
+    const sel=document.getElementById('globalRole');if(sel)sel.value=v;
   }
 }
 
 function applyRole(v){
   currentRole=v;
-  const sel=document.getElementById('globalRole');
-  if(sel)sel.value=v;
+  const sel=document.getElementById('globalRole');if(sel)sel.value=v;
   const names={admin:'Rodrigo',cesar:'César',sucursal:'Encargado',chofer:'Luis P.'};
   const roles={admin:'Administrador',cesar:'Supervisor',sucursal:'Sucursal',chofer:'Operador'};
   const avs={admin:'RO',cesar:'CT',sucursal:'EC',chofer:'LP'};
   document.getElementById('roleName').textContent=names[v]||v;
   document.getElementById('roleLabel').textContent=roles[v]||'';
   document.getElementById('roleAv').textContent=avs[v]||'??';
-
   const isChofer=v==='chofer';
   const navTareas=document.getElementById('nav-tareas');
   const navCons=document.getElementById('nav-consumibles');
-
   if(isChofer){
-    // Chofer: solo ve Traspasos (Mi ruta)
-    navTareas.style.display='none';
-    navCons.style.display='none';
+    navTareas.style.display='none';navCons.style.display='none';
     switchModule('traspasos');
-    // Activar tab Mi ruta directamente
     setTimeout(()=>{
       document.querySelectorAll('#mod-traspasos .tab').forEach(b=>b.classList.remove('active'));
       document.querySelectorAll('#mod-traspasos .section').forEach(s=>s.classList.remove('active'));
@@ -697,33 +652,19 @@ function applyRole(v){
       const secChofer=document.getElementById('tsec-chofer');
       if(tabChofer){tabChofer.style.display='';tabChofer.classList.add('active');}
       if(secChofer){secChofer.classList.add('active');}
-      // Ocultar otras tabs
-      ['tTabNueva','tTabHistorial','tTabCatalogo'].forEach(id=>{
-        const t=document.getElementById(id);if(t)t.style.display='none';
-      });
+      ['tTabNueva','tTabHistorial','tTabCatalogo'].forEach(id=>{const t=document.getElementById(id);if(t)t.style.display='none';});
       tRenderChofer();
     },150);
-  } else {
-    // Admin/César/Encargado: ven todo
-    navTareas.style.display='';
-    navCons.style.display='';
-    // Restaurar tabs de traspasos
-    ['tTabNueva','tTabHistorial','tTabCatalogo'].forEach(id=>{
-      const t=document.getElementById(id);if(t)t.style.display='';
-    });
-    const tabChofer=document.getElementById('tTabChofer');
-    if(tabChofer)tabChofer.style.display='none';
-    // Si estábamos en traspasos en vista chofer, volver a Nueva
+  }else{
+    navTareas.style.display='';navCons.style.display='';
+    ['tTabNueva','tTabHistorial','tTabCatalogo'].forEach(id=>{const t=document.getElementById(id);if(t)t.style.display='';});
+    const tabChofer=document.getElementById('tTabChofer');if(tabChofer)tabChofer.style.display='none';
     if(currentModule==='traspasos'){
       document.querySelectorAll('#mod-traspasos .tab').forEach(b=>b.classList.remove('active'));
       document.querySelectorAll('#mod-traspasos .section').forEach(s=>s.classList.remove('active'));
-      const tabNueva=document.getElementById('tTabNueva');
-      const secNueva=document.getElementById('tsec-nueva');
-      if(tabNueva)tabNueva.classList.add('active');
-      if(secNueva)secNueva.classList.add('active');
-    } else {
-      switchModule('tareas');
-    }
+      const tabNueva=document.getElementById('tTabNueva');const secNueva=document.getElementById('tsec-nueva');
+      if(tabNueva)tabNueva.classList.add('active');if(secNueva)secNueva.classList.add('active');
+    }else{switchModule('tareas');}
   }
 }
 
@@ -741,12 +682,7 @@ const TYPE_CFG={
 const BRANCH_LABEL={centro:'Centro',cumbres:'Cumbres',apodaca:'Apodaca',all:'Todas'};
 const BRANCH_CLS={centro:'bc',cumbres:'bcu',apodaca:'bap',all:'ball'};
 
-let tasks=[];
-let nextTaskId=8;
-let selectedTaskId=null;
-let taskFilter='all';
-let selectedTaskType='Exhibición';
-let requirePhoto=false;
+let tasks=[];let nextTaskId=8;let selectedTaskId=null;let taskFilter='all';let selectedTaskType='Exhibición';let requirePhoto=false;
 
 function statusInfo(s){
   if(s==='pending')return['Pendiente','b-pending'];
@@ -760,8 +696,6 @@ function renderTareas(){
   const filtered=taskFilter==='all'?tasks:taskFilter==='pending'
     ?tasks.filter(t=>t.status==='pending'||t.status==='inprogress'||t.status==='overdue')
     :tasks.filter(t=>t.status==='done');
-
-  // Stats
   const pending=tasks.filter(t=>t.status==='pending'||t.status==='inprogress').length;
   const overdue=tasks.filter(t=>t.status==='overdue').length;
   const done=tasks.filter(t=>t.status==='done').length;
@@ -770,24 +704,15 @@ function renderTareas(){
     <div class="stat-box"><div class="stat-num" style="color:#B84A0C">${pending}</div><div class="stat-lbl">Pendientes</div></div>
     <div class="stat-box"><div class="stat-num" style="color:#c0392b">${overdue}</div><div class="stat-lbl">Vencidas</div></div>
     <div class="stat-box"><div class="stat-num" style="color:#3B6D11">${done}</div><div class="stat-lbl">Completadas</div></div>`;
-
-  // Badge
   document.getElementById('badge-tareas').textContent=pending+overdue;
-
-  // List
   const list=document.getElementById('taskList');
   list.innerHTML=filtered.map(t=>{
     const cfg=TYPE_CFG[t.type]||TYPE_CFG['Otro'];
     const[sl,sc]=statusInfo(t.status);
-    const bc=BRANCH_CLS[t.branch]||'ball';
-    const bl=BRANCH_LABEL[t.branch]||t.branch;
+    const bc=BRANCH_CLS[t.branch]||'ball';const bl=BRANCH_LABEL[t.branch]||t.branch;
     const sel=t.id===selectedTaskId;
-    const photoHtml=t.requirePhoto
-      ?t.hasPhoto
-        ?'<span class="photo-chip has"><i class="fa fa-camera"></i> Foto</span>'
-        :'<span class="photo-chip"><i class="fa fa-camera"></i> Requerida</span>'
-      :'';
-    return`<div class="task-card${sel?' selected':''}" onclick="selectTask(${t.id})">
+    const photoHtml=t.requirePhoto?t.hasPhoto?'<span class="photo-chip has"><i class="fa fa-camera"></i> Foto</span>':'<span class="photo-chip"><i class="fa fa-camera"></i> Requerida</span>':'';
+    return`<div class="task-card${sel?' selected':''}" onclick="selectTask('${t.id}')">
       <div class="task-hdr">
         <div class="task-icon" style="background:${cfg.bg}"><i class="fa ${cfg.icon}" style="color:${cfg.color}"></i></div>
         <div class="task-title">${t.type}<div class="task-desc-short">${t.desc.length>65?t.desc.slice(0,65)+'…':t.desc}</div></div>
@@ -803,35 +728,21 @@ function renderTareas(){
 }
 
 function selectTask(id){
-  selectedTaskId=id;
-  renderTareas();
-  const t=tasks.find(x=>x.id===id);
-  if(!t)return;
+  selectedTaskId=id;renderTareas();
+  const t=tasks.find(x=>x.id===id);if(!t)return;
   const cfg=TYPE_CFG[t.type]||TYPE_CFG['Otro'];
   const[sl,sc]=statusInfo(t.status);
-  const bc=BRANCH_CLS[t.branch]||'ball';
-  const bl=BRANCH_LABEL[t.branch]||t.branch;
+  const bc=BRANCH_CLS[t.branch]||'ball';const bl=BRANCH_LABEL[t.branch]||t.branch;
   const isDone=t.status==='done';
-  const photoBlock=t.requirePhoto?`
-    <div>
-      <div class="dp-label">Evidencia fotográfica</div>
-      ${t.hasPhoto
-        ?'<div class="photo-done"><i class="fa fa-camera"></i><span class="pl">Foto recibida</span></div>'
-        :'<div class="photo-placeholder"><i class="fa fa-camera"></i><span>Sin foto aún</span></div>'}
-    </div>`:'';
+  const photoBlock=t.requirePhoto?`<div><div class="dp-label">Evidencia fotográfica</div>${t.hasPhoto?'<div class="photo-done"><i class="fa fa-camera"></i><span class="pl">Foto recibida</span></div>':'<div class="photo-placeholder"><i class="fa fa-camera"></i><span>Sin foto aún</span></div>'}</div>`:'';
   document.getElementById('detailPanel').innerHTML=`
-    <div class="dp-header">
-      <div class="dp-title">${t.type}: ${t.desc.length>80?t.desc.slice(0,80)+'…':t.desc}</div>
-      <span class="badge ${sc}">${sl}</span>
-    </div>
+    <div class="dp-header"><div class="dp-title">${t.type}: ${t.desc.length>80?t.desc.slice(0,80)+'…':t.desc}</div><span class="badge ${sc}">${sl}</span></div>
     <div class="dp-body">
       <div><div class="dp-label">Sucursal</div><span class="branch-tag ${bc}">${bl}</span></div>
       <div><div class="dp-label">Fecha límite</div><div class="dp-val">${t.date}</div></div>
       ${photoBlock}
       ${t.comment?`<div><div class="dp-label">Nota</div><div class="dp-val" style="font-size:12px;color:var(--text2)">${t.comment}</div></div>`:''}
-      ${!isDone
-        ?`<button class="btn-complete" onclick="markTaskDone(${t.id})"><i class="fa fa-check"></i> Marcar completada</button>`
-        :`<button class="btn-complete done" disabled><i class="fa fa-circle-check"></i> Completada</button>`}
+      ${!isDone?`<button class="btn-complete" onclick="markTaskDone('${t.id}')"><i class="fa fa-check"></i> Marcar completada</button>`:`<button class="btn-complete done" disabled><i class="fa fa-circle-check"></i> Completada</button>`}
     </div>`;
 }
 
@@ -839,20 +750,13 @@ async function markTaskDone(id){
   const t=tasks.find(x=>x.id===id);
   if(t){t.status='done';if(t.requirePhoto)t.hasPhoto=true;}
   renderTareas();selectTask(id);
-  if(t){
-    try{
-      const data=encodeURIComponent(JSON.stringify({...t,requirePhoto:String(t.requirePhoto),hasPhoto:String(t.hasPhoto)}));
-      await tJsonp(T_SCRIPT+'?action=updateTarea&data='+data);
-    }catch(e){console.log('Error actualizando tarea:',e);}
-  }
+  if(t){try{const data=encodeURIComponent(JSON.stringify({...t,requirePhoto:String(t.requirePhoto),hasPhoto:String(t.hasPhoto)}));await tJsonp(T_SCRIPT+'?action=updateTarea&data='+data);}catch(e){}}
 }
 
 function filterTareas(f,el){
   taskFilter=f;
   document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  selectedTaskId=null;
-  renderTareas();
+  el.classList.add('active');selectedTaskId=null;renderTareas();
   document.getElementById('detailPanel').innerHTML='<div class="detail-ph"><i class="fa fa-hand-pointer"></i><span>Selecciona una tarea</span></div>';
 }
 
@@ -860,14 +764,12 @@ function openTaskModal(){
   document.getElementById('newDate').value=today();
   document.getElementById('newDesc').value='';
   document.getElementById('newBranch').value='all';
-  requirePhoto=false;
-  document.getElementById('photoToggle').className='toggle-box';
+  requirePhoto=false;document.getElementById('photoToggle').className='toggle-box';
   document.querySelectorAll('.type-opt').forEach((o,i)=>{o.classList.toggle('sel',i===0);});
   selectedTaskType='Exhibición';
   document.getElementById('taskModal').classList.add('open');
 }
 function closeTaskModal(){document.getElementById('taskModal').classList.remove('open');}
-
 function selectTaskType(el,type){
   selectedTaskType=type;
   document.querySelectorAll('.type-opt').forEach(o=>o.classList.remove('sel'));
@@ -884,43 +786,20 @@ async function saveTask(){
   const date=document.getElementById('newDate').value;
   const role=document.getElementById('globalRole')?.value||'admin';
   const createdBy=role==='cesar'?'César':role==='chofer'?'Luis P.':'Rodrigo';
-  const tarea={
-    id:'T-'+Date.now().toString(36).toUpperCase(),
-    type:selectedTaskType,
-    desc,branch,date,
-    requirePhoto:requirePhoto?'true':'false',
-    status:'pending',
-    hasPhoto:'false',
-    comment:'',
-    createdBy
-  };
+  const tarea={id:'T-'+Date.now().toString(36).toUpperCase(),type:selectedTaskType,desc,branch,date,requirePhoto:requirePhoto?'true':'false',status:'pending',hasPhoto:'false',comment:'',createdBy};
   tasks.unshift({...tarea,requirePhoto:requirePhoto,hasPhoto:false});
-  closeTaskModal();
-  renderTareas();
-  showToast('Tarea creada ✓');
-  try{
-    const data=encodeURIComponent(JSON.stringify(tarea));
-    await tJsonp(T_SCRIPT+'?action=saveTarea&data='+data);
-  }catch(e){console.log('Error guardando tarea:',e);}
+  closeTaskModal();renderTareas();showToast('Tarea creada ✓');
+  try{const data=encodeURIComponent(JSON.stringify(tarea));await tJsonp(T_SCRIPT+'?action=saveTarea&data='+data);}catch(e){}
 }
 
 // ═══════════════════════════════════════════════════════
 //  MÓDULO: CONSUMIBLES
-//  Adaptado de google.script.run → fetch JSONP
 // ═══════════════════════════════════════════════════════
 const CONS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbwh50rsEPSE5BGYOw4x_MSqTJQQMat5iuoALfoQKMochLpsN59Pe4rBCA4HNP2tFApk/exec';
-
 const SUCS=["Americas","Chapultepec","Colon","Eloy","Ezequiel","Huinala","Mexico","Raul S","Santiago","Silla","Tauro","YGriega","Pablo Livas","Almacen"];
 const CONS_LIST=["Limpiador líquido","Jabón para manos","Papel higiénico","Bolsa camiseta","Bolsa rollo","Bolsa billetes","Emplaye chico","Trapo","Feria","Rollo para impresora de tickets","Rollo para terminal bancaria"];
-const DESCUENTOS={"Limpiador líquido":1,"Jabón para manos":1,"Papel higiénico":2,"Bolsa camiseta":1,"Bolsa rollo":1,"Bolsa billetes":1,"Emplaye chico":1,"Trapo":1,"Rollo para impresora de tickets":2,"Rollo para terminal bancaria":3};
 
-let consSolicitudes=[];
-let consInv=[];
-let consView='inicio';
-let consForm={suc:'',cons:'',notas:''};
-let consLastSol=null;
-let consFSuc='Todas',consFEst='Todos';
-let consInited=false;
+let consSolicitudes=[];let consInv=[];let consView='inicio';let consForm={suc:'',cons:'',notas:''};let consLastSol=null;let consInited=false;
 
 function consJsonp(url){
   return new Promise((resolve,reject)=>{
@@ -936,98 +815,62 @@ function consJsonp(url){
 }
 
 async function consCargar(){
-  try{
-    const d=await consJsonp(CONS_SCRIPT_URL+'?action=getSolicitudes');
-    if(d&&d.length!==undefined)consSolicitudes=d;
-  }catch(e){console.log('Consumibles offline — usando datos locales');}
-  try{
-    const d=await consJsonp(CONS_SCRIPT_URL+'?action=getInventario');
-    if(d&&d.length!==undefined)consInv=d;
-  }catch(e){}
+  try{const d=await consJsonp(CONS_SCRIPT_URL+'?action=getSolicitudes');if(d&&d.length!==undefined)consSolicitudes=d;}catch(e){}
+  try{const d=await consJsonp(CONS_SCRIPT_URL+'?action=getInventario');if(d&&d.length!==undefined)consInv=d;}catch(e){}
   consRenderCurrent();
 }
 
 function consInit(){
   if(!consInited){
-    // Populate selects
-    const fS=document.getElementById('fS');
-    const fSF=document.getElementById('fSF');
-    const eC=document.getElementById('eCons');
-    SUCS.forEach(s=>{
-      [fS,fSF].forEach(el=>{const o=document.createElement('option');o.value=s;o.textContent=s;el.appendChild(o);});
-    });
-    CONS_LIST.forEach(c=>{
-      [document.getElementById('fC'),eC].forEach(el=>{const o=document.createElement('option');o.value=c;o.textContent=c;el.appendChild(o);});
-    });
-    consInited=true;
-    consCargar();
+    const fS=document.getElementById('fS');const fSF=document.getElementById('fSF');const eC=document.getElementById('eCons');
+    SUCS.forEach(s=>{[fS,fSF].forEach(el=>{const o=document.createElement('option');o.value=s;o.textContent=s;el.appendChild(o);});});
+    CONS_LIST.forEach(c=>{[document.getElementById('fC'),eC].forEach(el=>{const o=document.createElement('option');o.value=c;o.textContent=c;el.appendChild(o);});});
+    consInited=true;consCargar();
   }
 }
 
 function consGo(v){
-  if(v==='almacen'){
-    const pin=prompt('🔒 Ingresa el PIN de almacén:');
-    if(pin!=='2468'){alert('PIN incorrecto.');return;}
-  }
-  consView=v;
-  if(v==='tienda')consForm={suc:'',cons:'',notas:''};
-  consRenderCurrent();
+  if(v==='almacen'){const pin=prompt('🔒 Ingresa el PIN de almacén:');if(pin!=='2468'){alert('PIN incorrecto.');return;}}
+  consView=v;if(v==='tienda')consForm={suc:'',cons:'',notas:''};consRenderCurrent();
 }
 
 function consRenderCurrent(){
   document.querySelectorAll('.cons-view').forEach(el=>el.classList.remove('active'));
   const map={inicio:'cv-inicio',tienda:'cv-tienda',confirm:'cv-confirm',almacen:'cv-almacen',inventario:'cv-inventario',entradas:'cv-entradas'};
-  const target=map[consView]||'cv-inicio';
-  const el=document.getElementById(target);
-  if(el)el.classList.add('active');
+  const el=document.getElementById(map[consView]||'cv-inicio');if(el)el.classList.add('active');
   if(consView==='tienda')consUpdateTienda();
   if(consView==='almacen')consRenderAlmacen();
   if(consView==='inventario')consRenderInventario();
 }
 
-function consBdg(e){
-  const c=e==='Pendiente'?'pe':e==='Enviado'?'en':'ca';
-  return`<span class="cons-badge ${c}"><span class="dot"></span>${e}</span>`;
-}
+function consBdg(e){const c=e==='Pendiente'?'pe':e==='Enviado'?'en':'ca';return`<span class="cons-badge ${c}"><span class="dot"></span>${e}</span>`;}
 function consFmt(iso){if(!iso)return'';const d=new Date(iso);return d.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
 
 function consUpdateTienda(){
-  const suc=document.getElementById('fS')?.value||'';
-  const cons=document.getElementById('fC')?.value||'';
+  const suc=document.getElementById('fS')?.value||'';const cons=document.getElementById('fC')?.value||'';
   consForm.suc=suc;consForm.cons=cons;
   const blk=suc&&cons?consSolicitudes.find(s=>s.sucursal===suc&&s.consumible===cons&&s.estatus==='Pendiente'):null;
-  const can=!!(suc&&cons&&!blk);
   const arEl=document.getElementById('arAlert');
-  if(arEl){
-    if(blk){arEl.style.display='flex';arEl.className='alert-r';arEl.innerHTML=`<span style="font-size:18px">🚫</span><div><div style="font-weight:700;font-size:13px;color:#842029">Solicitud bloqueada</div><div style="font-size:12px;color:#842029;margin-top:2px">Ya hay una pendiente de <strong>${cons}</strong> desde el ${consFmt(blk.fechaSolicitud)}.</div></div>`;}
-    else{arEl.style.display='none';}
-  }
-  const btn=document.getElementById('bEnv');
-  if(btn){btn.disabled=!can;btn.textContent=blk?'🚫 Solicitud bloqueada':'Enviar solicitud';}
+  if(arEl){if(blk){arEl.style.display='flex';arEl.className='alert-r';arEl.innerHTML=`<span style="font-size:18px">🚫</span><div><div style="font-weight:700;font-size:13px;color:#842029">Solicitud bloqueada</div><div style="font-size:12px;color:#842029;margin-top:2px">Ya hay una pendiente de <strong>${cons}</strong> desde el ${consFmt(blk.fechaSolicitud)}.</div></div>`;}else{arEl.style.display='none';}}
+  const btn=document.getElementById('bEnv');if(btn){btn.disabled=!(suc&&cons&&!blk);btn.textContent=blk?'🚫 Solicitud bloqueada':'Enviar solicitud';}
   const fN=document.getElementById('fN');if(fN)fN.disabled=!!blk;
   consUpdateHist();
 }
 
 function consUpdateHist(){
-  const hc=document.getElementById('histContainer');
-  if(!hc||!consForm.suc)return;
+  const hc=document.getElementById('histContainer');if(!hc||!consForm.suc)return;
   const mp=consSolicitudes.filter(s=>s.sucursal===consForm.suc&&s.estatus==='Pendiente');
   const me=consSolicitudes.filter(s=>s.sucursal===consForm.suc&&s.estatus==='Enviado').slice(0,5);
   let h='<div style="font-weight:700;font-size:14px;color:#444;margin:20px 0 8px">Mis solicitudes pendientes</div>';
   if(!mp.length)h+='<div class="mini-card" style="color:#999;font-size:13px">Sin solicitudes pendientes ✅</div>';
   else mp.forEach(s=>{h+=`<div class="mini-card"><div><div style="font-weight:600;font-size:13px">${s.consumible}</div><div style="font-size:11px;color:#999">${consFmt(s.fechaSolicitud)}</div></div>${consBdg(s.estatus)}</div>`;});
-  if(me.length){
-    h+='<div style="font-weight:700;font-size:14px;color:#444;margin:20px 0 8px">Últimos enviados</div>';
-    me.forEach(s=>{h+=`<div class="mini-card"><div><div style="font-weight:600;font-size:13px">${s.consumible}</div><div style="font-size:11px;color:#999">${consFmt(s.fechaSolicitud)}</div></div>${consBdg(s.estatus)}</div>`;});
-  }
+  if(me.length){h+='<div style="font-weight:700;font-size:14px;color:#444;margin:20px 0 8px">Últimos enviados</div>';me.forEach(s=>{h+=`<div class="mini-card"><div><div style="font-weight:600;font-size:13px">${s.consumible}</div><div style="font-size:11px;color:#999">${consFmt(s.fechaSolicitud)}</div></div>${consBdg(s.estatus)}</div>`;});}
   hc.innerHTML=h;
 }
 
 function consRenderAlmacen(){
-  const fSuc=document.getElementById('fSF')?.value||'Todas';
-  const fEst=document.getElementById('fEF')?.value||'Todos';
+  const fSuc=document.getElementById('fSF')?.value||'Todas';const fEst=document.getElementById('fEF')?.value||'Todos';
   const fil=consSolicitudes.filter(s=>(fSuc==='Todas'||s.sucursal===fSuc)&&(fEst==='Todos'||s.estatus===fEst));
-
   const stats=['Pendiente','Enviado','Cancelado'].map(e=>{
     const n=consSolicitudes.filter(s=>s.estatus===e).length;
     const bg=e==='Pendiente'?'#FFF3CD':e==='Enviado'?'#D1E7DD':'#F8D7DA';
@@ -1035,109 +878,63 @@ function consRenderAlmacen(){
     return`<div class="stat-box" style="background:${bg}"><div class="stat-num" style="color:${tx}">${n}</div><div class="stat-lbl" style="color:${tx}">${e}</div></div>`;
   }).join('');
   document.getElementById('consStats').innerHTML=stats;
-
   if(!fil.length){document.getElementById('consCards').innerHTML='<div class="empty"><i class="fa fa-inbox"></i><div>Sin solicitudes con ese filtro.</div></div>';return;}
   document.getElementById('consCards').innerHTML=fil.map(s=>{
     const u=consSolicitudes.filter(x=>x.id!==s.id&&x.sucursal===s.sucursal&&x.consumible===s.consumible&&x.estatus==='Enviado'&&x.fechaEnvio).sort((a,b)=>new Date(b.fechaEnvio)-new Date(a.fechaEnvio))[0];
     const uh=u?`<div class="ult az">🕐 <span>Último envío: <strong>${consFmt(u.fechaEnvio)}</strong></span></div>`:`<div class="ult gr">🆕 <span>Primera vez que se solicita</span></div>`;
-    const ac=s.estatus==='Pendiente'
-      ?`<div style="display:flex;gap:8px"><button class="btn btn-primary btn-sm" data-id="${s.id}" data-est="Enviado">✓ Enviado</button><button class="btn btn-sm" data-id="${s.id}" data-est="Cancelado">✕</button></div>`
-      :s.estatus==='Enviado'?`<div style="font-size:12px;color:var(--green);font-weight:600">✓ Enviado el ${consFmt(s.fechaEnvio)}</div>`:'';
-    return`<div class="sc">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px"><div><div style="font-weight:700;font-size:14px">${s.sucursal}</div><div style="color:var(--text2);font-size:12px">${consFmt(s.fechaSolicitud)}</div></div>${consBdg(s.estatus)}</div>
-      <div class="sb2"><div style="font-weight:600">${s.consumible}</div>${s.notas?`<div style="color:var(--text2);font-size:12px;margin-top:3px">📝 ${s.notas}</div>`:''}</div>
-      ${uh}<div style="font-size:11px;color:#bbb;margin-bottom:10px">#${s.id}</div>${ac}</div>`;
+    const ac=s.estatus==='Pendiente'?`<div style="display:flex;gap:8px"><button class="btn btn-primary btn-sm" data-id="${s.id}" data-est="Enviado">✓ Enviado</button><button class="btn btn-sm" data-id="${s.id}" data-est="Cancelado">✕</button></div>`:s.estatus==='Enviado'?`<div style="font-size:12px;color:var(--green);font-weight:600">✓ Enviado el ${consFmt(s.fechaEnvio)}</div>`:'';
+    return`<div class="sc"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px"><div><div style="font-weight:700;font-size:14px">${s.sucursal}</div><div style="color:var(--text2);font-size:12px">${consFmt(s.fechaSolicitud)}</div></div>${consBdg(s.estatus)}</div><div class="sb2"><div style="font-weight:600">${s.consumible}</div>${s.notas?`<div style="color:var(--text2);font-size:12px;margin-top:3px">📝 ${s.notas}</div>`:''}</div>${uh}<div style="font-size:11px;color:#bbb;margin-bottom:10px">#${s.id}</div>${ac}</div>`;
   }).join('');
-
   document.querySelectorAll('[data-est]').forEach(b=>{
     b.onclick=async function(){
-      const id=this.getAttribute('data-id'),est=this.getAttribute('data-est');
-      this.disabled=true;
-      try{
-        await consJsonp(CONS_SCRIPT_URL+'?action=updateEstatus&id='+encodeURIComponent(id)+'&estatus='+encodeURIComponent(est));
-        showToast(est==='Enviado'?'✓ Marcado como Enviado':'Cancelado');
-        await consCargar();
-      }catch(e){showToast('Error al actualizar');}
+      const id=this.getAttribute('data-id'),est=this.getAttribute('data-est');this.disabled=true;
+      try{await consJsonp(CONS_SCRIPT_URL+'?action=updateEstatus&id='+encodeURIComponent(id)+'&estatus='+encodeURIComponent(est));showToast(est==='Enviado'?'✓ Marcado como Enviado':'Cancelado');await consCargar();}
+      catch(e){showToast('Error al actualizar');}
     };
   });
 }
 
 function consRenderInventario(){
-  const rows=consInv.length===0
-    ?'<tr><td colspan="4" style="text-align:center;color:var(--text2);padding:20px">Sin datos de inventario</td></tr>'
-    :consInv.map(r=>{
-      const alerta=r.existencia<=r.minimo;
-      return`<tr style="${alerta?'background:#FFF3CD':''}">
-        <td style="padding:10px 12px;font-weight:600">${r.consumible||''}</td>
-        <td style="padding:10px 12px;text-align:center;font-size:18px;font-weight:700;color:${alerta?'#856404':'var(--text)'}">${r.existencia}</td>
-        <td style="padding:10px 12px;text-align:center;color:var(--text2)">${r.minimo||0}</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--text2)">${r.ultimaAct||''}</td>
-      </tr>`;
-    }).join('');
-  document.getElementById('invTable').innerHTML=`
-    <div style="background:var(--warn-bg);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--warn)">⚠️ Filas en amarillo = por debajo del mínimo</div>
-    <div style="background:var(--surface);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)">
-    <table style="width:100%;border-collapse:collapse">
-    <thead><tr style="background:#1a1a1a;color:#fff">
-      <th style="padding:10px 12px;text-align:left">Consumible</th>
-      <th style="padding:10px 12px;text-align:center">Existencia</th>
-      <th style="padding:10px 12px;text-align:center">Mínimo</th>
-      <th style="padding:10px 12px;text-align:left">Última act.</th>
-    </tr></thead><tbody>${rows}</tbody></table></div>`;
+  const rows=consInv.length===0?'<tr><td colspan="4" style="text-align:center;color:var(--text2);padding:20px">Sin datos de inventario</td></tr>':consInv.map(r=>{
+    const alerta=r.existencia<=r.minimo;
+    return`<tr style="${alerta?'background:#FFF3CD':''}"><td style="padding:10px 12px;font-weight:600">${r.consumible||''}</td><td style="padding:10px 12px;text-align:center;font-size:18px;font-weight:700;color:${alerta?'#856404':'var(--text)'}">${r.existencia}</td><td style="padding:10px 12px;text-align:center;color:var(--text2)">${r.minimo||0}</td><td style="padding:10px 12px;font-size:12px;color:var(--text2)">${r.ultimaAct||''}</td></tr>`;
+  }).join('');
+  document.getElementById('invTable').innerHTML=`<div style="background:var(--warn-bg);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--warn)">⚠️ Filas en amarillo = por debajo del mínimo</div><div style="background:var(--surface);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#1a1a1a;color:#fff"><th style="padding:10px 12px;text-align:left">Consumible</th><th style="padding:10px 12px;text-align:center">Existencia</th><th style="padding:10px 12px;text-align:center">Mínimo</th><th style="padding:10px 12px;text-align:left">Última act.</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
 async function consGuardarEntrada(){
-  const btn=document.getElementById('bGuardaEnt');
-  const cons=document.getElementById('eCons').value;
-  const cant=parseInt(document.getElementById('eCant').value)||0;
+  const btn=document.getElementById('bGuardaEnt');const cons=document.getElementById('eCons').value;const cant=parseInt(document.getElementById('eCant').value)||0;
   if(!cons||cant<1){showToast('Completa los campos');return;}
   if(btn){btn.disabled=true;btn.textContent='Guardando...';}
-  try{
-    await consJsonp(CONS_SCRIPT_URL+'?action=addEntrada&consumible='+encodeURIComponent(cons)+'&cantidad='+cant);
-    showToast('✓ Entrada registrada');
-    document.getElementById('eCons').value='';
-    document.getElementById('eCant').value='1';
-    await consCargar();
-  }catch(e){showToast('Error al guardar');}
+  try{await consJsonp(CONS_SCRIPT_URL+'?action=addEntrada&consumible='+encodeURIComponent(cons)+'&cantidad='+cant);showToast('✓ Entrada registrada');document.getElementById('eCons').value='';document.getElementById('eCant').value='1';await consCargar();}
+  catch(e){showToast('Error al guardar');}
   if(btn){btn.disabled=false;btn.textContent='Guardar entrada';}
 }
 
-// Enviar solicitud tienda
 document.getElementById('bEnv').addEventListener('click',async function(){
   if(!consForm.suc||!consForm.cons)return;
   this.disabled=true;this.textContent='Enviando...';
   try{
     const url=CONS_SCRIPT_URL+'?action=addSolicitud&sucursal='+encodeURIComponent(consForm.suc)+'&consumible='+encodeURIComponent(consForm.cons)+'&notas='+encodeURIComponent(document.getElementById('fN').value||'');
-    const d=await consJsonp(url);
-    const id=d&&d.id?d.id:'OK';
+    const d=await consJsonp(url);const id=d&&d.id?d.id:'OK';
     consLastSol={id,suc:consForm.suc,cons:consForm.cons};
-    document.getElementById('confirmDetails').innerHTML=`
-      <div class="row-d"><span style="color:var(--text2);font-size:13px">ID</span><span style="font-weight:600;font-size:13px">${id}</span></div>
-      <div class="row-d"><span style="color:var(--text2);font-size:13px">Sucursal</span><span style="font-weight:600;font-size:13px">${consForm.suc}</span></div>
-      <div class="row-d"><span style="color:var(--text2);font-size:13px">Consumible</span><span style="font-weight:600;font-size:13px">${consForm.cons}</span></div>
-      <div class="row-d" style="border:none"><span style="color:var(--text2);font-size:13px">Estatus</span><span style="font-weight:600;font-size:13px">Pendiente 🟡</span></div>`;
-    consForm={suc:'',cons:'',notas:''};
-    consView='confirm';
-    consRenderCurrent();
-    await consCargar();
+    document.getElementById('confirmDetails').innerHTML=`<div class="row-d"><span style="color:var(--text2);font-size:13px">ID</span><span style="font-weight:600;font-size:13px">${id}</span></div><div class="row-d"><span style="color:var(--text2);font-size:13px">Sucursal</span><span style="font-weight:600;font-size:13px">${consForm.suc}</span></div><div class="row-d"><span style="color:var(--text2);font-size:13px">Consumible</span><span style="font-weight:600;font-size:13px">${consForm.cons}</span></div><div class="row-d" style="border:none"><span style="color:var(--text2);font-size:13px">Estatus</span><span style="font-weight:600;font-size:13px">Pendiente 🟡</span></div>`;
+    consForm={suc:'',cons:'',notas:''};consView='confirm';consRenderCurrent();await consCargar();
   }catch(e){showToast('Error al enviar');this.disabled=false;this.textContent='Enviar solicitud';}
 });
 
 function consExportCSV(){
-  const fSuc=document.getElementById('fSF')?.value||'Todas';
-  const fEst=document.getElementById('fEF')?.value||'Todos';
+  const fSuc=document.getElementById('fSF')?.value||'Todas';const fEst=document.getElementById('fEF')?.value||'Todos';
   const fil=consSolicitudes.filter(s=>(fSuc==='Todas'||s.sucursal===fSuc)&&(fEst==='Todos'||s.estatus===fEst));
   const h=["ID","Sucursal","Consumible","Notas","Fecha Solicitud","Estatus","Fecha Envío"];
   const rows=fil.map(s=>[s.id,s.sucursal,s.consumible,s.notas,consFmt(s.fechaSolicitud),s.estatus,consFmt(s.fechaEnvio)]);
   const csv=[h,...rows].map(r=>r.map(v=>'"'+(v||'')+'"').join(',')).join('\n');
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
-  a.download='ledzone_consumibles_'+new Date().toISOString().slice(0,10)+'.csv';
-  a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
+  a.download='ledzone_consumibles_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
 }
 
 // ═══════════════════════════════════════════════════════
-//  MÓDULO: TRASPASOS (lógica original preservada)
+//  MÓDULO: TRASPASOS
 // ═══════════════════════════════════════════════════════
 const SUCURSALES=[
   {nom:'CEDIS',apertura:'8:00',cierre:'17:00',dias:'Lun–Sáb',exc:'Sin obligación de reportar cierre'},
@@ -1156,40 +953,18 @@ const SUCURSALES=[
   {nom:'ELOY CAVAZOS',apertura:'8:30',cierre:'19:30',dias:'Lun–Sáb',exc:''},
 ];
 
-// Catálogo (abreviado; se expande con el xlsx loader)
 let TCATALOGO=[];
-// Cargar catálogo: primero Sheet, luego localStorage como fallback
 async function loadCatalogo(){
-  // Siempre intentar desde Sheet primero
   try{
-    const d=await Promise.race([
-      tJsonp(T_SCRIPT+'?action=getCatalogo'),
-      new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),10000))
-    ]);
+    const d=await Promise.race([tJsonp(T_SCRIPT+'?action=getCatalogo'),new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),10000))]);
     if(d&&d.ok&&Array.isArray(d.catalogo)&&d.catalogo.length>0){
       TCATALOGO=d.catalogo;
       try{localStorage.setItem('lz_catalogo',JSON.stringify(TCATALOGO));}catch(e){}
-      console.log('Catálogo desde Sheet: '+TCATALOGO.length+' productos');
-      if(document.getElementById('tCatTotal')) tRenderCatPreview();
-      return;
-    }
-  }catch(e){console.log('Sheet no disponible, intentando localStorage');}
-  // Fallback: localStorage (cuando no hay internet)
-  try{
-    const saved=localStorage.getItem('lz_catalogo');
-    if(saved){
-      const parsed=JSON.parse(saved);
-      if(Array.isArray(parsed)&&parsed.length>0){
-        TCATALOGO=parsed;
-        console.log('Catálogo desde localStorage: '+TCATALOGO.length+' productos');
-        if(document.getElementById('tCatTotal')) tRenderCatPreview();
-        return;
-      }
+      if(document.getElementById('tCatTotal'))tRenderCatPreview();return;
     }
   }catch(e){}
-  console.log('Sin catálogo — carga el Excel en Traspasos → Catálogo');
+  try{const saved=localStorage.getItem('lz_catalogo');if(saved){const parsed=JSON.parse(saved);if(Array.isArray(parsed)&&parsed.length>0){TCATALOGO=parsed;if(document.getElementById('tCatTotal'))tRenderCatPreview();return;}}}catch(e){}
 }
-// loadCatalogo called at bottom init
 
 const T_SCRIPT='https://script.google.com/macros/s/AKfycbxz5OIpoeV8GYBiFhqiBsuM2gjUfQwYoqpFdz5hdR4gsOHLpx2u52Xx-43G6vsM_3YI/exec';
 
@@ -1200,29 +975,30 @@ let tOrdenes=[
   {id:'LZ-003',tipo:'recoleccion',fechaCreacion:'2026-05-13',fechaEnvio:'2026-05-13',fechaEntrega:null,origen:'LA SILLA',destino:'CEDIS',solicitante:'César',estado:'Enviado',notas:'',foto:null,productos:[{cod:'7506884441227',nom:'NR TIRA NEON VERDE CONSTRULED 5M',marca:'CONSTRULED',c:50}]},
   {id:'LZ-004',tipo:'recoleccion',fechaCreacion:'2026-05-13',fechaEnvio:null,fechaEntrega:null,origen:'COLON',destino:'CEDIS',solicitante:'Rodrigo',estado:'Pendiente',notas:'Revisar empaque',foto:null,productos:[{cod:'1010651129',nom:'MODULO 110V-2 BLANCO 20 PZAS',marca:'GENGXIN',c:20}]},
 ];
-let tRowCounter=0;
-let tInited=false;
+let tRowCounter=0;let tInited=false;
 
-
-function tOnRoleChange(){ /* unused - handled by global onRoleChange */ }
 function tGetSolicitante(){
   const v=document.getElementById("globalRole")?.value||"admin";
   return v==="cesar"?"César T.":v==="chofer"?"Luis P.":"Rodrigo R.";
 }
-async function tPostFoto(ordenId, tipo, base64){
-  try{
-    const formData = new FormData();
-    formData.append('action', 'subirFoto');
-    formData.append('ordenId', ordenId);
-    formData.append('tipo', tipo);
-    formData.append('foto', base64);
-    const resp = await fetch(T_SCRIPT, {method:'POST', body: formData});
-    const data = await resp.json();
-    return data;
-  }catch(e){
-    console.log('Error subiendo foto:', e);
-    return {ok: false, error: e.message};
+
+// ── Otro origen/destino ──────────────────────────────
+function tOnSucChange(selId,dirDivId){
+  const val=document.getElementById(selId)?.value||'';
+  const div=document.getElementById(dirDivId);
+  if(div)div.style.display=(val==='OTRO')?'block':'none';
+  if(val!=='OTRO'){
+    const inputId=dirDivId+'Txt';
+    const inp=document.getElementById(inputId);
+    if(inp)inp.value='';
   }
+}
+
+async function tPostFoto(ordenId,tipo,base64){
+  try{
+    const formData=new FormData();formData.append('action','subirFoto');formData.append('ordenId',ordenId);formData.append('tipo',tipo);formData.append('foto',base64);
+    const resp=await fetch(T_SCRIPT,{method:'POST',body:formData});const data=await resp.json();return data;
+  }catch(e){return{ok:false,error:e.message};}
 }
 
 function tJsonp(url){
@@ -1240,18 +1016,32 @@ function tJsonp(url){
 
 function tSaveOrdenes(){try{localStorage.setItem('lz_ordenes',JSON.stringify(tOrdenes));localStorage.setItem('lz_counter',tCounter);}catch(e){}}
 function tLoadOrdenes(){
-  try{
-    const s=localStorage.getItem('lz_ordenes');const c=localStorage.getItem('lz_counter');
-    if(s)tOrdenes=JSON.parse(s);
-    if(c)tCounter=parseInt(c);
-  }catch(e){}
+  try{const s=localStorage.getItem('lz_ordenes');const c=localStorage.getItem('lz_counter');if(s)tOrdenes=JSON.parse(s);if(c)tCounter=parseInt(c);}catch(e){}
 }
 
 function getSuc(n){return SUCURSALES.find(s=>s.nom===n)||null;}
 function tFmtHoy(){return new Date().toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'});}
+
 function horarioTip(n){
+  if(!n)return'';
+  // OTRO: mostrar la dirección en lugar del horario
+  if(n.startsWith('OTRO')){
+    const dir=n.replace('OTRO: ','').replace('OTRO:','').trim();
+    return dir?`<div class="horario" style="color:var(--blue);background:var(--blue-bg)"><i class="fa fa-location-dot"></i> ${dir}</div>`:'';
+  }
   const s=getSuc(n);if(!s)return'';
   return`<div class="horario"><i class="fa fa-clock"></i> ${s.apertura}–${s.cierre} · ${s.dias}${s.exc?' · <strong>'+s.exc+'</strong>':''}</div>`;
+}
+
+function tOnSucChange(selId, dirDivId){
+  const val=document.getElementById(selId)?.value||'';
+  const div=document.getElementById(dirDivId);
+  if(!div)return;
+  div.style.display=(val==='OTRO')?'block':'none';
+  if(val!=='OTRO'){
+    const inp=document.getElementById(dirDivId+'Txt');
+    if(inp)inp.value='';
+  }
 }
 
 function tInit(){
@@ -1260,27 +1050,27 @@ function tInit(){
     ['tOrigen','tDestino','tFiltroSuc'].forEach(id=>{
       const el=document.getElementById(id);if(!el)return;
       SUCURSALES.forEach(s=>{const o=document.createElement('option');o.value=s.nom;o.textContent=s.nom;el.appendChild(o);});
+      // Agregar Otro al final (solo en origen y destino, no en filtro)
+      if(id!=='tFiltroSuc'){
+        const sep=document.createElement('option');sep.disabled=true;sep.textContent='──────────';el.appendChild(sep);
+        const otro=document.createElement('option');otro.value='OTRO';otro.textContent='📍 Otro (especificar dirección)';el.appendChild(otro);
+      }
     });
-    tAddProdRow();
-    tRenderCatPreview();
-    tInited=true;
+    tAddProdRow();tRenderCatPreview();tInited=true;
     setTimeout(tSincronizar,1500);
   }
 }
 
 async function tSincronizar(){
-  const el=document.getElementById('tSyncStatus');
-  if(el)el.textContent='Sincronizando…';
+  const el=document.getElementById('tSyncStatus');if(el)el.textContent='Sincronizando…';
   let remote=null;
-  try{remote=await Promise.race([tJsonp(T_SCRIPT+'?action=getOrdenes'),new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),8000))]);}
-  catch(e){}
+  try{remote=await Promise.race([tJsonp(T_SCRIPT+'?action=getOrdenes'),new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),8000))]);}catch(e){}
   if(remote&&remote.ok&&Array.isArray(remote.ordenes)){
     remote.ordenes.forEach(ro=>{const local=tOrdenes.find(o=>o.id===ro.id);if(local){ro.foto=local.foto||'';ro.fotoEntrega=local.fotoEntrega||'';}});
     tOrdenes=remote.ordenes;
     const maxN=tOrdenes.reduce((m,o)=>{const n=parseInt((o.id||'').replace('LZ-',''))||0;return Math.max(m,n);},0);
     tCounter=maxN+1;tSaveOrdenes();
-    if(el)el.style.color='var(--green)';
-    if(el)el.textContent='✓ '+tOrdenes.length+' órdenes';
+    if(el){el.style.color='var(--green)';el.textContent='✓ '+tOrdenes.length+' órdenes';}
   }else{if(el){el.textContent='Datos locales';el.style.color='var(--red)';}}
   if(document.getElementById('tListaOrdenes').offsetParent!==null)tRenderHistorial();
 }
@@ -1289,21 +1079,22 @@ async function tSincronizarChofer(){
   const el=document.getElementById('tSyncChofer');if(el)el.textContent='Actualizando…';
   try{
     const r=await Promise.race([tJsonp(T_SCRIPT+'?action=getOrdenes'),new Promise((_,rj)=>setTimeout(()=>rj(new Error('t')),8000))]);
-    if(r&&r.ok){tOrdenes=r.ordenes;tSaveOrdenes();}
-  }catch(e){}
+    if(r&&r.ok&&Array.isArray(r.ordenes)){
+      r.ordenes.forEach(ro=>{const local=tOrdenes.find(o=>o.id===ro.id);if(local){ro.foto=local.foto||'';ro.fotoEntrega=local.fotoEntrega||'';}});
+      tOrdenes=r.ordenes;tSaveOrdenes();
+      if(el)el.textContent='✓ '+new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+    }else{if(el)el.textContent='Sin conexión — datos locales';}
+  }catch(e){if(el)el.textContent='Sin conexión — datos locales';}
   tRenderChofer();
-  if(el)el.textContent='✓ '+new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
 }
 
 function tGetFiltered(){
-  const sF=document.getElementById('tFiltroSuc')?.value||'';
-  const eF=document.getElementById('tFiltroEst')?.value||'';
-  return tOrdenes.filter(o=>(!sF||(o.origen===sF||o.destino===sF))&&(!eF||o.estado===eF));
+  const sF=document.getElementById('tFiltroSuc')?.value||'';const eF=document.getElementById('tFiltroEst')?.value||'';
+  return tOrdenes.filter(o=>(!sF||(o.origen===sF||o.destino===sF||o.origen.includes(sF)||o.destino.includes(sF)))&&(!eF||o.estado===eF));
 }
 
 function tRenderHistorial(){
-  const cont=document.getElementById('tListaOrdenes');
-  const fil=tGetFiltered();
+  const cont=document.getElementById('tListaOrdenes');const fil=tGetFiltered();
   if(!fil.length){cont.innerHTML='<div class="empty"><i class="fa fa-inbox"></i><div>Sin órdenes</div></div>';return;}
   cont.innerHTML=fil.map(o=>`
     <div class="card" style="margin-bottom:10px">
@@ -1331,9 +1122,7 @@ function tRenderHistorial(){
 
 async function tAvanzar(id,nuevo){
   const o=tOrdenes.find(x=>x.id===id);if(!o)return;
-  o.estado=nuevo;
-  if(nuevo==='Enviado')o.fechaEnvio=nowTs();
-  if(nuevo==='Recibido')o.fechaEntrega=nowTs();
+  o.estado=nuevo;if(nuevo==='Enviado')o.fechaEnvio=nowTs();if(nuevo==='Recibido')o.fechaEntrega=nowTs();
   tSaveOrdenes();
   try{const data=encodeURIComponent(JSON.stringify({...o,foto:'',fotoEntrega:''}));await tJsonp(T_SCRIPT+'?action=updateOrden&data='+data);}catch(e){}
   tRenderHistorial();showToast(id+' → '+nuevo);
@@ -1342,11 +1131,8 @@ async function tAvanzar(id,nuevo){
 function tSwitchTab(t,btn){
   document.querySelectorAll('#mod-traspasos .tab').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('#mod-traspasos .section').forEach(s=>s.classList.remove('active'));
-  document.getElementById('tsec-'+t).classList.add('active');
-  if(btn)btn.classList.add('active');
-  if(t==='historial')tRenderHistorial();
-  if(t==='chofer')tRenderChofer();
-  if(t==='catalogo')tRenderCatPreview();
+  document.getElementById('tsec-'+t).classList.add('active');if(btn)btn.classList.add('active');
+  if(t==='historial')tRenderHistorial();if(t==='chofer')tRenderChofer();if(t==='catalogo')tRenderCatPreview();
 }
 
 let tRCounter=0;
@@ -1355,7 +1141,7 @@ function tAddProdRow(){
   const div=document.createElement('div');div.className='prod-row';div.id=id;
   div.innerHTML=`<div class="prod-inner">
     <div class="prod-wrap">
-      <input class="prod-inp" placeholder="Buscar código o nombre…" oninput="tBuscarProd(this,'${id}')" onfocus="tShowDrop('${id}')" onblur="tHideDrop('${id}')" autocomplete="off" value="" autocomplete="off">
+      <input class="prod-inp" placeholder="Buscar código o nombre…" oninput="tBuscarProd(this,'${id}')" onfocus="tShowDrop('${id}')" onblur="tHideDrop('${id}')" autocomplete="off">
       <div class="prod-drop" id="tdrop-${id}"></div>
     </div>
     <input type="number" class="prod-cant" placeholder="Cant." min="1" value="1" style="text-align:center">
@@ -1366,45 +1152,28 @@ function tAddProdRow(){
 }
 
 function tBuscarProd(inp,rid){
-  const q=inp.value.toLowerCase().trim();
-  const drop=document.getElementById('tdrop-'+rid);
+  const q=inp.value.toLowerCase().trim();const drop=document.getElementById('tdrop-'+rid);
   if(q.length<2){drop.style.display='none';return;}
   const res=TCATALOGO.filter(p=>(p.cod&&p.cod.toLowerCase().includes(q))||p.nom.toLowerCase().includes(q)).slice(0,12);
   if(!res.length){drop.innerHTML='<div class="prod-opt" style="color:var(--text2)">Sin resultados</div>';drop.style.display='block';return;}
-  drop.innerHTML=res.map(p=>`<div class="prod-opt" onmousedown="tSelProd('${rid}','${p.cod.replace(/'/g,"\\'")}','${encodeURIComponent(p.nom)}','${encodeURIComponent(p.marca)}')">
-    <span class="pcod">${p.cod||'—'}</span>${p.nom}<span class="pmarca">· ${p.marca}</span></div>`).join('');
+  drop.innerHTML=res.map(p=>`<div class="prod-opt" onmousedown="tSelProd('${rid}','${p.cod.replace(/'/g,"\\'")}','${encodeURIComponent(p.nom)}','${encodeURIComponent(p.marca)}')"><span class="pcod">${p.cod||'—'}</span>${p.nom}<span class="pmarca">· ${p.marca}</span></div>`).join('');
   drop.style.display='block';
 }
 function tSelProd(rid,cod,nomE,marcaE){
   const nom=decodeURIComponent(nomE),marca=decodeURIComponent(marcaE);
-  const row=document.getElementById(rid);
-  const inp=row.querySelector('.prod-inp');
+  const row=document.getElementById(rid);const inp=row.querySelector('.prod-inp');
   inp.value=nom;inp.dataset.cod=cod;inp.dataset.nom=nom;inp.dataset.marca=marca;
   document.getElementById('tdrop-'+rid).style.display='none';
-  const sel=document.getElementById('tsel-'+rid);
-  sel.textContent=(cod||'sin código')+' · '+marca;sel.style.display='block';
+  const sel=document.getElementById('tsel-'+rid);sel.textContent=(cod||'sin código')+' · '+marca;sel.style.display='block';
 }
-function tShowDrop(id){const i=document.getElementById('tpr'+id.replace('tpr',''))?.querySelector('.prod-inp');if(i&&i.value.trim().length>=2)document.getElementById('tdrop-'+id).style.display='block';}
+function tShowDrop(id){const row=document.getElementById(id);const i=row?.querySelector('.prod-inp');if(i&&i.value.trim().length>=2)document.getElementById('tdrop-'+id).style.display='block';}
 function tHideDrop(id){setTimeout(()=>{const d=document.getElementById('tdrop-'+id);if(d)d.style.display='none';},300);}
 function tRemoveProd(id){if(document.querySelectorAll('#tProds .prod-row').length>1)document.getElementById(id).remove();else showToast('Debe haber al menos un producto');}
-function tClearForm(){
-  ['tOrigen','tDestino','tNotas'].forEach(i=>{const el=document.getElementById(i);if(el)el.value='';});
-  document.getElementById('tProds').innerHTML='';
-  tRCounter=0;
-  tAddProdRow();
-}
 
-function tResetProdRow(rid){
-  const row=document.getElementById(rid);
-  if(!row)return;
-  const inp=row.querySelector('.prod-inp');
-  if(inp){inp.value='';inp.dataset.cod='';inp.dataset.nom='';inp.dataset.marca='';}
-  const cant=row.querySelector('.prod-cant');
-  if(cant)cant.value='1';
-  const sel=document.getElementById('tsel-'+rid);
-  if(sel){sel.textContent='';sel.style.display='none';}
-  const drop=document.getElementById('tdrop-'+rid);
-  if(drop){drop.innerHTML='';drop.style.display='none';}
+function tClearForm(){
+  ['tOrigen','tDestino','tNotas','tOrigenDirTxt','tDestinoDirTxt'].forEach(i=>{const el=document.getElementById(i);if(el)el.value='';});
+  ['tOrigenDir','tDestinoDir'].forEach(i=>{const el=document.getElementById(i);if(el)el.style.display='none';});
+  document.getElementById('tProds').innerHTML='';tRCounter=0;tAddProdRow();
 }
 
 async function tGenerarOrden(){
@@ -1413,7 +1182,14 @@ async function tGenerarOrden(){
   const notas=document.getElementById('tNotas').value;
   if(!origen){showToast('Selecciona origen');return;}
   if(!destino){showToast('Selecciona destino');return;}
-  if(origen===destino){showToast('Origen y destino no pueden ser iguales');return;}
+  if(origen===destino&&origen!=='OTRO'){showToast('Origen y destino no pueden ser iguales');return;}
+  // Validar dirección si es Otro
+  const origenDir=document.getElementById('tOrigenDirTxt')?.value.trim()||'';
+  const destinoDir=document.getElementById('tDestinoDirTxt')?.value.trim()||'';
+  if(origen==='OTRO'&&!origenDir){showToast('Escribe la dirección del origen');document.getElementById('tOrigenDirTxt').focus();return;}
+  if(destino==='OTRO'&&!destinoDir){showToast('Escribe la dirección del destino');document.getElementById('tDestinoDirTxt').focus();return;}
+  const origenFinal=origen==='OTRO'?'OTRO: '+origenDir:origen;
+  const destinoFinal=destino==='OTRO'?'OTRO: '+destinoDir:destino;
   const rows=document.querySelectorAll('#tProds .prod-row');
   const productos=[];
   for(const r of rows){
@@ -1426,10 +1202,13 @@ async function tGenerarOrden(){
   }
   if(!productos.length){showToast('Agrega al menos un producto');return;}
   const id='LZ-'+String(tCounter++).padStart(3,'0');
-  const orden={id,tipo:'recoleccion',fechaCreacion:nowTs(),fechaEnvio:null,fechaEntrega:null,origen,destino,solicitante:tGetSolicitante(),estado:'Pendiente',notas,foto:null,productos};
+  const orden={id,tipo:'recoleccion',fechaCreacion:nowTs(),fechaEnvio:null,fechaEntrega:null,origen:origenFinal,destino:destinoFinal,solicitante:tGetSolicitante(),estado:'Pendiente',notas,foto:null,productos};
   tOrdenes.unshift(orden);tSaveOrdenes();
   try{const data=encodeURIComponent(JSON.stringify({...orden,foto:'',fotoEntrega:''}));await tJsonp(T_SCRIPT+'?action=saveOrden&data='+data);}catch(e){}
-  showToast('Orden '+id+' generada ✓');tClearForm();
+  showToast('Orden '+id+' generada ✓');
+  // Limpiar flag de procesando
+  delete orden._procesando;
+  tClearForm();
   tSwitchTab('historial',document.getElementById('tTabHistorial'));
 }
 
@@ -1440,54 +1219,48 @@ function tRenderChofer(){
 
 function tRenderChoferR(){
   const cont=document.getElementById('tsec-ch-r');
-  const h=today();
-  const hoyFmt=h.split('-').reverse().join('/');
-
+  const h=today();const hoyFmt=h.split('-').reverse().join('/');
   function matchHoy(f){
     if(!f)return false;
     if(f.startsWith(hoyFmt)||f===h)return true;
     try{const d=new Date(f);if(!isNaN(d)){const dd=String(d.getDate()).padStart(2,'0'),mm=String(d.getMonth()+1).padStart(2,'0'),yyyy=d.getFullYear();return(dd+'/'+mm+'/'+yyyy)===hoyFmt;}}catch(e){}
     return false;
   }
-
-  // Pendiente = por recoger | Enviado = ya recogido, por entregar
   const porRecoger=tOrdenes.filter(o=>o.estado==='Pendiente'&&(matchHoy(o.fechaCreacion)||matchHoy(o.fechaEnvio)));
   const porEntregar=tOrdenes.filter(o=>o.estado==='Enviado');
+  const recoger=porRecoger.length?porRecoger:tOrdenes.filter(o=>o.estado==='Pendiente');
+  const entregar=porEntregar;
 
-  // Si no hay nada hoy pero hay pendientes, mostrarlos igual
-  const recoger = porRecoger.length ? porRecoger : tOrdenes.filter(o=>o.estado==='Pendiente');
-  const entregar = porEntregar;
-
-  function buildOrden(o, tipo){
-    const isPend = tipo==='recoger';
-    const suc = isPend ? o.origen : o.destino;
-    const sucInfo = getSuc(suc);
-    const horario = sucInfo ? `<div style="font-size:12px;color:var(--text2);padding:6px 12px 10px;display:flex;align-items:center;gap:6px"><i class="fa fa-clock"></i>${sucInfo.apertura}–${sucInfo.cierre} · ${sucInfo.dias}${sucInfo.exc?' · '+sucInfo.exc:''}</div>` : '';
-    const prods = o.productos.map(p=>`<div class="prod-chip"><span class="qty">${p.c}</span><span>${p.nom}</span></div>`).join('');
-    const nota = o.notas ? `<div class="nota-chofer"><i class="fa fa-triangle-exclamation"></i> ${o.notas}</div>` : '';
-    const fotoId = isPend ? `tfi-${o.id}` : `tfi2-${o.id}`;
-    const fotoLblId = isPend ? `tfl-${o.id}` : `tfl2-${o.id}`;
-    const fotoTxtId = isPend ? `tft-${o.id}` : `tft2-${o.id}`;
-    const fotoPreId = isPend ? `tfp-${o.id}` : `tfp2-${o.id}`;
-    const fotoTipo = isPend ? 'reco' : 'entrega';
-    const btnClass = isPend ? 'recoger' : 'entregar';
-    const btnIcon = isPend ? 'fa-box-archive' : 'fa-circle-check';
-    const btnTxt = isPend ? `Confirmar recolección` : `Confirmar entrega en ${o.destino}`;
-    const btnFn = isPend ? `tConfReco('${o.id}')` : `tConfEntrega('${o.id}')`;
-
-    return `<div class="chofer-orden">
+  function buildOrden(o,tipo){
+    const isPend=tipo==='recoger';
+    const suc=isPend?o.origen:o.destino;
+    const horario=horarioTip(suc);
+    const prods=o.productos.map(p=>`<div class="prod-chip"><span class="qty">${p.c}</span><span>${p.nom}</span></div>`).join('');
+    const nota=o.notas?`<div class="nota-chofer"><i class="fa fa-triangle-exclamation"></i> ${o.notas}</div>`:'';
+    const fotoId=isPend?`tfi-${o.id}`:`tfi2-${o.id}`;
+    const fotoLblId=isPend?`tfl-${o.id}`:`tfl2-${o.id}`;
+    const fotoTxtId=isPend?`tft-${o.id}`:`tft2-${o.id}`;
+    const fotoPreId=isPend?`tfp-${o.id}`:`tfp2-${o.id}`;
+    const fotoTipo=isPend?'reco':'entrega';
+    const btnClass=isPend?'recoger':'entregar';
+    const btnIcon=isPend?'fa-box-archive':'fa-circle-check';
+    const btnTxt=isPend?'Confirmar recolección':`Confirmar entrega en ${o.destino.replace('OTRO: ','').replace('OTRO:','').trim()}`;
+    const btnFn=isPend?`tConfReco('${o.id}')`:`tConfEntrega('${o.id}')`;
+    // Show suc name — if OTRO show just the address part
+    const sucDisplay=suc.startsWith('OTRO')?suc.replace('OTRO: ','').replace('OTRO:','').trim():suc;
+    return`<div class="chofer-orden">
       <div class="chofer-orden-top">
         <span class="chofer-orden-num">${o.id}</span>
-        <span style="font-size:11px;color:var(--text2);margin-left:4px">${o.fechaCreacion||''}</span>
+        <span style="font-size:11px;color:var(--text2);margin-left:4px">${fmtDateStr(o.fechaCreacion)}</span>
         ${o.solicitante?`<span style="font-size:11px;color:var(--text2);margin-left:auto"><i class="fa fa-user"></i> ${o.solicitante}</span>`:''}
       </div>
       ${!isPend?`<div style="font-size:12px;color:var(--green);font-weight:600;padding:0 12px 8px"><i class="fa fa-circle-check"></i> Recogido ${fmtDateStr(o.fechaEnvio)}</div>`:''}
       <div class="suc-chip ${isPend?'origen':'destino'}">
-        <i class="fa ${isPend?'fa-store':'fa-location-dot'}"></i>
-        <span>${suc}</span>
+        <i class="fa ${suc.startsWith('OTRO')?'fa-location-dot':isPend?'fa-store':'fa-location-dot'}"></i>
+        <span>${sucDisplay}</span>
       </div>
       ${isPend?`<div style="display:flex;align-items:center;gap:8px;padding:6px 14px 10px;font-size:13px;color:var(--text2)">
-        <i class="fa fa-arrow-right"></i> Llevar a: <strong style="color:var(--green)">${o.destino}</strong>
+        <i class="fa fa-arrow-right"></i> Llevar a: <strong style="color:var(--green)">${o.destino.startsWith('OTRO')?o.destino.replace('OTRO: ','').replace('OTRO:','').trim():o.destino}</strong>
       </div>`:''}
       ${horario}
       ${nota}
@@ -1504,31 +1277,19 @@ function tRenderChoferR(){
     </div>`;
   }
 
-  const recogerHTML = recoger.length
-    ? recoger.map(o=>buildOrden(o,'recoger')).join('')
-    : `<div class="chofer-empty"><i class="fa fa-circle-check" style="color:var(--green)"></i><span>Sin pendientes</span></div>`;
+  const recogerHTML=recoger.length?recoger.map(o=>buildOrden(o,'recoger')).join(''):`<div class="chofer-empty"><i class="fa fa-circle-check" style="color:var(--green)"></i><span>Sin pendientes</span></div>`;
+  const entregarHTML=entregar.length?entregar.map(o=>buildOrden(o,'entregar')).join(''):`<div class="chofer-empty"><i class="fa fa-truck" style="color:var(--text3)"></i><span>Nada en tránsito</span></div>`;
 
-  const entregarHTML = entregar.length
-    ? entregar.map(o=>buildOrden(o,'entregar')).join('')
-    : `<div class="chofer-empty"><i class="fa fa-truck" style="color:var(--text3)"></i><span>Nada en tránsito</span></div>`;
-
-  cont.innerHTML = `
-    <div class="chofer-split">
-      <div class="chofer-col">
-        <div class="chofer-col-title recoger">
-          <i class="fa fa-box-archive"></i> Por recoger
-          <span class="cnt">${recoger.length}</span>
-        </div>
-        ${recogerHTML}
-      </div>
-      <div class="chofer-col">
-        <div class="chofer-col-title entregar">
-          <i class="fa fa-truck"></i> Por entregar
-          <span class="cnt">${entregar.length}</span>
-        </div>
-        ${entregarHTML}
-      </div>
-    </div>`;
+  cont.innerHTML=`<div class="chofer-split">
+    <div class="chofer-col">
+      <div class="chofer-col-title recoger"><i class="fa fa-box-archive"></i> Por recoger<span class="cnt">${recoger.length}</span></div>
+      ${recogerHTML}
+    </div>
+    <div class="chofer-col">
+      <div class="chofer-col-title entregar"><i class="fa fa-truck"></i> Por entregar<span class="cnt">${entregar.length}</span></div>
+      ${entregarHTML}
+    </div>
+  </div>`;
 }
 
 function tPrevFoto(id,inp,tipo){
@@ -1537,54 +1298,46 @@ function tPrevFoto(id,inp,tipo){
   r.onload=e=>{
     const p=tipo==='entrega'?'tfp2-':'tfp-',l=tipo==='entrega'?'tfl2-':'tfl-',t2=tipo==='entrega'?'tft2-':'tft-';
     const img=document.getElementById(p+id);if(img){img.src=e.target.result;img.style.display='block';}
-    const lbl=document.getElementById(l+id);if(lbl)lbl.classList.add('ok');
+    const lbl=document.getElementById(l+id);if(lbl){lbl.classList.add('ok');lbl.style.border='';lbl.style.background='';}
     const txt=document.getElementById(t2+id);if(txt)txt.textContent='Foto lista ✓';
-    const o=tOrdenes.find(x=>x.id===id);
-    if(o){if(tipo==='entrega')o.fotoEntrega=e.target.result;else o.foto=e.target.result;}
+    const o=tOrdenes.find(x=>x.id===id);if(o){if(tipo==='entrega')o.fotoEntrega=e.target.result;else o.foto=e.target.result;}
   };r.readAsDataURL(inp.files[0]);
 }
+
 async function tConfReco(id){
   const o=tOrdenes.find(x=>x.id===id);if(!o)return;
   if(!o.foto){
     showToast('📷 Debes tomar la foto antes de confirmar');
-    const lbl=document.getElementById('tfl-'+id);
-    if(lbl){lbl.style.border='2px solid var(--red)';lbl.style.background='var(--red-bg)';}
+    const lbl=document.getElementById('tfl-'+id);if(lbl){lbl.style.border='2px solid var(--red)';lbl.style.background='var(--red-bg)';}
     return;
   }
+  if(o._procesando)return;o._procesando=true;
+  const btnR=document.querySelector('[onclick="tConfReco(\''+id+'\')"');if(btnR){btnR.disabled=true;btnR.style.opacity='.5';}
   o.estado='Enviado';o.fechaEnvio=nowTs();tSaveOrdenes();
   showToast('Subiendo foto y confirmando…');
-  // Subir foto a Drive
-  try{
-    const res=await tPostFoto(id,'reco',o.foto);
-    if(res&&res.ok&&res.link) o.fotoLink=res.link;
-  }catch(e){console.log('Foto no subida a Drive:',e);}
-  // Actualizar orden en Sheet
+  try{const res=await tPostFoto(id,'reco',o.foto);if(res&&res.ok&&res.link)o.fotoLink=res.link;}catch(e){}
   try{const data=encodeURIComponent(JSON.stringify({...o,foto:'',fotoEntrega:''}));await tJsonp(T_SCRIPT+'?action=updateOrden&data='+data);}catch(e){}
   showToast(id+' recolectado ✓');tRenderChofer();
 }
+
 async function tConfEntrega(id){
   const o=tOrdenes.find(x=>x.id===id);if(!o)return;
   if(!o.fotoEntrega){
     showToast('📷 Debes tomar la foto antes de confirmar la entrega');
-    const lbl=document.getElementById('tfl2-'+id);
-    if(lbl){lbl.style.border='2px solid var(--red)';lbl.style.background='var(--red-bg)';}
+    const lbl=document.getElementById('tfl2-'+id);if(lbl){lbl.style.border='2px solid var(--red)';lbl.style.background='var(--red-bg)';}
     return;
   }
+  if(o._procesando)return;o._procesando=true;
+  const btnE=document.querySelector('[onclick="tConfEntrega(\''+id+'\')"');if(btnE){btnE.disabled=true;btnE.style.opacity='.5';}
   o.estado='Recibido';o.fechaEntrega=nowTs();tSaveOrdenes();
   showToast('Subiendo foto y confirmando…');
-  // Subir foto a Drive
-  try{
-    const res=await tPostFoto(id,'entrega',o.fotoEntrega);
-    if(res&&res.ok&&res.link) o.fotoEntregaLink=res.link;
-  }catch(e){console.log('Foto no subida a Drive:',e);}
-  // Actualizar orden en Sheet
+  try{const res=await tPostFoto(id,'entrega',o.fotoEntrega);if(res&&res.ok&&res.link)o.fotoEntregaLink=res.link;}catch(e){}
   try{const data=encodeURIComponent(JSON.stringify({...o,foto:'',fotoEntrega:''}));await tJsonp(T_SCRIPT+'?action=updateOrden&data='+data);}catch(e){}
   showToast(id+' entregado ✓');tRenderChofer();
 }
 
 function tExportCSV(){
-  const fil=tGetFiltered();
-  if(!fil.length){showToast('No hay órdenes para exportar');return;}
+  const fil=tGetFiltered();if(!fil.length){showToast('No hay órdenes para exportar');return;}
   const h=['Folio','Creada','Recogido','Entregado','Origen','Destino','Solicitante','Estado','Productos','Notas'];
   const rows=fil.map(o=>[o.id,o.fechaCreacion||'',o.fechaEnvio||'',o.fechaEntrega||'',o.origen,o.destino,o.solicitante,o.estado,o.productos.map(p=>p.nom+' x'+p.c).join(' | '),o.notas||'']);
   const csv=[h,...rows].map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
@@ -1598,9 +1351,7 @@ function tCargarCatalogo(input){
   const reader=new FileReader();
   reader.onload=function(e){
     try{
-      const wb=XLSX.read(e.target.result,{type:'array'});
-      const ws=wb.Sheets[wb.SheetNames[0]];
-      const data=XLSX.utils.sheet_to_json(ws,{defval:''});
+      const wb=XLSX.read(e.target.result,{type:'array'});const ws=wb.Sheets[wb.SheetNames[0]];const data=XLSX.utils.sheet_to_json(ws,{defval:''});
       const sample=data[0]||{};const keys=Object.keys(sample);
       const cP=keys.find(k=>k.toLowerCase().includes('producto')||k.toLowerCase().includes('nombre'))||keys[0];
       const cC=keys.find(k=>k.toLowerCase().includes('código')||k.toLowerCase().includes('codigo')||k.toLowerCase().includes('barras'))||keys[1];
@@ -1608,12 +1359,10 @@ function tCargarCatalogo(input){
       const nuevos=data.filter(r=>r[cP]&&String(r[cP]).trim()).map(r=>({cod:String(r[cC]||'').trim(),nom:String(r[cP]).trim().toUpperCase(),marca:String(r[cM]||'GENÉRICO').trim().toUpperCase()}));
       if(!nuevos.length){showToast('No se encontraron productos');return;}
       TCATALOGO.length=0;nuevos.forEach(p=>TCATALOGO.push(p));
-      // Guardar en localStorage para persistir entre sesiones
       try{localStorage.setItem('lz_catalogo',JSON.stringify(TCATALOGO));}catch(e){}
       document.getElementById('tXlsxLabel').classList.add('ok');
       document.getElementById('tXlsxTxt').textContent=input.files[0].name+' · '+nuevos.length+' productos';
-      const st=document.getElementById('tCatStatus');
-      st.style.display='block';st.style.background='var(--green-bg)';st.style.color='var(--green)';st.textContent='✓ Catálogo guardado con '+nuevos.length+' productos — no necesitas cargarlo de nuevo';
+      const st=document.getElementById('tCatStatus');st.style.display='block';st.style.background='var(--green-bg)';st.style.color='var(--green)';st.textContent='✓ Catálogo guardado con '+nuevos.length+' productos';
       tRenderCatPreview();showToast('Catálogo guardado: '+nuevos.length+' productos ✓');
     }catch(err){showToast('Error al leer archivo: '+err.message);}
   };reader.readAsArrayBuffer(input.files[0]);
@@ -1632,44 +1381,32 @@ function tRenderCatPreview(){
 // ═══════════════════════════════════════════════════════
 async function loadTareas(){
   try{
-    const d=await Promise.race([
-      tJsonp(T_SCRIPT+'?action=getTareas'),
-      new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),8000))
-    ]);
+    const d=await Promise.race([tJsonp(T_SCRIPT+'?action=getTareas'),new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),8000))]);
     if(d&&d.ok&&Array.isArray(d.tareas)&&d.tareas.length>0){
-      tasks=d.tareas.map(t=>({
-        ...t,
-        id:t.id,
-        requirePhoto:t.requirePhoto==='true',
-        hasPhoto:t.hasPhoto==='true'
-      }));
-      nextTaskId=tasks.length+1;
-      renderTareas();
+      tasks=d.tareas.map(t=>({...t,id:t.id,requirePhoto:t.requirePhoto==='true',hasPhoto:t.hasPhoto==='true'}));
+      nextTaskId=tasks.length+1;renderTareas();
     }
-  }catch(e){console.log('Tareas offline');}
+  }catch(e){}
 }
 
 renderTareas();
 
-// Restaurar rol guardado
 (function(){
   const lastRole=localStorage.getItem('lz_last_role')||'admin';
   const saved=localStorage.getItem('lz_role_'+lastRole);
   if(saved==='ok'){
     document.getElementById('pinScreen').style.display='none';
-    const sel=document.getElementById('globalRole');
-    if(sel)sel.value=lastRole;
+    const sel=document.getElementById('globalRole');if(sel)sel.value=lastRole;
     applyRole(lastRole);
-  } else {
+  }else{
     document.getElementById('pinRoleSel').value=lastRole;
   }
 })();
 
-// Cargar datos desde Sheets con delay para asegurar que tJsonp está listo
 setTimeout(async function(){
   await loadCatalogo();
   await loadTareas();
-}, 800);
+},800);
 </script>
 </body>
 </html>
