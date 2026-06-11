@@ -1228,7 +1228,7 @@ function tRenderChoferR(){
   }
   const porRecoger=tOrdenes.filter(o=>o.estado==='Pendiente'&&(matchHoy(o.fechaCreacion)||matchHoy(o.fechaEnvio)));
   const porEntregar=tOrdenes.filter(o=>o.estado==='Enviado');
-  const recoger=porRecoger.length?porRecoger:tOrdenes.filter(o=>o.estado==='Pendiente');
+  const recoger=tOrdenes.filter(o=>o.estado==='Pendiente');
   const entregar=porEntregar;
 
   function buildOrden(o,tipo){
